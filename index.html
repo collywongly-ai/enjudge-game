@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff7e8">
+  <title>英語聽辨小偵探</title>
+  <style>
+    :root {
+      --ink: #17345f;
+      --muted: #61718a;
+      --cream: #fff8ea;
+      --paper: #fffefa;
+      --line: #e9dfce;
+      --coral: #b94339;
+      --coral-dark: #8d2f29;
+      --teal: #087b75;
+      --teal-dark: #05635f;
+      --yellow: #ffc857;
+      --blue-wash: #eaf3ff;
+      --purple: #7657b7;
+      --shadow: 0 18px 42px rgba(44, 60, 85, .13);
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 5%, rgba(255, 200, 87, .28) 0 5%, transparent 5.2%),
+        radial-gradient(circle at 93% 15%, rgba(39, 169, 155, .16) 0 7%, transparent 7.2%),
+        var(--cream);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible {
+      outline: 4px solid rgba(23, 52, 95, .3);
+      outline-offset: 3px;
+    }
+
+    button:disabled { cursor: not-allowed; }
+    [hidden] { display: none !important; }
+
+    .app-shell {
+      width: min(100% - 28px, 960px);
+      margin: 0 auto;
+      padding: 18px 0 30px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-size: clamp(1.05rem, 3vw, 1.35rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--yellow);
+      box-shadow: 0 6px 0 #e6aa32;
+      font-size: 1.45rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .score-strip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .score-strip strong { color: var(--ink); font-size: 1.02rem; }
+    .score-divider { color: #cbbda8; }
+
+    .storybook-button,
+    .back-button,
+    .reset-button {
+      min-height: 48px;
+      padding: 0 16px;
+      border-radius: 15px;
+      color: #fff;
+      background: var(--purple);
+      box-shadow: 0 5px 0 #57408e;
+      font-weight: 900;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+
+    .storybook-button:hover,
+    .back-button:hover,
+    .reset-button:hover,
+    .speak-button:hover,
+    .restart-button:hover,
+    .answer-button:hover,
+    .story-nav-button:hover { transform: translateY(-2px); }
+
+    .storybook-button:active,
+    .back-button:active,
+    .reset-button:active,
+    .speak-button:active,
+    .restart-button:active,
+    .answer-button:active,
+    .story-nav-button:active { transform: translateY(2px); box-shadow: none; }
+
+    .storybook-button.is-locked {
+      color: #505764;
+      background: #e1e3e8;
+      box-shadow: 0 5px 0 #b9bec9;
+    }
+
+    .reset-button {
+      color: #7d302b;
+      background: #ffe0d9;
+      box-shadow: 0 5px 0 #e8aaa0;
+    }
+
+    .screen {
+      min-height: 640px;
+      padding: clamp(18px, 4vw, 42px);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, .82);
+      box-shadow: var(--shadow);
+    }
+
+    .loading,
+    .error-state,
+    .summary {
+      min-height: 550px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      text-align: center;
+    }
+
+    .loading p,
+    .error-state p,
+    .summary > div > p { color: var(--muted); }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 18px;
+      border: 6px solid #dceeea;
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin .9s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .practice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #f2eadc;
+    }
+
+    .progress-value {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--teal);
+      transition: transform .4s ease;
+      transform-origin: left center;
+    }
+
+    .unlock-note {
+      margin: 0 0 24px;
+      padding: 11px 15px;
+      border-radius: 14px;
+      color: var(--teal-dark);
+      background: #e7f7f2;
+      font-size: .92rem;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .quiz-card,
+    .storybook-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .image-frame {
+      width: min(90vw, 340px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      border-radius: 28px;
+      background: var(--blue-wash);
+      box-shadow: inset 0 0 0 1px #dce9f7;
+    }
+
+    .image-frame img,
+    .storybook-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .image-fallback {
+      display: none;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      color: var(--ink);
+      font-size: 5.5rem;
+      background: #fff;
+    }
+
+    .word {
+      margin: 24px 0 17px;
+      color: var(--ink);
+      font-size: clamp(2.45rem, 10vw, 4rem);
+      font-weight: 950;
+      letter-spacing: -.045em;
+      line-height: .95;
+    }
+
+    .speak-button,
+    .answer-button,
+    .restart-button,
+    .story-nav-button {
+      min-height: 58px;
+      border-radius: 17px;
+      font-weight: 900;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+
+    .speak-button {
+      padding: 0 22px;
+      color: var(--teal-dark);
+      background: #dff5ef;
+      box-shadow: 0 5px 0 #afdcd2;
+    }
+
+    .answer-area {
+      width: min(100%, 650px);
+      margin-top: 31px;
+    }
+
+    .answer-label {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .94rem;
+      font-weight: 800;
+    }
+
+    .answer-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .answer-button {
+      min-height: 88px;
+      font-size: clamp(1.35rem, 5vw, 1.7rem);
+    }
+
+    .answer-button.correct {
+      color: #fff;
+      background: var(--teal);
+      box-shadow: 0 6px 0 var(--teal-dark);
+    }
+
+    .answer-button.wrong {
+      color: #fff;
+      background: var(--coral);
+      box-shadow: 0 6px 0 var(--coral-dark);
+    }
+
+    .feedback {
+      min-height: 28px;
+      margin: 18px 0 0;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .feedback.success { color: var(--teal-dark); }
+    .feedback.retry { color: var(--coral-dark); }
+
+    .summary-icon { margin-bottom: 12px; font-size: 4.2rem; }
+    .summary h1,
+    .storybook-title {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 7vw, 3.3rem);
+      letter-spacing: -.045em;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: min(100%, 620px);
+      gap: 10px;
+      margin: 30px 0;
+    }
+
+    .stat {
+      padding: 18px 10px;
+      border-radius: 18px;
+      background: var(--blue-wash);
+    }
+
+    .stat strong { display: block; font-size: clamp(1.6rem, 6vw, 2.5rem); }
+    .stat span { color: var(--muted); font-size: .82rem; font-weight: 800; }
+
+    .restart-button {
+      padding: 0 26px;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 5px 0 #0d2141;
+    }
+
+    .storybook-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .storybook-title {
+      margin: 8px 0 3px;
+      font-size: clamp(2rem, 8vw, 3.1rem);
+    }
+
+    .storybook-subtitle {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .storybook-image-frame {
+      width: min(92vw, 650px);
+      min-height: 220px;
+      max-height: 72vh;
+      display: flex;
+      place-items: center;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-radius: 25px;
+      background: #fff4d9;
+      box-shadow: inset 0 0 0 1px #f0dfb9;
+    }
+
+    .storybook-image {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: calc(72vh - 28px);
+      object-fit: contain;
+      border-radius: 17px;
+    }
+
+    .storybook-image-fallback {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 190px;
+      border-radius: 17px;
+      color: var(--muted);
+      background: #fffaf0;
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      font-weight: 800;
+    }
+
+    .storybook-page-label {
+      margin: 17px 0 13px;
+      color: var(--purple);
+      font-weight: 950;
+    }
+
+    .story-speak-button {
+      color: #fff;
+      background: var(--purple);
+      box-shadow: 0 5px 0 #57408e;
+    }
+
+    .story-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: min(100%, 650px);
+      margin-top: 22px;
+    }
+
+    .story-nav-button {
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 5px 0 #d7d0c4;
+    }
+
+    .story-nav-button:disabled {
+      color: #a6a9af;
+      background: #ececec;
+      box-shadow: 0 5px 0 #d6d6d6;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      color: var(--yellow);
+      font-size: clamp(1.6rem, 7vw, 3.4rem);
+      filter: drop-shadow(0 3px 0 rgba(145, 98, 18, .2));
+      animation: celebrate 1.6s cubic-bezier(.2, .75, .25, 1) forwards;
+    }
+
+    @keyframes celebrate {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.5) rotate(0); }
+      15% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.1) rotate(var(--r)); }
+    }
+
+    .result-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 20;
+      width: min(calc(100% - 40px), 380px);
+      padding: 26px 24px 24px;
+      border: 4px solid #f4b1a8;
+      border-radius: 26px;
+      color: var(--ink);
+      text-align: center;
+      background: #fff9f5;
+      box-shadow: 0 18px 48px rgba(44, 60, 85, .24);
+      transform: translate(-50%, -50%) scale(.86);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .result-popup.is-visible { animation: result-pop 2s cubic-bezier(.2, .85, .25, 1) forwards; }
+    .result-popup-icon { display: block; margin-bottom: 6px; font-size: 3rem; }
+    .result-popup strong { display: block; font-size: clamp(1.45rem, 6vw, 1.9rem); }
+    .result-popup span:last-child { display: block; margin-top: 6px; color: var(--coral-dark); font-size: 1rem; font-weight: 900; }
+    .result-popup.success { border-color: #b9df81; background: #f7ffed; }
+    .result-popup.success span:last-child { color: var(--teal-dark); }
+
+    @keyframes result-pop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.86); }
+      12% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+      25%, 78% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -56%) scale(.96); }
+    }
+
+    @media (min-width: 640px) {
+      .app-shell { padding-top: 28px; }
+      .topbar { margin-bottom: 24px; }
+      .screen { min-height: 720px; }
+      .image-frame { width: min(48vw, 390px); }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { align-items: flex-start; flex-wrap: wrap; }
+      .top-actions { width: 100%; justify-content: space-between; }
+      .storybook-button { flex: 1; }
+    }
+
+    @media (max-width: 420px) {
+      .brand span { max-width: 145px; }
+      .screen { padding: 16px 12px 24px; border-radius: 24px; }
+      .answer-buttons,
+      .story-nav { gap: 10px; }
+      .answer-button { min-height: 78px; }
+      .score-strip { padding-inline: 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">🍎</span>
+        <span>英語聽辨小偵探</span>
+      </div>
+      <div class="top-actions">
+        <div class="score-strip" aria-live="polite">
+          <span>本輪 ✅</span><strong id="round-right-count">0</strong>
+          <span class="score-divider">｜</span>
+          <span>歷史 ✅</span><strong id="right-count">0</strong>
+        </div>
+        <button id="storybook-button" class="storybook-button is-locked" type="button">🔒 繪本故事</button>
+        <button id="reset-button" class="reset-button" type="button">↺ 重置題庫</button>
+      </div>
+    </header>
+
+    <section class="screen" aria-live="polite">
+      <div id="loading-state" class="loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>正在準備今天的單詞任務…</p>
+      </div>
+
+      <div id="error-state" class="error-state" hidden>
+        <div>
+          <div class="summary-icon" aria-hidden="true">🧩</div>
+          <h1>題庫載入失敗</h1>
+          <p>題庫載入失敗，請使用伺服器打開頁面。</p>
+        </div>
+      </div>
+
+      <div id="quiz-state" hidden>
+        <div class="practice-header">
+          <span id="progress-label">第 1 / 30 題</span>
+          <div class="progress-track" aria-hidden="true"><div id="progress-value" class="progress-value"></div></div>
+        </div>
+        <p id="unlock-note" class="unlock-note">🔒 繪本解鎖進度：0 / 10</p>
+
+        <article class="quiz-card">
+          <div class="image-frame">
+            <img id="quiz-image" src="asset/enjudge/apple.png" alt="練習圖片">
+            <div id="image-fallback" class="image-fallback" aria-hidden="true"></div>
+          </div>
+          <h1 id="word" class="word"></h1>
+          <button id="speak-button" class="speak-button" type="button">🔊 播放單詞</button>
+
+          <div class="answer-area">
+            <p class="answer-label">你覺得圖片和單詞相符嗎？</p>
+            <div class="answer-buttons">
+              <button class="answer-button correct" data-answer="true" type="button">✅ 對</button>
+              <button class="answer-button wrong" data-answer="false" type="button">❌ 錯</button>
+            </div>
+            <p id="feedback" class="feedback" role="status"></p>
+          </div>
+        </article>
+      </div>
+
+      <div id="summary-state" class="summary" hidden>
+        <div>
+          <div class="summary-icon" aria-hidden="true">🌟</div>
+          <h1>任務完成！</h1>
+          <p>你今天的聽辨小耳朵表現得很棒。</p>
+          <div class="summary-stats">
+            <div class="stat"><strong id="summary-total">30</strong><span>總題目</span></div>
+            <div class="stat"><strong id="summary-right">0</strong><span>本輪答對</span></div>
+            <div class="stat"><strong id="summary-history">0</strong><span>歷史累計</span></div>
+          </div>
+          <button id="restart-button" class="restart-button" type="button">🔄 重新開始</button>
+        </div>
+      </div>
+
+      <div id="storybook-state" hidden>
+        <article class="storybook-card">
+          <div class="storybook-topbar">
+            <button id="back-button" class="back-button" type="button">← 返回練習</button>
+            <span id="storybook-progress" class="storybook-page-label">第 1 / 5 頁</span>
+          </div>
+          <h1 class="storybook-title">小小繪本時間</h1>
+          <p class="storybook-subtitle">聽一聽粵語故事，慢慢翻頁看圖畫。</p>
+          <div class="storybook-image-frame">
+            <img id="storybook-image" class="storybook-image" src="asset/storybook/page1.png" alt="繪本插圖">
+            <div id="storybook-image-fallback" class="storybook-image-fallback" hidden>繪本圖片準備中，請稍後放入 page1.png 至 page5.png。</div>
+          </div>
+          <p id="storybook-page-label" class="storybook-page-label">第 1 / 5 頁</p>
+          <button id="storybook-speak-button" class="speak-button story-speak-button" type="button">🔊 播放粵語故事</button>
+          <div class="story-nav">
+            <button id="previous-page-button" class="story-nav-button" type="button">◀ 上一頁</button>
+            <button id="next-page-button" class="story-nav-button" type="button">下一頁 ▶</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="stars" class="stars" aria-hidden="true"></div>
+  <div id="result-popup" class="result-popup retry" role="status" aria-live="assertive" aria-hidden="true">
+    <span class="result-popup-icon" aria-hidden="true">💪</span>
+    <strong>再試一試</strong>
+    <span>可以再聽一次單詞！</span>
+  </div>
+  <div id="success-popup" class="result-popup success" role="status" aria-live="assertive" aria-hidden="true">
+    <span class="result-popup-icon" aria-hidden="true">🎉</span>
+    <strong id="success-popup-title">答對了！</strong>
+    <span id="success-popup-message">小可愛話你叻仔！</span>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const DATA_URL = "quiz-data-enjudge.json";
+      const RIGHT_COUNT_KEY = "enJudgeRightCount";
+      const ROUND_RIGHT_KEY = "enJudgeThisRoundRight";
+      const STORYBOOK_KEY = "storybookUnlocked";
+      const RESET_PASSWORD = "1234";
+      const storyBookPages = [
+        { img: "asset/storybook/page1.png", text: "今天小可爱要去森林里发现有趣的事情。" },
+        { img: "asset/storybook/page2.png", text: "它看见一只绿色的青蛙，轻轻地跳上荷叶。" },
+        { img: "asset/storybook/page3.png", text: "小兔子来了，它们分享甜甜的草莓。" },
+        { img: "asset/storybook/page4.png", text: "小可爱拿出铅笔，把看到的东西画下来。" },
+        { img: "asset/storybook/page5.png", text: "把发现画进本子，小可爱快乐地回家了。" }
+      ];
+
+      const state = {
+        questions: [],
+        index: 0,
+        roundRight: 0,
+        storyPage: 0,
+        locked: false,
+        nextTimer: null,
+        activeView: "quiz"
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const loadingState = $("loading-state");
+      const errorState = $("error-state");
+      const quizState = $("quiz-state");
+      const summaryState = $("summary-state");
+      const storybookState = $("storybook-state");
+      const image = $("quiz-image");
+      const fallback = $("image-fallback");
+      const word = $("word");
+      const feedback = $("feedback");
+      let resultPopupTimer;
+      let successPopupTimer;
+
+      const getStoredNumber = (key) => {
+        const value = Number.parseInt(localStorage.getItem(key) || "0", 10);
+        return Number.isFinite(value) && value >= 0 ? value : 0;
+      };
+
+      const setStoredNumber = (key, value) => localStorage.setItem(key, String(value));
+      const isStorybookUnlocked = () => localStorage.getItem(STORYBOOK_KEY) === "true";
+
+      const shuffle = (items) => {
+        const copy = [...items];
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      };
+
+      const showScreen = (screen) => {
+        [loadingState, errorState, quizState, summaryState, storybookState].forEach((element) => {
+          element.hidden = element !== screen;
+        });
+      };
+
+      const updateHeaderStats = () => {
+        const history = getStoredNumber(RIGHT_COUNT_KEY);
+        state.roundRight = getStoredNumber(ROUND_RIGHT_KEY);
+        $("round-right-count").textContent = String(state.roundRight);
+        $("right-count").textContent = String(history);
+        const unlocked = isStorybookUnlocked();
+        const button = $("storybook-button");
+        button.classList.toggle("is-locked", !unlocked);
+        button.textContent = unlocked ? "📖 繪本故事" : "🔒 繪本故事";
+        $("unlock-note").textContent = unlocked
+          ? "🎉 繪本已解鎖！隨時可以從上方進入故事。"
+          : `🔒 繪本解鎖進度：${Math.min(history, 10)} / 10`;
+      };
+
+      const showFeedback = (message, type) => {
+        feedback.textContent = message;
+        feedback.className = `feedback ${type}`;
+      };
+
+      const speak = (text, lang, onUnsupported, voice = null) => {
+        if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+          onUnsupported();
+          return false;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        if (voice) utterance.voice = voice;
+        utterance.rate = lang === "yue-HK" ? .92 : .82;
+        utterance.pitch = lang === "yue-HK" ? 1.05 : 1.08;
+        window.speechSynthesis.speak(utterance);
+        return true;
+      };
+
+      const speakWord = () => {
+        speak(state.questions[state.index].word, "en-US", () => {
+          showFeedback("這個瀏覽器暫時不支援語音播放，請直接看字和圖片練習。", "retry");
+        });
+      };
+
+      const speakStory = () => {
+        const voices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
+        const cantoneseVoice = voices.find((voice) => /^yue[-_]hk$/i.test(voice.lang))
+          || voices.find((voice) => /^zh[-_]hk$/i.test(voice.lang))
+          || voices.find((voice) => /cantonese|廣東話|粵語|香港/i.test(`${voice.name} ${voice.lang}`));
+        if (!cantoneseVoice) {
+          window.alert("找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。");
+          return;
+        }
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.cancel();
+          return;
+        }
+        speak(storyBookPages[state.storyPage].text, "yue-HK", () => {
+          window.alert("找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。");
+        }, cantoneseVoice);
+      };
+
+      const showRetryPopup = () => {
+        window.clearTimeout(resultPopupTimer);
+        const popup = $("result-popup");
+        popup.classList.remove("is-visible");
+        void popup.offsetWidth;
+        popup.classList.add("is-visible");
+        popup.setAttribute("aria-hidden", "false");
+        resultPopupTimer = window.setTimeout(() => {
+          popup.classList.remove("is-visible");
+          popup.setAttribute("aria-hidden", "true");
+        }, 1100);
+      };
+
+      const showSuccessPopup = (unlockedNow) => {
+        window.clearTimeout(successPopupTimer);
+        $("success-popup-title").textContent = unlockedNow ? "繪本解鎖成功！" : "答對了！";
+        $("success-popup-message").textContent = unlockedNow
+          ? "🎉 恭喜！你已經解鎖繪本故事，可以去閱讀啦！"
+          : "小可愛話你叻仔！";
+        const popup = $("success-popup");
+        popup.classList.remove("is-visible");
+        void popup.offsetWidth;
+        popup.classList.add("is-visible");
+        popup.setAttribute("aria-hidden", "false");
+        successPopupTimer = window.setTimeout(() => {
+          popup.classList.remove("is-visible");
+          popup.setAttribute("aria-hidden", "true");
+        }, 2000);
+      };
+
+      const celebrate = () => {
+        ["★", "✦", "✧", "★", "✦"].forEach((symbol, index) => {
+          const element = document.createElement("span");
+          element.className = "star";
+          element.textContent = symbol;
+          element.style.setProperty("--x", `${(index - 2) * 72 + (Math.random() * 40 - 20)}px`);
+          element.style.setProperty("--y", `${-120 - Math.random() * 110}px`);
+          element.style.setProperty("--r", `${(Math.random() * 80) - 40}deg`);
+          $("stars").appendChild(element);
+          window.setTimeout(() => element.remove(), 1700);
+        });
+      };
+
+      const renderQuestion = () => {
+        const question = state.questions[state.index];
+        const number = state.index + 1;
+        $("progress-label").textContent = `第 ${number} / ${state.questions.length} 題`;
+        $("progress-value").style.transform = `scaleX(${number / state.questions.length})`;
+        word.textContent = question.word;
+        image.alt = `${question.word} 練習圖片`;
+        fallback.textContent = question.fallback || "🖼️";
+        fallback.style.display = "none";
+        image.style.display = "block";
+        image.src = question.imgPath;
+        feedback.textContent = "";
+        feedback.className = "feedback";
+        state.locked = false;
+        updateHeaderStats();
+        showScreen(quizState);
+      };
+
+      const finishRound = () => {
+        window.speechSynthesis?.cancel();
+        $("summary-total").textContent = String(state.questions.length);
+        $("summary-right").textContent = String(state.roundRight);
+        $("summary-history").textContent = String(getStoredNumber(RIGHT_COUNT_KEY));
+        updateHeaderStats();
+        showScreen(summaryState);
+      };
+
+      const answerQuestion = (answer) => {
+        if (state.locked) return;
+        const question = state.questions[state.index];
+        if (answer !== question.isMatch) {
+          showFeedback("再試一試！可以再聽一次單詞。", "retry");
+          showRetryPopup();
+          speak("oh sad, please try again.", "en-US", () => {});
+          return;
+        }
+
+        state.locked = true;
+        state.roundRight += 1;
+        const historyBefore = getStoredNumber(RIGHT_COUNT_KEY);
+        const historyAfter = historyBefore + 1;
+        setStoredNumber(RIGHT_COUNT_KEY, historyAfter);
+        setStoredNumber(ROUND_RIGHT_KEY, state.roundRight);
+        const unlockedNow = historyBefore < 10 && historyAfter >= 10;
+        if (unlockedNow) localStorage.setItem(STORYBOOK_KEY, "true");
+        updateHeaderStats();
+        showFeedback(unlockedNow ? "太棒了！繪本已經解鎖！" : "答對了！你的小耳朵真厲害！", "success");
+        celebrate();
+        showSuccessPopup(unlockedNow);
+        speak("bingo, good job.", "en-US", () => {});
+        state.nextTimer = window.setTimeout(() => {
+          state.index += 1;
+          if (state.index >= state.questions.length) finishRound();
+          else renderQuestion();
+        }, 2000);
+      };
+
+      const startRound = () => {
+        window.clearTimeout(state.nextTimer);
+        window.speechSynthesis?.cancel();
+        state.questions = shuffle(state.questions);
+        state.index = 0;
+        state.roundRight = 0;
+        setStoredNumber(ROUND_RIGHT_KEY, 0);
+        updateHeaderStats();
+        renderQuestion();
+      };
+
+      const resetQuizData = () => {
+        const password = window.prompt("請輸入重置密碼：");
+        if (password === null) return;
+        if (password !== RESET_PASSWORD) {
+          window.alert("密碼錯誤，題庫沒有重置。");
+          return;
+        }
+
+        localStorage.removeItem(RIGHT_COUNT_KEY);
+        localStorage.removeItem(ROUND_RIGHT_KEY);
+        localStorage.removeItem(STORYBOOK_KEY);
+        window.speechSynthesis?.cancel();
+        updateHeaderStats();
+        if (state.questions.length > 0) {
+          startRound();
+        } else {
+          window.location.reload();
+        }
+      };
+
+      const renderStoryPage = () => {
+        const page = storyBookPages[state.storyPage];
+        const pageNumber = state.storyPage + 1;
+        $("storybook-progress").textContent = `第 ${pageNumber} / ${storyBookPages.length} 頁`;
+        $("storybook-page-label").textContent = `第 ${pageNumber} / ${storyBookPages.length} 頁`;
+        const storyImage = $("storybook-image");
+        const storyFallback = $("storybook-image-fallback");
+        storyImage.src = page.img;
+        storyImage.hidden = false;
+        storyFallback.hidden = true;
+        $("previous-page-button").disabled = state.storyPage === 0;
+        $("next-page-button").disabled = state.storyPage === storyBookPages.length - 1;
+      };
+
+      const showStorybook = () => {
+        if (!isStorybookUnlocked()) {
+          window.alert("🔒 累計答對 10 題即可解鎖繪本故事");
+          return;
+        }
+        window.speechSynthesis?.cancel();
+        state.activeView = "storybook";
+        state.storyPage = 0;
+        renderStoryPage();
+        showScreen(storybookState);
+      };
+
+      const showQuiz = () => {
+        window.speechSynthesis?.cancel();
+        state.activeView = "quiz";
+        if (state.questions.length > 0 && state.index < state.questions.length) showScreen(quizState);
+        else showScreen(summaryState);
+      };
+
+      const loadQuiz = async () => {
+        updateHeaderStats();
+        try {
+          const response = await fetch(DATA_URL, { cache: "no-store" });
+          if (!response.ok) throw new Error(`題庫讀取失敗：${response.status}`);
+          const data = await response.json();
+          if (!data || !Array.isArray(data.wordJudge) || data.wordJudge.length === 0) {
+            throw new Error("題庫格式不正確");
+          }
+          state.questions = data.wordJudge.map((question) => ({
+            word: String(question.word),
+            imgPath: String(question.imgPath),
+            isMatch: Boolean(question.isMatch),
+            fallback: String(question.fallback || "🖼️")
+          }));
+          startRound();
+        } catch (error) {
+          console.error(error);
+          showScreen(errorState);
+        }
+      };
+
+      image.addEventListener("error", () => {
+        image.style.display = "none";
+        fallback.style.display = "grid";
+      });
+      $("storybook-image").addEventListener("error", () => {
+        $("storybook-image").hidden = true;
+        $("storybook-image-fallback").hidden = false;
+      });
+      $("speak-button").addEventListener("click", speakWord);
+      $("storybook-speak-button").addEventListener("click", speakStory);
+      $("storybook-button").addEventListener("click", showStorybook);
+      $("reset-button").addEventListener("click", resetQuizData);
+      $("back-button").addEventListener("click", showQuiz);
+      $("previous-page-button").addEventListener("click", () => {
+        if (state.storyPage > 0) {
+          window.speechSynthesis?.cancel();
+          state.storyPage -= 1;
+          renderStoryPage();
+        }
+      });
+      $("next-page-button").addEventListener("click", () => {
+        if (state.storyPage < storyBookPages.length - 1) {
+          window.speechSynthesis?.cancel();
+          state.storyPage += 1;
+          renderStoryPage();
+        }
+      });
+      document.querySelectorAll("[data-answer]").forEach((button) => {
+        button.addEventListener("click", () => answerQuestion(button.dataset.answer === "true"));
+      });
+      $("restart-button").addEventListener("click", startRound);
+      if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = updateHeaderStats;
+      loadQuiz();
+    })();
+  </script>
+</body>
+</html>
