@@ -31,5 +31,367 @@
     { "word": "glue", "imgPath": "asset/enjudge/eraser.png", "isMatch": false, "fallback": "🧽" },
     { "word": "notebook", "imgPath": "asset/enjudge/book.png", "isMatch": true, "fallback": "📘" },
     { "word": "marker", "imgPath": "asset/enjudge/pencil.png", "isMatch": false, "fallback": "✏️" }
+  ],
+  "sentenceQA": [
+    {
+      "id": "sentence-01",
+      "question": "What do you like?",
+      "questionZh": "你喜歡什麼？",
+      "imgPath": "asset/enjudge/apple.png",
+      "fallback": "🍎",
+      "choices": [
+        { "text": "I like apples.", "isCorrect": true },
+        { "text": "I like cars.", "isCorrect": false },
+        { "text": "I like milk.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-02",
+      "question": "What is this?",
+      "questionZh": "這是什麼？",
+      "imgPath": "asset/enjudge/book.png",
+      "fallback": "📘",
+      "choices": [
+        { "text": "It is a book.", "isCorrect": true },
+        { "text": "It is a dog.", "isCorrect": false },
+        { "text": "It is a ball.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-03",
+      "question": "What colour is it?",
+      "questionZh": "它是什麼顏色？",
+      "imgPath": "asset/enjudge/banana.png",
+      "fallback": "🍌",
+      "choices": [
+        { "text": "It is yellow.", "isCorrect": true },
+        { "text": "It is blue.", "isCorrect": false },
+        { "text": "It is green.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-04",
+      "question": "What animal do you see?",
+      "questionZh": "你看到什麼動物？",
+      "imgPath": "asset/enjudge/cat.png",
+      "fallback": "🐱",
+      "choices": [
+        { "text": "I see a cat.", "isCorrect": true },
+        { "text": "I see a bird.", "isCorrect": false },
+        { "text": "I see a fish.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-05",
+      "question": "How are you?",
+      "questionZh": "你好嗎？",
+      "imgPath": "asset/enjudge/success.png",
+      "fallback": "😊",
+      "choices": [
+        { "text": "I am fine, thank you.", "isCorrect": true },
+        { "text": "I am five years old.", "isCorrect": false },
+        { "text": "I am in the park.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-06",
+      "question": "How old are you?",
+      "questionZh": "你幾歲？",
+      "imgPath": "asset/enjudge/success.png",
+      "fallback": "🎂",
+      "choices": [
+        { "text": "I am five years old.", "isCorrect": true },
+        { "text": "I like apples.", "isCorrect": false },
+        { "text": "I am at home.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-07",
+      "question": "How many apples?",
+      "questionZh": "有多少個蘋果？",
+      "imgPath": "asset/enjudge/apple.png",
+      "fallback": "🍎",
+      "choices": [
+        { "text": "Three apples.", "isCorrect": true },
+        { "text": "A blue apple.", "isCorrect": false },
+        { "text": "I like apples.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-08",
+      "question": "Where are you?",
+      "questionZh": "你在哪裡？",
+      "imgPath": "asset/enjudge/schoolbag.png",
+      "fallback": "🎒",
+      "choices": [
+        { "text": "I am at school.", "isCorrect": true },
+        { "text": "I am happy.", "isCorrect": false },
+        { "text": "I like school.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-09",
+      "question": "Where is the cat?",
+      "questionZh": "貓在哪裡？",
+      "imgPath": "asset/enjudge/cat.png",
+      "fallback": "🐱",
+      "choices": [
+        { "text": "It is on the chair.", "isCorrect": true },
+        { "text": "It is a cat.", "isCorrect": false },
+        { "text": "It is yellow.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-10",
+      "question": "Where do you live?",
+      "questionZh": "你住在哪裡？",
+      "imgPath": "asset/enjudge/schoolbag.png",
+      "fallback": "🏠",
+      "choices": [
+        { "text": "I live in Hong Kong.", "isCorrect": true },
+        { "text": "I am five.", "isCorrect": false },
+        { "text": "I like Hong Kong.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-11",
+      "question": "Do you like bananas?",
+      "questionZh": "你喜歡香蕉嗎？",
+      "imgPath": "asset/enjudge/banana.png",
+      "fallback": "🍌",
+      "choices": [
+        { "text": "Yes, I do.", "isCorrect": true },
+        { "text": "Yes, I am.", "isCorrect": false },
+        { "text": "No, I can't.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-12",
+      "question": "Do you like cats?",
+      "questionZh": "你喜歡貓嗎？",
+      "imgPath": "asset/enjudge/cat.png",
+      "fallback": "🐱",
+      "choices": [
+        { "text": "Yes, I do.", "isCorrect": true },
+        { "text": "It is a cat.", "isCorrect": false },
+        { "text": "I am a cat.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-13",
+      "question": "Do you have a pencil?",
+      "questionZh": "你有鉛筆嗎？",
+      "imgPath": "asset/enjudge/pencil.png",
+      "fallback": "✏️",
+      "choices": [
+        { "text": "Yes, I do.", "isCorrect": true },
+        { "text": "Yes, I am.", "isCorrect": false },
+        { "text": "It is red.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-14",
+      "question": "Do you want some milk?",
+      "questionZh": "你想要一些牛奶嗎？",
+      "imgPath": "asset/enjudge/orange.png",
+      "fallback": "🥛",
+      "choices": [
+        { "text": "Yes, please.", "isCorrect": true },
+        { "text": "I am milk.", "isCorrect": false },
+        { "text": "It is a cup.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-15",
+      "question": "What is your name?",
+      "questionZh": "你叫什麼名字？",
+      "imgPath": "asset/enjudge/success.png",
+      "fallback": "👋",
+      "choices": [
+        { "text": "My name is Amy.", "isCorrect": true },
+        { "text": "I am happy.", "isCorrect": false },
+        { "text": "I am at school.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-16",
+      "question": "What do you see?",
+      "questionZh": "你看到了什麼？",
+      "imgPath": "asset/enjudge/bird.png",
+      "fallback": "🐦",
+      "choices": [
+        { "text": "I see a bird.", "isCorrect": true },
+        { "text": "I hear a bird.", "isCorrect": false },
+        { "text": "I like a bird.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-17",
+      "question": "What can you do?",
+      "questionZh": "你會做什麼？",
+      "imgPath": "asset/enjudge/frog.png",
+      "fallback": "🐸",
+      "choices": [
+        { "text": "I can jump.", "isCorrect": true },
+        { "text": "I am jump.", "isCorrect": false },
+        { "text": "I like jump.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-18",
+      "question": "How do you go to school?",
+      "questionZh": "你怎樣去學校？",
+      "imgPath": "asset/enjudge/schoolbag.png",
+      "fallback": "🚌",
+      "choices": [
+        { "text": "I go by bus.", "isCorrect": true },
+        { "text": "I am at school.", "isCorrect": false },
+        { "text": "I like the bus.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-19",
+      "question": "How is the weather?",
+      "questionZh": "天氣怎樣？",
+      "imgPath": "asset/enjudge/success.png",
+      "fallback": "☀️",
+      "choices": [
+        { "text": "It is sunny.", "isCorrect": true },
+        { "text": "It is Sunday.", "isCorrect": false },
+        { "text": "I like the sun.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-20",
+      "question": "Where is your bag?",
+      "questionZh": "你的書包在哪裡？",
+      "imgPath": "asset/enjudge/schoolbag.png",
+      "fallback": "🎒",
+      "choices": [
+        { "text": "It is under the table.", "isCorrect": true },
+        { "text": "It is a bag.", "isCorrect": false },
+        { "text": "I like my bag.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-21",
+      "question": "Do you like toys?",
+      "questionZh": "你喜歡玩具嗎？",
+      "imgPath": "asset/enjudge/rabbit.png",
+      "fallback": "🧸",
+      "choices": [
+        { "text": "Yes, I do.", "isCorrect": true },
+        { "text": "Yes, I am.", "isCorrect": false },
+        { "text": "They are toys.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-22",
+      "question": "What do you eat?",
+      "questionZh": "你吃什麼？",
+      "imgPath": "asset/enjudge/strawberry.png",
+      "fallback": "🍓",
+      "choices": [
+        { "text": "I eat strawberries.", "isCorrect": true },
+        { "text": "I drink strawberries.", "isCorrect": false },
+        { "text": "I am strawberries.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-23",
+      "question": "Where is the book?",
+      "questionZh": "書在哪裡？",
+      "imgPath": "asset/enjudge/book.png",
+      "fallback": "📘",
+      "choices": [
+        { "text": "It is on the desk.", "isCorrect": true },
+        { "text": "It is a desk.", "isCorrect": false },
+        { "text": "I read a desk.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-24",
+      "question": "How many birds?",
+      "questionZh": "有多少隻鳥？",
+      "imgPath": "asset/enjudge/bird.png",
+      "fallback": "🐦",
+      "choices": [
+        { "text": "Two birds.", "isCorrect": true },
+        { "text": "A blue bird.", "isCorrect": false },
+        { "text": "I like birds.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-25",
+      "question": "Do you like drawing?",
+      "questionZh": "你喜歡畫畫嗎？",
+      "imgPath": "asset/enjudge/pencil.png",
+      "fallback": "🎨",
+      "choices": [
+        { "text": "Yes, I do.", "isCorrect": true },
+        { "text": "Yes, I am.", "isCorrect": false },
+        { "text": "I draw a pencil.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-26",
+      "question": "What do you drink?",
+      "questionZh": "你喝什麼？",
+      "imgPath": "asset/enjudge/orange.png",
+      "fallback": "🥛",
+      "choices": [
+        { "text": "I drink milk.", "isCorrect": true },
+        { "text": "I eat milk.", "isCorrect": false },
+        { "text": "I like a cup.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-27",
+      "question": "Where is the dog?",
+      "questionZh": "狗在哪裡？",
+      "imgPath": "asset/enjudge/dog.png",
+      "fallback": "🐶",
+      "choices": [
+        { "text": "It is in the garden.", "isCorrect": true },
+        { "text": "It is a garden.", "isCorrect": false },
+        { "text": "I like the garden.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-28",
+      "question": "How do you feel?",
+      "questionZh": "你感覺怎樣？",
+      "imgPath": "asset/enjudge/success.png",
+      "fallback": "😊",
+      "choices": [
+        { "text": "I feel happy.", "isCorrect": true },
+        { "text": "I feel five.", "isCorrect": false },
+        { "text": "I feel at home.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-29",
+      "question": "What do you have?",
+      "questionZh": "你有什麼？",
+      "imgPath": "asset/enjudge/eraser.png",
+      "fallback": "🧽",
+      "choices": [
+        { "text": "I have an eraser.", "isCorrect": true },
+        { "text": "I am an eraser.", "isCorrect": false },
+        { "text": "I like eraser.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "sentence-30",
+      "question": "Do you want to play?",
+      "questionZh": "你想玩嗎？",
+      "imgPath": "asset/enjudge/rabbit.png",
+      "fallback": "⚽",
+      "choices": [
+        { "text": "Yes, please.", "isCorrect": true },
+        { "text": "Yes, I am.", "isCorrect": false },
+        { "text": "I play a ball.", "isCorrect": false }
+      ]
+    }
   ]
 }

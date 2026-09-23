@@ -299,6 +299,97 @@
       font-weight: 800;
     }
 
+    .quiz-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .quiz-tab {
+      min-height: 52px;
+      padding: 0 12px;
+      border-radius: 15px;
+      color: var(--ink);
+      background: #f1f5fb;
+      box-shadow: 0 4px 0 #d7e1ef;
+      font-size: .95rem;
+      font-weight: 900;
+    }
+
+    .quiz-tab.active {
+      color: #fff;
+      background: var(--teal);
+      box-shadow: 0 4px 0 var(--teal-dark);
+    }
+
+    .question-prompt {
+      margin: 24px 0 8px;
+      color: var(--ink);
+      font-size: clamp(1.55rem, 6vw, 2.45rem);
+      font-weight: 950;
+      letter-spacing: -.04em;
+    }
+
+    .question-translation {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .sentence-choices {
+      display: grid;
+      gap: 12px;
+      width: min(100%, 650px);
+      margin: 0 auto;
+    }
+
+    .sentence-choice {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 68px;
+      padding: 12px 16px;
+      border: 3px solid transparent;
+      border-radius: 17px;
+      color: var(--ink);
+      text-align: left;
+      background: #fff;
+      box-shadow: 0 4px 0 #d7d0c4;
+      font-size: clamp(1.05rem, 4vw, 1.35rem);
+      font-weight: 850;
+    }
+
+    .sentence-choice.selected {
+      border-color: var(--teal);
+      background: #e7f7f2;
+      box-shadow: 0 4px 0 #afdcd2;
+    }
+
+    .sentence-choice:disabled { opacity: .58; }
+
+    .submit-answer {
+      width: min(100%, 650px);
+      min-height: 58px;
+      margin-top: 16px;
+      border-radius: 17px;
+      color: #fff;
+      background: var(--coral);
+      box-shadow: 0 5px 0 var(--coral-dark);
+      font-weight: 900;
+    }
+
+    .submit-answer:disabled { background: #c9cdd3; box-shadow: 0 5px 0 #aeb3bc; }
+
+    .feedback-visual {
+      width: 110px;
+      height: 110px;
+      margin: 14px auto -5px;
+      object-fit: contain;
+      border-radius: 20px;
+    }
+
     .answer-buttons {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -567,13 +658,17 @@
       </div>
 
       <div id="quiz-state" hidden>
+        <div class="quiz-tabs" role="tablist" aria-label="選擇練習題型">
+          <button class="quiz-tab active" data-quiz-type="wordJudge" type="button">🕵️ 英語偵探題</button>
+          <button class="quiz-tab" data-quiz-type="sentenceQA" type="button">💬 日常短句問答</button>
+        </div>
         <div class="practice-header">
-          <span id="progress-label">第 1 / 30 題</span>
+          <span id="progress-label">今日第 1 / 10 題</span>
           <div class="progress-track" aria-hidden="true"><div id="progress-value" class="progress-value"></div></div>
         </div>
-        <p id="unlock-note" class="unlock-note">🔒 繪本解鎖進度：0 / 10</p>
+        <p id="unlock-note" class="unlock-note">今天完成 10 題並做完錯題，就可以明天再解鎖新一組。</p>
 
-        <article class="quiz-card">
+        <article id="word-quiz-card" class="quiz-card">
           <div class="image-frame">
             <img id="quiz-image" src="asset/enjudge/apple.png" alt="練習圖片">
             <div id="image-fallback" class="image-fallback" aria-hidden="true"></div>
@@ -590,19 +685,33 @@
             <p id="feedback" class="feedback" role="status"></p>
           </div>
         </article>
+
+        <article id="sentence-quiz-card" class="quiz-card" hidden>
+          <div class="image-frame">
+            <img id="sentence-image" src="asset/enjudge/apple.png" alt="句子情境圖片">
+            <div id="sentence-image-fallback" class="image-fallback" aria-hidden="true"></div>
+          </div>
+          <h1 id="sentence-question" class="question-prompt"></h1>
+          <p id="sentence-translation" class="question-translation"></p>
+          <button id="sentence-speak-button" class="speak-button" type="button">🔊 播放問題</button>
+          <div id="sentence-choices" class="sentence-choices" aria-label="句子答案選項"></div>
+          <button id="sentence-submit-button" class="submit-answer" type="button" disabled>選好答案後提交</button>
+          <img id="sentence-feedback-visual" class="feedback-visual" src="asset/enjudge/success.png" alt="" hidden>
+          <p id="sentence-feedback" class="feedback" role="status"></p>
+        </article>
       </div>
 
       <div id="summary-state" class="summary" hidden>
         <div>
           <div class="summary-icon" aria-hidden="true">🌟</div>
-          <h1>任務完成！</h1>
-          <p>你今天的聽辨小耳朵表現得很棒。</p>
+          <h1 id="summary-title">今日任務完成！</h1>
+          <p id="summary-message">你今天的聽辨小耳朵表現得很棒。</p>
           <div class="summary-stats">
-            <div class="stat"><strong id="summary-total">30</strong><span>總題目</span></div>
+            <div class="stat"><strong id="summary-total">10</strong><span>今日題目</span></div>
             <div class="stat"><strong id="summary-right">0</strong><span>本輪答對</span></div>
-            <div class="stat"><strong id="summary-history">0</strong><span>歷史累計</span></div>
+            <div class="stat"><strong id="summary-wrong">0</strong><span>待重做錯題</span></div>
           </div>
-          <button id="restart-button" class="restart-button" type="button">🔄 重新開始</button>
+          <button id="restart-button" class="restart-button" type="button">🔄 再做一次</button>
         </div>
       </div>
 
@@ -648,6 +757,9 @@
       const DATA_URL = "quiz-data-enjudge.json";
       const RIGHT_COUNT_KEY = "enJudgeRightCount";
       const ROUND_RIGHT_KEY = "enJudgeThisRoundRight";
+      const PROGRESS_KEY = "enJudgeDailyProgress";
+      const WRONG_KEY = "enJudgeWrongQuestions";
+      const DAILY_LIMIT = 10;
       const STORYBOOK_KEY = "storybookUnlocked";
       const RESET_PASSWORD = "1234";
       const storyBookPages = [
@@ -659,9 +771,15 @@
       ];
 
       const state = {
+        questionPools: { wordJudge: [], sentenceQA: [] },
         questions: [],
+        quizType: "wordJudge",
         index: 0,
         roundRight: 0,
+        selectedChoice: null,
+        dailyProgress: null,
+        wrongQuestions: [],
+        isReview: false,
         storyPage: 0,
         locked: false,
         nextTimer: null,
@@ -678,6 +796,9 @@
       const fallback = $("image-fallback");
       const word = $("word");
       const feedback = $("feedback");
+      const sentenceImage = $("sentence-image");
+      const sentenceFallback = $("sentence-image-fallback");
+      const sentenceFeedback = $("sentence-feedback");
       let resultPopupTimer;
       let successPopupTimer;
 
@@ -688,6 +809,33 @@
 
       const setStoredNumber = (key, value) => localStorage.setItem(key, String(value));
       const isStorybookUnlocked = () => localStorage.getItem(STORYBOOK_KEY) === "true";
+      const todayKey = () => {
+        const now = new Date();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        return `${now.getFullYear()}-${month}-${day}`;
+      };
+      const readJson = (key, fallbackValue) => {
+        try {
+          const value = JSON.parse(localStorage.getItem(key) || "null");
+          return value === null ? fallbackValue : value;
+        } catch (error) {
+          console.warn(`無法讀取儲存資料：${key}`, error);
+          return fallbackValue;
+        }
+      };
+      const saveJson = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+      const getDailyProgress = () => {
+        const stored = readJson(PROGRESS_KEY, null);
+        if (!stored || stored.date !== todayKey()) {
+          return { date: todayKey(), completedTypes: [], completedQuestionIds: [], completedDays: { wordJudge: 0, sentenceQA: 0 }, right: 0 };
+        }
+        stored.completedDays = stored.completedDays || { wordJudge: 0, sentenceQA: 0 };
+        return stored;
+      };
+
+      const getWrongQuestions = () => readJson(WRONG_KEY, []);
 
       const shuffle = (items) => {
         const copy = [...items];
@@ -707,6 +855,8 @@
       const updateHeaderStats = () => {
         const history = getStoredNumber(RIGHT_COUNT_KEY);
         state.roundRight = getStoredNumber(ROUND_RIGHT_KEY);
+        state.dailyProgress = getDailyProgress();
+        state.wrongQuestions = getWrongQuestions();
         $("round-right-count").textContent = String(state.roundRight);
         $("right-count").textContent = String(history);
         const unlocked = isStorybookUnlocked();
@@ -714,8 +864,8 @@
         button.classList.toggle("is-locked", !unlocked);
         button.textContent = unlocked ? "📖 繪本故事" : "🔒 繪本故事";
         $("unlock-note").textContent = unlocked
-          ? "🎉 繪本已解鎖！隨時可以從上方進入故事。"
-          : `🔒 繪本解鎖進度：${Math.min(history, 10)} / 10`;
+          ? `📚 今日進度：${state.dailyProgress.completedTypes.length} / 2 種題型完成，待重做錯題：${state.wrongQuestions.length} 題`
+          : `今日完成 ${state.dailyProgress.completedTypes.length} / 2 種題型；累計答對 ${Math.min(history, 10)} / 10 可解鎖繪本`;
       };
 
       const showFeedback = (message, type) => {
@@ -731,6 +881,12 @@
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
+        if (!voice && lang === "en-US") {
+          const voices = window.speechSynthesis.getVoices();
+          utterance.voice = voices.find((item) => /^en[-_]us$/i.test(item.lang) && /male|david|mark|daniel|guy/i.test(item.name))
+            || voices.find((item) => /^en[-_]us$/i.test(item.lang))
+            || null;
+        }
         if (voice) utterance.voice = voice;
         utterance.rate = lang === "yue-HK" ? .92 : .82;
         utterance.pitch = lang === "yue-HK" ? 1.05 : 1.08;
@@ -808,35 +964,100 @@
       const renderQuestion = () => {
         const question = state.questions[state.index];
         const number = state.index + 1;
-        $("progress-label").textContent = `第 ${number} / ${state.questions.length} 題`;
+        $("progress-label").textContent = state.isReview
+          ? `錯題重做 ${number} / ${state.questions.length} 題`
+          : `今日第 ${number} / ${state.questions.length} 題`;
         $("progress-value").style.transform = `scaleX(${number / state.questions.length})`;
-        word.textContent = question.word;
-        image.alt = `${question.word} 練習圖片`;
-        fallback.textContent = question.fallback || "🖼️";
-        fallback.style.display = "none";
-        image.style.display = "block";
-        image.src = question.imgPath;
-        feedback.textContent = "";
-        feedback.className = "feedback";
+        $("word-quiz-card").hidden = state.quizType !== "wordJudge";
+        $("sentence-quiz-card").hidden = state.quizType !== "sentenceQA";
+        document.querySelectorAll(".quiz-tab").forEach((button) => {
+          button.classList.toggle("active", button.dataset.quizType === state.quizType);
+        });
+        if (state.quizType === "wordJudge") {
+          word.textContent = question.word;
+          image.alt = `${question.word} 練習圖片`;
+          fallback.textContent = question.fallback || "🖼️";
+          fallback.style.display = "none";
+          image.style.display = "block";
+          image.src = question.imgPath;
+          feedback.textContent = "";
+          feedback.className = "feedback";
+        } else {
+          sentenceImage.alt = `${question.question} 情境圖片`;
+          $("sentence-question").textContent = question.question;
+          $("sentence-translation").textContent = question.questionZh;
+          sentenceFallback.textContent = question.fallback || "🖼️";
+          sentenceFallback.style.display = "none";
+          sentenceImage.style.display = "block";
+          sentenceImage.src = question.imgPath;
+          state.selectedChoice = null;
+          $("sentence-submit-button").disabled = true;
+          sentenceFeedback.textContent = "";
+          sentenceFeedback.className = "feedback";
+          $("sentence-feedback-visual").hidden = true;
+          const choices = $("sentence-choices");
+          choices.replaceChildren();
+          shuffle(question.choices).forEach((choice) => {
+            const button = document.createElement("button");
+            button.className = "sentence-choice";
+            button.type = "button";
+            button.innerHTML = `<span>${choice.text}</span><span aria-hidden="true">🔊</span>`;
+            button.addEventListener("click", () => {
+              state.selectedChoice = choice;
+              document.querySelectorAll(".sentence-choice").forEach((item) => item.classList.remove("selected"));
+              button.classList.add("selected");
+              $("sentence-submit-button").disabled = false;
+              speak(choice.text, "en-US", () => {});
+            });
+            choices.appendChild(button);
+          });
+        }
         state.locked = false;
         updateHeaderStats();
         showScreen(quizState);
       };
 
-      const finishRound = () => {
+      const finishRound = (message = "你今天的聽辨小耳朵表現得很棒。") => {
         window.speechSynthesis?.cancel();
         $("summary-total").textContent = String(state.questions.length);
         $("summary-right").textContent = String(state.roundRight);
-        $("summary-history").textContent = String(getStoredNumber(RIGHT_COUNT_KEY));
+        $("summary-wrong").textContent = String(state.wrongQuestions.length);
+        $("summary-title").textContent = state.isReview ? "錯題完成！" : "今日任務完成！";
+        $("summary-message").textContent = message;
+        $("restart-button").textContent = state.wrongQuestions.length > 0 ? "🔄 再做一次" : "✅ 看看其他題型";
         updateHeaderStats();
         showScreen(summaryState);
       };
 
-      const answerQuestion = (answer) => {
+      const addWrongQuestion = (question) => {
+        const key = `${state.quizType}:${question.id || question.word}`;
+        if (!state.wrongQuestions.some((item) => item.key === key)) {
+          state.wrongQuestions.push({ key, type: state.quizType, question });
+          saveJson(WRONG_KEY, state.wrongQuestions);
+        }
+      };
+
+      const removeWrongQuestion = (question) => {
+        const key = `${state.quizType}:${question.id || question.word}`;
+        state.wrongQuestions = state.wrongQuestions.filter((item) => item.key !== key);
+        saveJson(WRONG_KEY, state.wrongQuestions);
+      };
+
+      const completeDailyType = () => {
+        if (state.isReview) return;
+        if (!state.dailyProgress.completedTypes.includes(state.quizType)) {
+          state.dailyProgress.completedTypes.push(state.quizType);
+          state.dailyProgress.completedQuestionIds.push(...state.questions.map((question) => question.id || question.word));
+        }
+        state.dailyProgress.completedDays[state.quizType] = Math.min(3, (state.dailyProgress.completedDays[state.quizType] || 0) + 1);
+        saveJson(PROGRESS_KEY, state.dailyProgress);
+      };
+
+      const answerQuestion = (answer, question = state.questions[state.index]) => {
         if (state.locked) return;
-        const question = state.questions[state.index];
         if (answer !== question.isMatch) {
           showFeedback("再試一試！可以再聽一次單詞。", "retry");
+          addWrongQuestion(question);
           showRetryPopup();
           speak("oh sad, please try again.", "en-US", () => {});
           return;
@@ -848,6 +1069,7 @@
         const historyAfter = historyBefore + 1;
         setStoredNumber(RIGHT_COUNT_KEY, historyAfter);
         setStoredNumber(ROUND_RIGHT_KEY, state.roundRight);
+        removeWrongQuestion(question);
         const unlockedNow = historyBefore < 10 && historyAfter >= 10;
         if (unlockedNow) localStorage.setItem(STORYBOOK_KEY, "true");
         updateHeaderStats();
@@ -857,20 +1079,71 @@
         speak("bingo, good job.", "en-US", () => {});
         state.nextTimer = window.setTimeout(() => {
           state.index += 1;
-          if (state.index >= state.questions.length) finishRound();
+          if (state.index >= state.questions.length) {
+            if (state.isReview) finishRound("太棒了！錯題都完成了。");
+            else {
+              completeDailyType();
+              finishRound("這組 10 題完成了！如果還有錯題，請再做一次。");
+            }
+          }
           else renderQuestion();
         }, 2000);
       };
 
-      const startRound = () => {
+      const answerSentence = () => {
+        if (state.locked || !state.selectedChoice) return;
+        const question = state.questions[state.index];
+        if (!state.selectedChoice.isCorrect) {
+          sentenceFeedback.textContent = "oh sad，try again";
+          sentenceFeedback.className = "feedback retry";
+          $("sentence-feedback-visual").hidden = false;
+          addWrongQuestion(question);
+          showRetryPopup();
+          speak("oh sad, try again.", "en-US", () => {});
+          return;
+        }
+
+        state.locked = true;
+        state.roundRight += 1;
+        const historyBefore = getStoredNumber(RIGHT_COUNT_KEY);
+        const historyAfter = historyBefore + 1;
+        setStoredNumber(RIGHT_COUNT_KEY, historyAfter);
+        setStoredNumber(ROUND_RIGHT_KEY, state.roundRight);
+        removeWrongQuestion(question);
+        sentenceFeedback.textContent = "bingo，Ultraman";
+        sentenceFeedback.className = "feedback success";
+        $("sentence-feedback-visual").hidden = false;
+        showSuccessPopup(false);
+        celebrate();
+        speak("bingo, Ultraman.", "en-US", () => {});
+        state.nextTimer = window.setTimeout(() => {
+          state.index += 1;
+          if (state.index >= state.questions.length) {
+            if (state.isReview) finishRound("太棒了！錯題都完成了。");
+            else {
+              completeDailyType();
+              finishRound("這組 10 題完成了！如果還有錯題，請再做一次。");
+            }
+          } else renderQuestion();
+        }, 2000);
+      };
+
+      const startRound = (quizType = state.quizType, review = false) => {
         window.clearTimeout(state.nextTimer);
         window.speechSynthesis?.cancel();
-        state.questions = shuffle(state.questions);
+        state.quizType = quizType;
+        state.isReview = review;
+        const day = Math.min(2, state.dailyProgress?.completedDays?.[quizType] || 0);
+        state.questions = review
+          ? shuffle(state.wrongQuestions.filter((item) => item.type === quizType).map((item) => item.question))
+          : shuffle(state.questionPools[quizType].slice(day * DAILY_LIMIT, (day + 1) * DAILY_LIMIT));
         state.index = 0;
         state.roundRight = 0;
         setStoredNumber(ROUND_RIGHT_KEY, 0);
         updateHeaderStats();
-        renderQuestion();
+        if (state.questions.length === 0) {
+          finishRound(review ? "目前沒有這個題型的錯題。" : "今天這個題型已完成，請選另一個題型。");
+        } else renderQuestion();
       };
 
       const resetQuizData = () => {
@@ -883,11 +1156,14 @@
 
         localStorage.removeItem(RIGHT_COUNT_KEY);
         localStorage.removeItem(ROUND_RIGHT_KEY);
+        localStorage.removeItem(PROGRESS_KEY);
+        localStorage.removeItem(WRONG_KEY);
         localStorage.removeItem(STORYBOOK_KEY);
         window.speechSynthesis?.cancel();
         updateHeaderStats();
-        if (state.questions.length > 0) {
-          startRound();
+        if (state.questionPools.wordJudge.length > 0) {
+          updateHeaderStats();
+          startRound("wordJudge");
         } else {
           window.location.reload();
         }
@@ -932,16 +1208,30 @@
           const response = await fetch(DATA_URL, { cache: "no-store" });
           if (!response.ok) throw new Error(`題庫讀取失敗：${response.status}`);
           const data = await response.json();
-          if (!data || !Array.isArray(data.wordJudge) || data.wordJudge.length === 0) {
+          if (!data || !Array.isArray(data.wordJudge) || data.wordJudge.length < 30
+            || !Array.isArray(data.sentenceQA) || data.sentenceQA.length < 30) {
             throw new Error("題庫格式不正確");
           }
-          state.questions = data.wordJudge.map((question) => ({
+          state.questionPools.wordJudge = data.wordJudge.map((question, index) => ({
+            id: `word-${index + 1}`,
             word: String(question.word),
             imgPath: String(question.imgPath),
             isMatch: Boolean(question.isMatch),
             fallback: String(question.fallback || "🖼️")
           }));
-          startRound();
+          state.questionPools.sentenceQA = data.sentenceQA.map((question) => ({
+            id: String(question.id),
+            question: String(question.question),
+            questionZh: String(question.questionZh || ""),
+            imgPath: String(question.imgPath),
+            fallback: String(question.fallback || "🖼️"),
+            choices: Array.isArray(question.choices) ? question.choices.map((choice) => ({
+              text: String(choice.text),
+              isCorrect: Boolean(choice.isCorrect)
+            })) : []
+          }));
+          updateHeaderStats();
+          startRound("wordJudge");
         } catch (error) {
           console.error(error);
           showScreen(errorState);
@@ -952,11 +1242,33 @@
         image.style.display = "none";
         fallback.style.display = "grid";
       });
+      sentenceImage.addEventListener("error", () => {
+        sentenceImage.style.display = "none";
+        sentenceFallback.style.display = "grid";
+      });
       $("storybook-image").addEventListener("error", () => {
         $("storybook-image").hidden = true;
         $("storybook-image-fallback").hidden = false;
       });
       $("speak-button").addEventListener("click", speakWord);
+      $("sentence-speak-button").addEventListener("click", () => {
+        const question = state.questions[state.index];
+        speak(question.question, "en-US", () => {
+          sentenceFeedback.textContent = "這個瀏覽器暫時不支援語音播放。";
+          sentenceFeedback.className = "feedback retry";
+        });
+      });
+      $("sentence-submit-button").addEventListener("click", answerSentence);
+      document.querySelectorAll(".quiz-tab").forEach((button) => {
+        button.addEventListener("click", () => {
+          const quizType = button.dataset.quizType;
+          const wrongCount = state.wrongQuestions.filter((item) => item.type === quizType).length;
+          const isDoneToday = state.dailyProgress?.completedTypes?.includes(quizType);
+          if (wrongCount > 0) startRound(quizType, true);
+          else if (!isDoneToday) startRound(quizType);
+          else finishRound("這個題型今天已完成，明天會解鎖下一組 10 題。");
+        });
+      });
       $("storybook-speak-button").addEventListener("click", speakStory);
       $("storybook-button").addEventListener("click", showStorybook);
       $("reset-button").addEventListener("click", resetQuizData);
@@ -978,7 +1290,10 @@
       document.querySelectorAll("[data-answer]").forEach((button) => {
         button.addEventListener("click", () => answerQuestion(button.dataset.answer === "true"));
       });
-      $("restart-button").addEventListener("click", startRound);
+      $("restart-button").addEventListener("click", () => {
+        const wrongCount = state.wrongQuestions.filter((item) => item.type === state.quizType).length;
+        startRound(state.quizType, wrongCount > 0);
+      });
       if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = updateHeaderStats;
       loadQuiz();
     })();

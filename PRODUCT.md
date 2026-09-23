@@ -28,9 +28,10 @@ delegated: static HTML, CSS, and JavaScript with no third-party libraries
 
 ## Capabilities and Constraints
 
-- 題庫使用 `wordJudge` 陣列，每題包含 `word`、`imgPath`、`isMatch`。
+- 題庫使用 `wordJudge` 與 `sentenceQA` 兩個陣列，各 30 題；短句題包含 `question`、`questionZh`、`imgPath` 與 3 個 `choices`。
 - 顯示文字永遠來自當前題目的 `word`，不根據圖片替換。
-- 答錯不跳題；答對後延遲切換下一題。
+- 每種題型每日開放 10 題，按完成天數解鎖下一組，3 天完成 30 題；答錯題會加入共用錯題收集，答對重做後移除。
+- 短句題先播放問題，再點選音頻選項，最後提交答案；答對播放「bingo，Ultraman」，答錯播放「oh sad，try again」。
 - 使用 `localStorage` 保存 `enJudgeRightCount` 與 `enJudgeTotalCount`。
 - 介面手機優先、按鈕適合幼兒觸控、純前端且不引用第三方庫。
 
