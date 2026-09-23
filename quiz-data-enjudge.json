@@ -109,7 +109,7 @@
       "id": "sentence-07",
       "question": "How many apples?",
       "questionZh": "有多少個蘋果？",
-      "imgPath": "asset/enjudge/apple.png",
+      "imgPath": "asset/enjudge/3apples.jpg",
       "fallback": "🍎",
       "choices": [
         { "text": "Three apples.", "isCorrect": true },
@@ -133,10 +133,10 @@
       "id": "sentence-09",
       "question": "Where is the cat?",
       "questionZh": "貓在哪裡？",
-      "imgPath": "asset/enjudge/cat.png",
+      "imgPath": "asset/enjudge/catoncute.png",
       "fallback": "🐱",
       "choices": [
-        { "text": "It is on the chair.", "isCorrect": true },
+        { "text": "It is on the 小可爱.", "isCorrect": true },
         { "text": "It is a cat.", "isCorrect": false },
         { "text": "It is yellow.", "isCorrect": false }
       ]
@@ -193,11 +193,11 @@
       "id": "sentence-14",
       "question": "Do you want some milk?",
       "questionZh": "你想要一些牛奶嗎？",
-      "imgPath": "asset/enjudge/orange.png",
+      "imgPath": "asset/enjudge/nomilk.png",
       "fallback": "🥛",
       "choices": [
-        { "text": "Yes, please.", "isCorrect": true },
-        { "text": "I am milk.", "isCorrect": false },
+        { "text": "No, thank you.", "isCorrect": true },
+        { "text": "Yes, please.", "isCorrect": false },
         { "text": "It is a cup.", "isCorrect": false }
       ]
     },
@@ -208,7 +208,7 @@
       "imgPath": "asset/enjudge/success.png",
       "fallback": "👋",
       "choices": [
-        { "text": "My name is Amy.", "isCorrect": true },
+        { "text": "My name is Aaron.", "isCorrect": true },
         { "text": "I am happy.", "isCorrect": false },
         { "text": "I am at school.", "isCorrect": false }
       ]
@@ -337,7 +337,7 @@
       "id": "sentence-26",
       "question": "What do you drink?",
       "questionZh": "你喝什麼？",
-      "imgPath": "asset/enjudge/orange.png",
+      "imgPath": "asset/enjudge/milk.png",
       "fallback": "🥛",
       "choices": [
         { "text": "I drink milk.", "isCorrect": true },
@@ -349,7 +349,7 @@
       "id": "sentence-27",
       "question": "Where is the dog?",
       "questionZh": "狗在哪裡？",
-      "imgPath": "asset/enjudge/dog.png",
+      "imgPath": "asset/enjudge/dogingarden.png",
       "fallback": "🐶",
       "choices": [
         { "text": "It is in the garden.", "isCorrect": true },
