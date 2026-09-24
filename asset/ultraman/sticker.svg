@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420">
+  <circle cx="210" cy="210" r="182" fill="#fff7d6" stroke="#f4b83f" stroke-width="13"/>
+  <path d="M210 64c-47 0-70 35-67 81l9 102c2 36 22 60 58 60s56-24 58-60l9-102c3-46-20-81-67-81Z" fill="#a6e4ee" stroke="#184b96" stroke-width="9"/>
+  <path d="M210 72 169 112l17 47 24-26 24 26 17-47Z" fill="#f5ffff" stroke="#184b96" stroke-width="8"/>
+  <circle cx="210" cy="186" r="12" fill="#ffd84f" stroke="#184b96" stroke-width="6"/>
+  <path d="M172 226h76M180 260h60" stroke="#184b96" stroke-width="8" stroke-linecap="round"/>
+  <text x="210" y="350" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#184b96">LIGHT HERO</text>
+</svg>

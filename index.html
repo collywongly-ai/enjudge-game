@@ -301,7 +301,7 @@
 
     .quiz-tabs {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 18px;
     }
@@ -591,6 +591,190 @@
     .result-popup.success { border-color: #b9df81; background: #f7ffed; }
     .result-popup.success span:last-child { color: var(--teal-dark); }
 
+    .game-state {
+      min-height: 610px;
+      padding: clamp(4px, 2vw, 18px) 0 0;
+    }
+
+    .game-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      color: #24406e;
+      background: #fff6c9;
+      box-shadow: inset 0 0 0 1px #f3db7c;
+      font-weight: 900;
+    }
+
+    .game-topline strong { color: #9f6412; font-size: 1.2rem; }
+    .game-meter { flex: 1; max-width: 260px; height: 12px; overflow: hidden; border-radius: 999px; background: #f4e7aa; }
+    .game-meter-value { height: 100%; border-radius: inherit; background: #f0a928; transition: transform .5s ease; transform-origin: left center; }
+
+    .game-speech {
+      width: min(100%, 620px);
+      margin: 0 auto 18px;
+      padding: 16px 20px;
+      border: 3px solid #bcdde7;
+      border-radius: 22px;
+      color: #17345f;
+      background: #f5fcff;
+      font-size: clamp(1.25rem, 5vw, 1.9rem);
+      font-weight: 950;
+      text-align: center;
+      box-shadow: 0 7px 0 #d5eaf0;
+    }
+
+    .game-scene {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(10px, 5vw, 34px);
+      min-height: 205px;
+      margin-bottom: 16px;
+      padding: 20px 14px 4px;
+      overflow: hidden;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #e4f7ff 0 67%, #c9edcf 67%);
+      box-shadow: inset 0 -12px 0 rgba(73, 159, 106, .11);
+    }
+
+    .game-scene::before,
+    .game-scene::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      width: 58px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: .72;
+      box-shadow: 26px 7px 0 #fff, 50px -2px 0 #fff;
+    }
+    .game-scene::before { left: 8%; }
+    .game-scene::after { right: 10%; transform: scale(.8); }
+
+    .scene-character { position: relative; z-index: 1; width: clamp(76px, 21vw, 132px); height: clamp(120px, 30vw, 175px); object-fit: contain; transition: transform .35s ease, filter .35s ease; }
+    .scene-character.hero { filter: drop-shadow(0 8px 3px rgba(36, 105, 187, .22)); }
+    .scene-character.monster { filter: drop-shadow(0 8px 3px rgba(59, 40, 108, .2)); }
+    .game-scene.defeated .monster { transform: translateY(18px) rotate(12deg); filter: grayscale(1) opacity(.35); }
+    .game-scene.glow .hero { animation: hero-glow .8s ease; }
+    @keyframes hero-glow { 50% { filter: drop-shadow(0 0 22px #ffe45f) brightness(1.25); transform: translateY(-10px) scale(1.08); } }
+
+    .game-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: min(100%, 680px);
+      margin: 0 auto;
+    }
+
+    .game-choice {
+      min-height: 86px;
+      padding: 12px;
+      border: 3px solid transparent;
+      border-radius: 18px;
+      color: #17345f;
+      background: #fff;
+      box-shadow: 0 5px 0 #d5d0c6;
+      font-weight: 900;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .game-choice:hover { transform: translateY(-2px); }
+    .game-choice:active { transform: translateY(2px); box-shadow: none; }
+    .game-choice.selected { border-color: #efb129; background: #fff8d8; box-shadow: 0 5px 0 #e4c66c; }
+    .game-choice .game-choice-image { width: 74px; height: 66px; object-fit: contain; display: block; margin: 0 auto 4px; }
+    .game-choice .game-choice-text { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: clamp(.9rem, 3.4vw, 1.08rem); line-height: 1.2; }
+    .game-choice .game-choice-speaker { color: #087b75; font-size: 1.15rem; }
+    .game-feedback { min-height: 32px; margin: 16px 0 0; color: #087b75; font-weight: 950; text-align: center; }
+    .game-feedback.retry { color: #b94339; }
+    .game-next { display: block; width: min(100%, 300px); min-height: 54px; margin: 16px auto 0; border-radius: 16px; color: #fff; background: #087b75; box-shadow: 0 5px 0 #05635f; font-weight: 950; }
+    .game-next:disabled { background: #c9cdd3; box-shadow: 0 5px 0 #aeb3bc; }
+    .game-locked { display: grid; place-items: center; min-height: 570px; padding: 28px; border-radius: 26px; text-align: center; background: #fff8e8; }
+    .game-locked img { width: min(46vw, 190px); margin-bottom: 14px; }
+    .game-locked h1 { margin: 0 0 8px; font-size: clamp(2rem, 8vw, 3.2rem); }
+    .game-locked p { margin: 0; color: #61718a; font-weight: 800; }
+
+    .rescue-popup { border-color: #f2c55b; background: #fffced; }
+    .rescue-popup .result-popup-icon { width: 105px; height: 105px; margin: 0 auto 8px; object-fit: contain; display: block; }
+    .rescue-popup.success span:last-child { color: #9f6412; }
+    .rescue-popup.is-error { border-color: #f0a99f; background: #fff2ee; }
+    .rescue-popup.is-error span:last-child { color: #b94339; }
+
+    /* --- 超人拯救小熊：對話氣泡 --- */
+    .game-speech { display: block; }
+    .game-bubble-speaker {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 950;
+      cursor: pointer;
+      transition: transform .16s ease;
+    }
+    .game-bubble-speaker:active { transform: scale(.94); }
+    .game-bubble-en { display: block; font-size: clamp(1.4rem, 6vw, 2.2rem); font-weight: 950; letter-spacing: -.03em; line-height: 1.1; }
+    .game-bubble-zh { display: block; margin-top: 5px; color: var(--muted); font-size: .95rem; font-weight: 800; }
+
+    /* --- 超人拯救小熊：選項 --- */
+    .game-choice { display: flex; align-items: center; justify-content: center; text-align: center; }
+    .game-choice.is-image { flex-direction: column; gap: 6px; min-height: 158px; padding: 14px 8px; }
+    .game-choice.is-image .game-choice-image { width: min(42vw, 118px); height: min(38vw, 108px); margin: 0; }
+    .game-choice.is-image .game-choice-image-tag { font-size: 1rem; color: var(--ink); font-weight: 950; }
+    .game-choice.is-sentence { flex-direction: column; gap: 8px; min-height: 74px; }
+    .game-choice.is-sentence .game-choice-text { display: block; font-size: clamp(1rem, 4vw, 1.28rem); line-height: 1.2; }
+    .game-choice:disabled { opacity: .5; }
+
+    /* --- 超人拯救小熊：小怪搖晃（答錯保留） --- */
+    .game-scene.retry .monster { animation: monster-shake .5s ease; }
+    @keyframes monster-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-10px) rotate(-7deg); }
+      40% { transform: translateX(10px) rotate(7deg); }
+      60% { transform: translateX(-7px); }
+      80% { transform: translateX(7px); }
+    }
+
+    /* --- 超人拯救小熊：過關畫面 --- */
+    .rescue-win { display: grid; place-items: center; min-height: 600px; padding: 24px; text-align: center; }
+    .rescue-win .rescue-hero { width: min(84vw, 380px); display: block; margin: 0 auto 4px; }
+    .rescue-win .rescue-sticker { width: min(38vw, 150px); display: block; margin: 6px auto; animation: sticker-pop .6s cubic-bezier(.2,.85,.25,1); }
+    @keyframes sticker-pop { 0% { transform: scale(.4) rotate(-18deg); opacity: 0; } 60% { transform: scale(1.15) rotate(6deg); opacity: 1; } 100% { transform: scale(1); } }
+    .rescue-win h1 { margin: 8px 0 6px; font-size: clamp(1.8rem, 7vw, 2.8rem); }
+    .rescue-win p { margin: 0 0 10px; color: var(--muted); font-weight: 850; }
+    .game-cta {
+      padding: 0 26px;
+      min-height: 56px;
+      border-radius: 16px;
+      color: #fff;
+      background: var(--coral);
+      box-shadow: 0 5px 0 var(--coral-dark);
+      font-weight: 950;
+    }
+    .game-cta:active { transform: translateY(2px); box-shadow: none; }
+
+    /* --- 超人拯救小熊：角色圖鑑 --- */
+    .game-roster { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: min(100%, 560px); margin: 12px auto 6px; }
+    .game-roster-chip { padding: 7px 12px; border-radius: 999px; background: #eef1f6; color: #7a8291; font-size: .86rem; font-weight: 900; }
+    .game-roster-chip.on { background: #fff3cf; color: #9f6412; }
+    .game-lock-count { margin-top: 6px; color: #9f6412; font-weight: 950; }
+
+    @media (max-width: 560px) {
+      .quiz-tabs { grid-template-columns: 1fr; }
+      .game-topline { flex-wrap: wrap; }
+      .game-meter { order: 3; width: 100%; max-width: none; }
+      .game-choice-grid { gap: 8px; }
+      .game-choice { min-height: 82px; padding: 8px 5px; }
+      .game-choice .game-choice-image { width: 60px; height: 56px; }
+    }
+
     @keyframes result-pop {
       0% { opacity: 0; transform: translate(-50%, -50%) scale(.86); }
       12% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
@@ -661,6 +845,7 @@
         <div class="quiz-tabs" role="tablist" aria-label="選擇練習題型">
           <button class="quiz-tab active" data-quiz-type="wordJudge" type="button">🕵️ 英語偵探題</button>
           <button class="quiz-tab" data-quiz-type="sentenceQA" type="button">💬 日常短句問答</button>
+          <button class="quiz-tab" data-quiz-type="rescueGame" type="button">✨ 超人拯救小熊</button>
         </div>
         <div class="practice-header">
           <span id="progress-label">今日第 1 / 10 題</span>
@@ -699,6 +884,33 @@
           <img id="sentence-feedback-visual" class="feedback-visual" src="asset/enjudge/success.png" alt="" hidden>
           <p id="sentence-feedback" class="feedback" role="status"></p>
         </article>
+      </div>
+
+      <div id="rescue-game-state" class="game-state" hidden>
+        <div id="rescue-game-lock" class="game-locked" hidden>
+          <div>
+            <img src="asset/ultraman/sticker.svg" alt="奧特曼獎勵貼紙">
+            <h1>明天再來拯救小熊</h1>
+            <p>今天的光之碎片已收集完成，休息一下，明天繼續出發！</p>
+          </div>
+        </div>
+        <div id="rescue-game-play">
+          <div class="game-topline">
+            <span>光之碎片</span>
+            <strong id="game-fragment-count">今日 0/10</strong>
+            <div class="game-meter" aria-hidden="true"><div id="game-meter-value" class="game-meter-value"></div></div>
+            <span id="game-round-count">挑戰 0/5</span>
+          </div>
+          <div id="game-speech" class="game-speech">小熊：小怪把我困住了，請幫幫我！</div>
+          <div id="game-scene" class="game-scene">
+            <img class="scene-character hero" src="asset/ultraman/hero.svg" alt="奧特曼">
+            <img class="scene-character bear" src="asset/ultraman/bub.svg" alt="小熊">
+            <img class="scene-character monster" src="asset/ultraman/monster.svg" alt="小怪">
+          </div>
+          <div id="game-choice-grid" class="game-choice-grid" aria-label="回答選擇"></div>
+          <p id="game-feedback" class="game-feedback" role="status"></p>
+          <button id="game-next-button" class="game-next" type="button" disabled>選好啦，出發！</button>
+        </div>
       </div>
 
       <div id="summary-state" class="summary" hidden>
@@ -749,6 +961,11 @@
     <strong id="success-popup-title">答對了！</strong>
     <span id="success-popup-message">小可愛話你叻仔！</span>
   </div>
+  <div id="rescue-popup" class="result-popup success rescue-popup" role="status" aria-live="assertive" aria-hidden="true">
+    <img id="rescue-popup-image" class="result-popup-icon" src="asset/ultraman/hero.svg" alt="奧特曼">
+    <strong id="rescue-popup-title">太棒啦，相信光，沖啊</strong>
+    <span id="rescue-popup-message">光之碎片 +1</span>
+  </div>
 
   <script>
     (() => {
@@ -762,12 +979,47 @@
       const DAILY_LIMIT = 10;
       const STORYBOOK_KEY = "storybookUnlocked";
       const RESET_PASSWORD = "1234";
+      const GAME_PROGRESS_KEY = "ultramanRescueProgress";
+      const GAME_DAILY_LIMIT = 5;
+      const GAME_FRAGMENT_TARGET = 10;
       const storyBookPages = [
         { img: "asset/storybook/page1.png", text: "今天小可爱要去森林里发现有趣的事情。" },
         { img: "asset/storybook/page2.png", text: "它看见一只绿色的青蛙，轻轻地跳上荷叶。" },
         { img: "asset/storybook/page3.png", text: "小兔子来了，它们分享甜甜的草莓。" },
         { img: "asset/storybook/page4.png", text: "小可爱拿出铅笔，把看到的东西画下来。" },
         { img: "asset/storybook/page5.png", text: "把发现画进本子，小可爱快乐地回家了。" }
+      ];
+      const rescueQuestions = [
+        { id: "rescue-01", kind: "sentence", prompt: "What colour is the banana?", promptZh: "小熊：香蕉是什麼顏色？", choices: [{ text: "It is yellow.", correct: true }, { text: "It is blue.", correct: false }, { text: "It is green.", correct: false }] },
+        { id: "rescue-02", kind: "image", prompt: "Touch your nose.", promptZh: "超人：Touch your nose!", choices: [{ text: "Nose", img: "asset/enjudge/cat.png", correct: false }, { text: "Nose", img: "asset/enjudge/success.png", correct: true }, { text: "Nose", img: "asset/enjudge/book.png", correct: false }] },
+        { id: "rescue-03", kind: "sentence", prompt: "What do you like?", promptZh: "小熊：你喜歡什麼？", choices: [{ text: "I like apples.", correct: true }, { text: "I like milk.", correct: false }, { text: "I like dogs.", correct: false }] },
+        { id: "rescue-04", kind: "image", prompt: "Show me red.", promptZh: "超人：Show me red!", choices: [{ text: "Red", img: "asset/enjudge/strawberry.png", correct: true }, { text: "Red", img: "asset/enjudge/banana.png", correct: false }, { text: "Red", img: "asset/enjudge/frog.png", correct: false }] },
+        { id: "rescue-05", kind: "sentence", prompt: "What animal do you see?", promptZh: "小熊：你看到什麼動物？", choices: [{ text: "I see a cat.", correct: true }, { text: "I see a book.", correct: false }, { text: "I see a pear.", correct: false }] },
+        { id: "rescue-06", kind: "image", prompt: "Show me yellow.", promptZh: "超人：Show me yellow!", choices: [{ text: "Yellow", img: "asset/enjudge/banana.png", correct: true }, { text: "Yellow", img: "asset/enjudge/orange.png", correct: false }, { text: "Yellow", img: "asset/enjudge/apple.png", correct: false }] },
+        { id: "rescue-07", kind: "sentence", prompt: "What is this?", promptZh: "小熊：這是什麼？", choices: [{ text: "It is a book.", correct: true }, { text: "It is a frog.", correct: false }, { text: "It is a dog.", correct: false }] },
+        { id: "rescue-08", kind: "image", prompt: "Touch the apple.", promptZh: "超人：Touch the apple!", choices: [{ text: "Apple", img: "asset/enjudge/apple.png", correct: true }, { text: "Apple", img: "asset/enjudge/pear.png", correct: false }, { text: "Apple", img: "asset/enjudge/pineapple.png", correct: false }] },
+        { id: "rescue-09", kind: "sentence", prompt: "Do you like cats?", promptZh: "小熊：你喜歡貓嗎？", choices: [{ text: "Yes, I do.", correct: true }, { text: "Yes, I am.", correct: false }, { text: "No, I can't.", correct: false }] },
+        { id: "rescue-10", kind: "image", prompt: "Show me the book.", promptZh: "超人：Show me the book!", choices: [{ text: "Book", img: "asset/enjudge/book.png", correct: true }, { text: "Book", img: "asset/enjudge/pencil.png", correct: false }, { text: "Book", img: "asset/enjudge/schoolbag.png", correct: false }] },
+        { id: "rescue-11", kind: "sentence", prompt: "How are you?", promptZh: "小熊：你好嗎？", choices: [{ text: "I am fine, thank you.", correct: true }, { text: "I am five years old.", correct: false }, { text: "I am at school.", correct: false }] },
+        { id: "rescue-12", kind: "image", prompt: "Touch the frog.", promptZh: "超人：Touch the frog!", choices: [{ text: "Frog", img: "asset/enjudge/frog.png", correct: true }, { text: "Frog", img: "asset/enjudge/rabbit.png", correct: false }, { text: "Frog", img: "asset/enjudge/cat.png", correct: false }] },
+        { id: "rescue-13", kind: "sentence", prompt: "What do you drink?", promptZh: "小熊：你喝什麼？", choices: [{ text: "I drink milk.", correct: true }, { text: "I eat milk.", correct: false }, { text: "I drink apples.", correct: false }] },
+        { id: "rescue-14", kind: "image", prompt: "Show me the dog.", promptZh: "超人：Show me the dog!", choices: [{ text: "Dog", img: "asset/enjudge/dog.png", correct: true }, { text: "Dog", img: "asset/enjudge/rabbit.png", correct: false }, { text: "Dog", img: "asset/enjudge/bird.png", correct: false }] },
+        { id: "rescue-15", kind: "sentence", prompt: "How old are you?", promptZh: "小熊：你幾歲？", choices: [{ text: "I am five years old.", correct: true }, { text: "I like five apples.", correct: false }, { text: "I am at home.", correct: false }] },
+        { id: "rescue-16", kind: "image", prompt: "Touch the pencil.", promptZh: "超人：Touch the pencil!", choices: [{ text: "Pencil", img: "asset/enjudge/pencil.png", correct: true }, { text: "Pencil", img: "asset/enjudge/eraser.png", correct: false }, { text: "Pencil", img: "asset/enjudge/scissors.png", correct: false }] },
+        { id: "rescue-17", kind: "sentence", prompt: "Where are you?", promptZh: "小熊：你在哪裡？", choices: [{ text: "I am at school.", correct: true }, { text: "I am happy.", correct: false }, { text: "I like school.", correct: false }] },
+        { id: "rescue-18", kind: "image", prompt: "Show me green.", promptZh: "超人：Show me green!", choices: [{ text: "Green", img: "asset/enjudge/frog.png", correct: true }, { text: "Green", img: "asset/enjudge/strawberry.png", correct: false }, { text: "Green", img: "asset/enjudge/orange.png", correct: false }] },
+        { id: "rescue-19", kind: "sentence", prompt: "What can you do?", promptZh: "小熊：你會做什麼？", choices: [{ text: "I can jump.", correct: true }, { text: "I am jump.", correct: false }, { text: "I like jump.", correct: false }] },
+        { id: "rescue-20", kind: "image", prompt: "Touch the rabbit.", promptZh: "超人：Touch the rabbit!", choices: [{ text: "Rabbit", img: "asset/enjudge/rabbit.png", correct: true }, { text: "Rabbit", img: "asset/enjudge/cat.png", correct: false }, { text: "Rabbit", img: "asset/enjudge/dog.png", correct: false }] },
+        { id: "rescue-21", kind: "sentence", prompt: "What do you see?", promptZh: "小熊：你看到了什麼？", choices: [{ text: "I see a bird.", correct: true }, { text: "I hear a bird.", correct: false }, { text: "I like a bird.", correct: false }] },
+        { id: "rescue-22", kind: "image", prompt: "Show me the pear.", promptZh: "超人：Show me the pear!", choices: [{ text: "Pear", img: "asset/enjudge/pear.png", correct: true }, { text: "Pear", img: "asset/enjudge/apple.png", correct: false }, { text: "Pear", img: "asset/enjudge/orange.png", correct: false }] },
+        { id: "rescue-23", kind: "sentence", prompt: "Do you want to play?", promptZh: "小熊：你想玩嗎？", choices: [{ text: "Yes, please.", correct: true }, { text: "Yes, I am.", correct: false }, { text: "I play a ball.", correct: false }] },
+        { id: "rescue-24", kind: "image", prompt: "Touch the schoolbag.", promptZh: "超人：Touch the schoolbag!", choices: [{ text: "Schoolbag", img: "asset/enjudge/schoolbag.png", correct: true }, { text: "Schoolbag", img: "asset/enjudge/book.png", correct: false }, { text: "Schoolbag", img: "asset/enjudge/pencil.png", correct: false }] },
+        { id: "rescue-25", kind: "sentence", prompt: "How is the weather?", promptZh: "小熊：天氣怎樣？", choices: [{ text: "It is sunny.", correct: true }, { text: "It is Sunday.", correct: false }, { text: "I like the sun.", correct: false }] },
+        { id: "rescue-26", kind: "image", prompt: "Show me the strawberry.", promptZh: "超人：Show me the strawberry!", choices: [{ text: "Strawberry", img: "asset/enjudge/strawberry.png", correct: true }, { text: "Strawberry", img: "asset/enjudge/cherry.png", correct: false }, { text: "Strawberry", img: "asset/enjudge/apple.png", correct: false }] },
+        { id: "rescue-27", kind: "sentence", prompt: "What do you have?", promptZh: "小熊：你有什麼？", choices: [{ text: "I have an eraser.", correct: true }, { text: "I am an eraser.", correct: false }, { text: "I like eraser.", correct: false }] },
+        { id: "rescue-28", kind: "image", prompt: "Touch the bird.", promptZh: "超人：Touch the bird!", choices: [{ text: "Bird", img: "asset/enjudge/bird.png", correct: true }, { text: "Bird", img: "asset/enjudge/dog.png", correct: false }, { text: "Bird", img: "asset/enjudge/frog.png", correct: false }] },
+        { id: "rescue-29", kind: "sentence", prompt: "Do you like drawing?", promptZh: "小熊：你喜歡畫畫嗎？", choices: [{ text: "Yes, I do.", correct: true }, { text: "Yes, I am.", correct: false }, { text: "I draw a pencil.", correct: false }] },
+        { id: "rescue-30", kind: "image", prompt: "Show me the pineapple.", promptZh: "超人：Show me the pineapple!", choices: [{ text: "Pineapple", img: "asset/enjudge/pineapple.png", correct: true }, { text: "Pineapple", img: "asset/enjudge/pear.png", correct: false }, { text: "Pineapple", img: "asset/enjudge/banana.png", correct: false }] }
       ];
 
       const state = {
