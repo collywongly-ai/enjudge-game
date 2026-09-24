@@ -596,6 +596,8 @@
       padding: clamp(4px, 2vw, 18px) 0 0;
     }
 
+    .game-topbar { display: flex; justify-content: flex-start; margin-bottom: 12px; }
+
     .game-topline {
       display: flex;
       align-items: center;
@@ -887,6 +889,9 @@
       </div>
 
       <div id="rescue-game-state" class="game-state" hidden>
+        <div class="game-topbar">
+          <button id="rescue-back-button" class="back-button" type="button">← 返回練習</button>
+        </div>
         <div id="rescue-game-lock" class="game-locked" hidden>
           <div>
             <img src="asset/ultraman/sticker.svg" alt="奧特曼獎勵貼紙">
@@ -910,6 +915,17 @@
           <div id="game-choice-grid" class="game-choice-grid" aria-label="回答選擇"></div>
           <p id="game-feedback" class="game-feedback" role="status"></p>
           <button id="game-next-button" class="game-next" type="button" disabled>選好啦，出發！</button>
+        </div>
+        <div id="rescue-game-win" class="rescue-win" hidden>
+          <div>
+            <img class="rescue-hero" src="asset/ultraman/hero.svg" alt="奧特曼">
+            <img class="rescue-sticker" src="asset/ultraman/sticker.svg" alt="拯救成功貼紙">
+            <h1 id="rescue-win-title">拯救成功！</h1>
+            <p id="rescue-win-message">又救回一隻小熊！</p>
+            <div id="rescue-roster" class="game-roster" aria-label="貼紙收集進度"></div>
+            <p id="rescue-lock-count" class="game-lock-count"></p>
+            <button id="rescue-continue-button" class="game-cta" type="button">繼續出發！</button>
+          </div>
         </div>
       </div>
 
@@ -991,7 +1007,7 @@
       ];
       const rescueQuestions = [
         { id: "rescue-01", kind: "sentence", prompt: "What colour is the banana?", promptZh: "小熊：香蕉是什麼顏色？", choices: [{ text: "It is yellow.", correct: true }, { text: "It is blue.", correct: false }, { text: "It is green.", correct: false }] },
-        { id: "rescue-02", kind: "image", prompt: "Touch your nose.", promptZh: "超人：Touch your nose!", choices: [{ text: "Nose", img: "asset/enjudge/cat.png", correct: false }, { text: "Nose", img: "asset/enjudge/success.png", correct: true }, { text: "Nose", img: "asset/enjudge/book.png", correct: false }] },
+        { id: "rescue-02", kind: "image", prompt: "Show me the cherry.", promptZh: "超人：Show me the cherry!", choices: [{ text: "Cherry", img: "asset/enjudge/cherry.png", correct: true }, { text: "Cherry", img: "asset/enjudge/strawberry.png", correct: false }, { text: "Cherry", img: "asset/enjudge/apple.png", correct: false }] },
         { id: "rescue-03", kind: "sentence", prompt: "What do you like?", promptZh: "小熊：你喜歡什麼？", choices: [{ text: "I like apples.", correct: true }, { text: "I like milk.", correct: false }, { text: "I like dogs.", correct: false }] },
         { id: "rescue-04", kind: "image", prompt: "Show me red.", promptZh: "超人：Show me red!", choices: [{ text: "Red", img: "asset/enjudge/strawberry.png", correct: true }, { text: "Red", img: "asset/enjudge/banana.png", correct: false }, { text: "Red", img: "asset/enjudge/frog.png", correct: false }] },
         { id: "rescue-05", kind: "sentence", prompt: "What animal do you see?", promptZh: "小熊：你看到什麼動物？", choices: [{ text: "I see a cat.", correct: true }, { text: "I see a book.", correct: false }, { text: "I see a pear.", correct: false }] },
@@ -1035,7 +1051,8 @@
         storyPage: 0,
         locked: false,
         nextTimer: null,
-        activeView: "quiz"
+        activeView: "quiz",
+        returnView: "quiz"
       };
 
       const $ = (id) => document.getElementById(id);
@@ -1044,6 +1061,7 @@
       const quizState = $("quiz-state");
       const summaryState = $("summary-state");
       const storybookState = $("storybook-state");
+      const rescueGameState = $("rescue-game-state");
       const image = $("quiz-image");
       const fallback = $("image-fallback");
       const word = $("word");
@@ -1053,6 +1071,9 @@
       const sentenceFeedback = $("sentence-feedback");
       let resultPopupTimer;
       let successPopupTimer;
+      let rescuePopupTimer;
+      const RESCUE_TOTAL = Math.max(1, Math.round(rescueQuestions.length / GAME_FRAGMENT_TARGET));
+      const rescue = { progress: null, current: null, selected: null, locked: false, timer: null };
 
       const getStoredNumber = (key) => {
         const value = Number.parseInt(localStorage.getItem(key) || "0", 10);
@@ -1099,7 +1120,7 @@
       };
 
       const showScreen = (screen) => {
-        [loadingState, errorState, quizState, summaryState, storybookState].forEach((element) => {
+        [loadingState, errorState, quizState, summaryState, storybookState, rescueGameState].forEach((element) => {
           element.hidden = element !== screen;
         });
       };
@@ -1382,7 +1403,10 @@
 
       const startRound = (quizType = state.quizType, review = false) => {
         window.clearTimeout(state.nextTimer);
+        window.clearTimeout(rescue.timer);
         window.speechSynthesis?.cancel();
+        state.activeView = "quiz";
+        state.returnView = "quiz";
         state.quizType = quizType;
         state.isReview = review;
         const day = Math.min(2, state.dailyProgress?.completedDays?.[quizType] || 0);
@@ -1411,7 +1435,9 @@
         localStorage.removeItem(PROGRESS_KEY);
         localStorage.removeItem(WRONG_KEY);
         localStorage.removeItem(STORYBOOK_KEY);
+        localStorage.removeItem(GAME_PROGRESS_KEY);
         window.speechSynthesis?.cancel();
+        window.clearTimeout(rescue.timer);
         updateHeaderStats();
         if (state.questionPools.wordJudge.length > 0) {
           updateHeaderStats();
@@ -1419,6 +1445,227 @@
         } else {
           window.location.reload();
         }
+      };
+
+      /* ---------- 超人拯救小熊 ---------- */
+      const getRescueProgress = () => {
+        const base = { date: todayKey(), dayChallenges: 0, fragments: 0, stickers: 0, completedDays: 0, completedQuestionIds: [] };
+        const stored = readJson(GAME_PROGRESS_KEY, null);
+        if (!stored) return base;
+        const value = { ...base, ...stored };
+        if (value.date !== todayKey()) {
+          value.date = todayKey();
+          value.dayChallenges = 0;
+        }
+        value.dayChallenges = Number(value.dayChallenges) || 0;
+        value.fragments = Number(value.fragments) || 0;
+        value.stickers = Number(value.stickers) || 0;
+        value.completedDays = Number(value.completedDays) || 0;
+        value.completedQuestionIds = Array.isArray(value.completedQuestionIds) ? value.completedQuestionIds : [];
+        return value;
+      };
+
+      const saveRescueProgress = () => saveJson(GAME_PROGRESS_KEY, rescue.progress);
+
+      const nextRescueQuestion = () => {
+        const start = rescue.progress.completedDays * GAME_DAILY_LIMIT;
+        return rescueQuestions.slice(start).find((question) => !rescue.progress.completedQuestionIds.includes(question.id)) || null;
+      };
+
+      const updateRescueHud = () => {
+        $("game-fragment-count").textContent = `今日 ${rescue.progress.fragments}/${GAME_FRAGMENT_TARGET}`;
+        $("game-meter-value").style.transform = `scaleX(${rescue.progress.fragments / GAME_FRAGMENT_TARGET})`;
+        $("game-round-count").textContent = `挑戰 ${rescue.progress.dayChallenges}/${GAME_DAILY_LIMIT}`;
+      };
+
+      const renderRescueRoster = () => {
+        const roster = $("rescue-roster");
+        roster.replaceChildren();
+        for (let i = 1; i <= RESCUE_TOTAL; i += 1) {
+          const chip = document.createElement("span");
+          chip.className = i <= rescue.progress.stickers ? "game-roster-chip on" : "game-roster-chip";
+          chip.textContent = i <= rescue.progress.stickers ? `✨ 貼紙 ${i}` : `🔒 貼紙 ${i}`;
+          roster.appendChild(chip);
+        }
+        $("rescue-lock-count").textContent = `已收集 ${rescue.progress.stickers} / ${RESCUE_TOTAL} 張拯救貼紙`;
+      };
+
+      const showRescueView = (view) => {
+        $("rescue-game-lock").hidden = view !== "lock";
+        $("rescue-game-play").hidden = view !== "play";
+        $("rescue-game-win").hidden = view !== "win";
+      };
+
+      const showRescuePopup = (isError) => {
+        window.clearTimeout(rescuePopupTimer);
+        const popup = $("rescue-popup");
+        $("rescue-popup-image").src = isError ? "asset/ultraman/bub.svg" : "asset/ultraman/hero.svg";
+        $("rescue-popup-title").textContent = isError ? "再試一試" : "太棒啦，相信光，沖啊";
+        $("rescue-popup-message").textContent = isError ? "聽清楚，再選一次！" : "光之碎片 +1";
+        popup.classList.toggle("success", !isError);
+        popup.classList.toggle("is-error", isError);
+        popup.classList.remove("is-visible");
+        void popup.offsetWidth;
+        popup.classList.add("is-visible");
+        popup.setAttribute("aria-hidden", "false");
+        rescuePopupTimer = window.setTimeout(() => {
+          popup.classList.remove("is-visible");
+          popup.setAttribute("aria-hidden", "true");
+        }, isError ? 1100 : 1800);
+      };
+
+      const renderRescueQuestion = () => {
+        const question = rescue.current;
+        rescue.locked = false;
+        rescue.selected = null;
+        const bubble = $("game-speech");
+        bubble.replaceChildren();
+        const speaker = document.createElement("span");
+        speaker.className = "game-bubble-speaker";
+        speaker.textContent = question.promptZh.includes("超人") ? "超人" : "小熊";
+        speaker.addEventListener("click", () => speak(question.prompt, "en-US", () => {}));
+        const english = document.createElement("span");
+        english.className = "game-bubble-en";
+        english.textContent = question.prompt;
+        const chinese = document.createElement("span");
+        chinese.className = "game-bubble-zh";
+        chinese.textContent = question.promptZh.replace(/^[^:：]+[：:]\s*/, "");
+        bubble.append(speaker, english, chinese);
+        const scene = $("game-scene");
+        scene.classList.remove("defeated", "glow", "retry");
+        const grid = $("game-choice-grid");
+        grid.replaceChildren();
+        shuffle(question.choices).forEach((choice) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = question.kind === "image" ? "game-choice is-image" : "game-choice is-sentence";
+          button.innerHTML = question.kind === "image"
+            ? `<img class="game-choice-image" src="${choice.img}" alt="${choice.text}"><span class="game-choice-image-tag">${choice.text}</span>`
+            : `<span class="game-choice-text">${choice.text} <span class="game-choice-speaker" aria-hidden="true">🔊</span></span>`;
+          button.addEventListener("click", () => {
+            if (rescue.locked) return;
+            rescue.selected = choice;
+            grid.querySelectorAll(".game-choice").forEach((item) => item.classList.remove("selected"));
+            button.classList.add("selected");
+            $("game-next-button").disabled = false;
+            speak(choice.text, "en-US", () => {});
+          });
+          grid.appendChild(button);
+        });
+        $("game-next-button").disabled = true;
+        $("game-feedback").textContent = "";
+        $("game-feedback").className = "game-feedback";
+        updateRescueHud();
+        showRescueView("play");
+        speak(question.prompt, "en-US", () => {});
+      };
+
+      const showRescueWin = (final) => {
+        window.clearTimeout(rescue.timer);
+        rescue.locked = true;
+        renderRescueRoster();
+        $("rescue-win-title").textContent = final ? "全部拯救成功！" : "拯救成功！";
+        $("rescue-win-message").textContent = final
+          ? `${RESCUE_TOTAL} 隻小熊都安全了，你是真正的光之英雄！`
+          : `又救回一隻小熊！這是第 ${rescue.progress.stickers} 張拯救貼紙。`;
+        $("rescue-continue-button").textContent = final ? "🔄 再玩一次" : "繼續出發！";
+        $("rescue-continue-button").dataset.final = final ? "1" : "0";
+        showRescueView("win");
+      };
+
+      const enterRescueGame = () => {
+        window.clearTimeout(rescue.timer);
+        window.speechSynthesis?.cancel();
+        state.activeView = "rescue";
+        rescue.progress = getRescueProgress();
+        rescue.locked = false;
+        showScreen(rescueGameState);
+        if (rescue.progress.stickers >= RESCUE_TOTAL) {
+          showRescueWin(true);
+          return;
+        }
+        if (rescue.progress.fragments >= GAME_FRAGMENT_TARGET) {
+          rescue.progress.fragments = 0;
+          rescue.progress.stickers += 1;
+          saveRescueProgress();
+          showRescueWin(rescue.progress.stickers >= RESCUE_TOTAL);
+          return;
+        }
+        const next = rescue.progress.dayChallenges >= GAME_DAILY_LIMIT ? null : nextRescueQuestion();
+        if (!next) {
+          updateRescueHud();
+          showRescueView("lock");
+          return;
+        }
+        rescue.current = next;
+        renderRescueQuestion();
+      };
+
+      const exitRescueGame = () => {
+        window.clearTimeout(rescue.timer);
+        window.speechSynthesis?.cancel();
+        rescue.locked = false;
+        state.activeView = "quiz";
+        state.returnView = "quiz";
+        showQuiz();
+      };
+
+      const onRescueCorrect = () => {
+        const progress = rescue.progress;
+        const question = rescue.current;
+        rescue.locked = true;
+        progress.dayChallenges += 1;
+        progress.fragments += 1;
+        if (!progress.completedQuestionIds.includes(question.id)) progress.completedQuestionIds.push(question.id);
+        const groupStart = progress.completedDays * GAME_DAILY_LIMIT;
+        const group = rescueQuestions.slice(groupStart, groupStart + GAME_DAILY_LIMIT);
+        if (group.every((item) => progress.completedQuestionIds.includes(item.id))) progress.completedDays += 1;
+        saveRescueProgress();
+        $("game-scene").classList.add("glow");
+        $("game-feedback").textContent = "答對了！光之碎片 +1";
+        $("game-feedback").className = "game-feedback";
+        $("game-next-button").disabled = true;
+        $("game-choice-grid").querySelectorAll(".game-choice").forEach((item) => { item.disabled = true; });
+        updateRescueHud();
+        celebrate();
+        showRescuePopup(false);
+        speak("bingo, Ultraman!", "en-US", () => {});
+        rescue.timer = window.setTimeout(() => {
+          if (state.activeView !== "rescue") return;
+          if (progress.fragments >= GAME_FRAGMENT_TARGET) {
+            progress.fragments = 0;
+            progress.stickers += 1;
+            saveRescueProgress();
+            showRescueWin(progress.stickers >= RESCUE_TOTAL);
+          } else if (progress.dayChallenges >= GAME_DAILY_LIMIT) {
+            updateRescueHud();
+            showRescueView("lock");
+          } else {
+            const next = nextRescueQuestion();
+            if (next) {
+              rescue.current = next;
+              renderRescueQuestion();
+            } else {
+              updateRescueHud();
+              showRescueView("lock");
+            }
+          }
+        }, 1800);
+      };
+
+      const onRescueWrong = () => {
+        const scene = $("game-scene");
+        scene.classList.remove("retry");
+        void scene.offsetWidth;
+        scene.classList.add("retry");
+        window.setTimeout(() => scene.classList.remove("retry"), 600);
+        $("game-feedback").textContent = "再試一試！聽清楚再選一次。";
+        $("game-feedback").className = "game-feedback retry";
+        rescue.selected = null;
+        $("game-next-button").disabled = true;
+        $("game-choice-grid").querySelectorAll(".game-choice").forEach((item) => item.classList.remove("selected"));
+        showRescuePopup(true);
+        speak("oh sad, try again.", "en-US", () => {});
       };
 
       const renderStoryPage = () => {
@@ -1441,6 +1688,8 @@
           return;
         }
         window.speechSynthesis?.cancel();
+        window.clearTimeout(rescue.timer);
+        state.returnView = state.activeView;
         state.activeView = "storybook";
         state.storyPage = 0;
         renderStoryPage();
@@ -1449,7 +1698,12 @@
 
       const showQuiz = () => {
         window.speechSynthesis?.cancel();
-        state.activeView = "quiz";
+        const view = state.returnView || "quiz";
+        state.activeView = view;
+        if (view === "rescue") {
+          enterRescueGame();
+          return;
+        }
         if (state.questions.length > 0 && state.index < state.questions.length) showScreen(quizState);
         else showScreen(summaryState);
       };
@@ -1514,6 +1768,10 @@
       document.querySelectorAll(".quiz-tab").forEach((button) => {
         button.addEventListener("click", () => {
           const quizType = button.dataset.quizType;
+          if (quizType === "rescueGame") {
+            enterRescueGame();
+            return;
+          }
           const wrongCount = state.wrongQuestions.filter((item) => item.type === quizType).length;
           const isDoneToday = state.dailyProgress?.completedTypes?.includes(quizType);
           if (wrongCount > 0) startRound(quizType, true);
@@ -1541,6 +1799,33 @@
       });
       document.querySelectorAll("[data-answer]").forEach((button) => {
         button.addEventListener("click", () => answerQuestion(button.dataset.answer === "true"));
+      });
+      $("game-next-button").addEventListener("click", () => {
+        if (rescue.locked || !rescue.selected) return;
+        if (rescue.selected.correct) onRescueCorrect();
+        else onRescueWrong();
+      });
+      $("rescue-back-button").addEventListener("click", exitRescueGame);
+      $("rescue-continue-button").addEventListener("click", () => {
+        if ($("rescue-continue-button").dataset.final === "1") {
+          localStorage.removeItem(GAME_PROGRESS_KEY);
+          rescue.progress = getRescueProgress();
+          saveRescueProgress();
+          const next = nextRescueQuestion();
+          if (next) {
+            rescue.current = next;
+            renderRescueQuestion();
+            return;
+          }
+        }
+        const next = rescue.progress.dayChallenges >= GAME_DAILY_LIMIT ? null : nextRescueQuestion();
+        if (next) {
+          rescue.current = next;
+          renderRescueQuestion();
+          return;
+        }
+        updateRescueHud();
+        showRescueView("lock");
       });
       $("restart-button").addEventListener("click", () => {
         const wrongCount = state.wrongQuestions.filter((item) => item.type === state.quizType).length;
