@@ -395,7 +395,7 @@
     }
   ],
   "Eng-PicWord": [
-    { "id": "picword-01", "imgPath": "asset/picword/apple.svg", "fallback": "🍎", "answer": "apple", "choices": [{ "text": "apple", "isCorrect": true }, { "text": "banana", "isCorrect": false }, { "text": "cherry", "isCorrect": false }] },
+    { "id": "picword-01", "imgPath": "asset/picword/mooncake.jpg", "fallback": "🍎", "answer": "mooncake", "choices": [{ "text": "mooncake", "isCorrect": true }, { "text": "banana", "isCorrect": false }, { "text": "cherry", "isCorrect": false }] },
     { "id": "picword-02", "imgPath": "asset/picword/banana.svg", "fallback": "🍌", "answer": "banana", "choices": [{ "text": "grape", "isCorrect": false }, { "text": "banana", "isCorrect": true }, { "text": "lemon", "isCorrect": false }] },
     { "id": "picword-03", "imgPath": "asset/picword/orange.svg", "fallback": "🍊", "answer": "orange", "choices": [{ "text": "orange", "isCorrect": true }, { "text": "apple", "isCorrect": false }, { "text": "pear", "isCorrect": false }] },
     { "id": "picword-04", "imgPath": "asset/picword/strawberry.svg", "fallback": "🍓", "answer": "strawberry", "choices": [{ "text": "pineapple", "isCorrect": false }, { "text": "cherry", "isCorrect": false }, { "text": "strawberry", "isCorrect": true }] },
