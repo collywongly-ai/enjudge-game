@@ -828,9 +828,45 @@
     .picword-words {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
       width: min(100%, 620px);
       margin: 18px auto 0;
+    }
+
+    .picword-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .picword-speaker-btn {
+      min-width: 52px;
+      height: 44px;
+      border: 2px solid #b8ddf2;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #e8f6ff 100%);
+      color: #1f6f9c;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease, background .14s ease;
+    }
+    .picword-speaker-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 0 #a0cdea;
+    }
+    .picword-speaker-btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+    .picword-speaker-btn.is-speaking {
+      border-color: #efb129;
+      background: linear-gradient(180deg, #fff8d8 0%, #ffeab3 100%);
+      animation: picword-pulse .7s ease infinite alternate;
+    }
+    .picword-speaker-btn:disabled {
+      opacity: .4;
+      cursor: default;
     }
 
     .picword-word {
@@ -862,7 +898,6 @@
     .picword-word.is-right { color: #fff; background: var(--teal); border-color: var(--teal-dark); box-shadow: 0 5px 0 var(--teal-dark); }
     .picword-word.is-wrong { color: #fff; background: var(--coral); border-color: var(--coral-dark); box-shadow: 0 5px 0 var(--coral-dark); animation: monster-shake .5s ease; }
     .picword-word:disabled { opacity: .55; }
-    .picword-word .picword-word-speaker { margin-left: 6px; font-size: .9em; opacity: .8; }
 
     .picword-feedback { min-height: 30px; margin: 16px 0 0; color: var(--teal-dark); font-weight: 950; text-align: center; }
     .picword-feedback.retry { color: var(--coral-dark); }
@@ -2009,22 +2044,44 @@
         const grid = $("picword-words");
         grid.replaceChildren();
         shuffle(question.choices).forEach((choice) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "picword-word";
-          button.innerHTML = `<span>${choice.text}</span><span class="picword-word-speaker" aria-hidden="true">🔊</span>`;
-          button.addEventListener("click", () => {
+          /* --- wrapper for stacked layout --- */
+          const wrapper = document.createElement("div");
+          wrapper.className = "picword-choice";
+
+          /* --- 🔊 speaker button (listen-only, never selects) --- */
+          const speakBtn = document.createElement("button");
+          speakBtn.type = "button";
+          speakBtn.className = "picword-speaker-btn";
+          speakBtn.setAttribute("aria-label", `聽 ${choice.text}`);
+          speakBtn.textContent = "🔊";
+          speakBtn.addEventListener("click", () => {
+            if (picword.locked) return;
+            speakBtn.classList.add("is-speaking");
+            speakWithEnd(choice.text, "en-US", () => {
+              speakBtn.classList.remove("is-speaking");
+            });
+          });
+          wrapper.appendChild(speakBtn);
+
+          /* --- word selection button --- */
+          const wordBtn = document.createElement("button");
+          wordBtn.type = "button";
+          wordBtn.className = "picword-word";
+          wordBtn.textContent = choice.text;
+          wordBtn.addEventListener("click", () => {
             if (picword.locked) return;
             picword.locked = true;
             grid.querySelectorAll(".picword-word").forEach((item) => { item.disabled = true; });
-            button.classList.add("is-speaking");
+            wordBtn.classList.add("is-speaking");
             speakWithEnd(choice.text, "en-US", () => {
-              button.classList.remove("is-speaking");
-              if (choice.isCorrect) onPicwordCorrect(button, question);
-              else onPicwordWrong(button, question);
+              wordBtn.classList.remove("is-speaking");
+              if (choice.isCorrect) onPicwordCorrect(wordBtn, question);
+              else onPicwordWrong(wordBtn, question);
             });
           });
-          grid.appendChild(button);
+          wrapper.appendChild(wordBtn);
+
+          grid.appendChild(wrapper);
         });
         updatePicwordHud();
         showPicwordView("play");
