@@ -301,7 +301,7 @@
 
     .quiz-tabs {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
       gap: 10px;
       margin-bottom: 18px;
     }
@@ -768,7 +768,140 @@
     .game-roster-chip.on { background: #fff3cf; color: #9f6412; }
     .game-lock-count { margin-top: 6px; color: #9f6412; font-weight: 950; }
 
+    /* --- Eng-PicWord 圖片選單詞 --- */
+    .picword-topbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+
+    .picword-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      color: #24406e;
+      background: #e8f6ff;
+      box-shadow: inset 0 0 0 1px #b8ddf2;
+      font-weight: 900;
+    }
+    .picword-topline strong { color: #1f6f9c; font-size: 1.1rem; }
+    .picword-meter { flex: 1; max-width: 260px; height: 12px; overflow: hidden; border-radius: 999px; background: #d3eaf7; }
+    .picword-meter-value { height: 100%; border-radius: inherit; background: #27a99b; transition: transform .5s ease; transform-origin: left center; }
+
+    .picword-hint {
+      width: min(100%, 620px);
+      margin: 0 auto 16px;
+      padding: 12px 18px;
+      border-radius: 16px;
+      color: var(--teal-dark);
+      background: #e7f7f2;
+      font-size: .95rem;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .picword-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(92vw, 420px);
+      aspect-ratio: 1;
+      margin: 0 auto 10px;
+      padding: 18px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, #fff6c9 0 58%, #d9f0dc 58%);
+      box-shadow: inset 0 0 0 2px #f3e0a4, inset 0 -12px 0 rgba(73, 159, 106, .12);
+    }
+
+    .picword-image { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .picword-fallback {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background: #fff;
+      font-size: clamp(3.5rem, 18vw, 6rem);
+    }
+
+    .picword-words {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: min(100%, 620px);
+      margin: 18px auto 0;
+    }
+
+    .picword-word {
+      min-height: 74px;
+      padding: 12px 8px;
+      border: 3px solid transparent;
+      border-radius: 18px;
+      color: #17345f;
+      background: #fff;
+      box-shadow: 0 5px 0 #d5d0c6;
+      font-size: clamp(1rem, 4.4vw, 1.3rem);
+      font-weight: 900;
+      letter-spacing: -.01em;
+      text-transform: lowercase;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .picword-word:hover { transform: translateY(-2px); }
+    .picword-word:active { transform: translateY(2px); box-shadow: none; }
+    .picword-word.is-speaking {
+      border-color: #efb129;
+      background: #fff8d8;
+      box-shadow: 0 5px 0 #e4c66c;
+      animation: picword-pulse .7s ease infinite alternate;
+    }
+    @keyframes picword-pulse {
+      from { transform: translateY(-1px) scale(1); }
+      to { transform: translateY(-4px) scale(1.045); }
+    }
+    .picword-word.is-right { color: #fff; background: var(--teal); border-color: var(--teal-dark); box-shadow: 0 5px 0 var(--teal-dark); }
+    .picword-word.is-wrong { color: #fff; background: var(--coral); border-color: var(--coral-dark); box-shadow: 0 5px 0 var(--coral-dark); animation: monster-shake .5s ease; }
+    .picword-word:disabled { opacity: .55; }
+    .picword-word .picword-word-speaker { margin-left: 6px; font-size: .9em; opacity: .8; }
+
+    .picword-feedback { min-height: 30px; margin: 16px 0 0; color: var(--teal-dark); font-weight: 950; text-align: center; }
+    .picword-feedback.retry { color: var(--coral-dark); }
+
+    .picword-days { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: min(100%, 560px); margin: 14px auto 4px; }
+    .picword-day-chip { padding: 8px 13px; border-radius: 999px; background: #eef1f6; color: #7a8291; font-size: .86rem; font-weight: 900; }
+    .picword-day-chip.on { background: #dcf7ee; color: var(--teal-dark); }
+
+    .picword-lock { display: grid; place-items: center; min-height: 570px; padding: 28px; border-radius: 26px; text-align: center; background: #fff8e8; }
+    .picword-lock img { width: min(46vw, 190px); margin-bottom: 14px; }
+    .picword-lock h1 { margin: 0 0 8px; font-size: clamp(1.8rem, 7vw, 2.9rem); }
+    .picword-lock p { margin: 0 0 6px; color: var(--muted); font-weight: 800; }
+    .picword-lock-note { margin: 10px 0 0; color: #9f6412; font-weight: 950; }
+
+    .picword-win { display: grid; place-items: center; min-height: 560px; padding: 24px; text-align: center; }
+    .picword-win img { width: min(60vw, 260px); display: block; margin: 0 auto; }
+    .picword-win h1 { margin: 12px 0 6px; font-size: clamp(1.8rem, 7vw, 2.8rem); }
+    .picword-win p { margin: 0 0 14px; color: var(--muted); font-weight: 850; }
+    .picword-win .picword-win-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: min(100%, 460px);
+      margin: 0 auto 18px;
+    }
+    .picword-win .stat { padding: 14px 8px; border-radius: 16px; background: var(--blue-wash); }
+    .picword-win .stat strong { display: block; font-size: clamp(1.5rem, 6vw, 2.2rem); }
+    .picword-win .stat span { color: var(--muted); font-size: .8rem; font-weight: 800; }
+
+    .picword-popup { border-color: #b9df81; background: #f7ffed; }
+    .picword-popup .result-popup-icon { width: 118px; height: 118px; margin: 0 auto 8px; object-fit: contain; display: block; }
+    .picword-popup.is-wrong { border-color: #f0a99f; background: #fff2ee; }
+    .picword-popup.is-wrong span:last-child { color: var(--coral-dark); }
+
     @media (max-width: 560px) {
+      .picword-words { gap: 8px; }
+      .picword-word { min-height: 66px; padding: 10px 4px; }
+      .picword-stage { width: min(84vw, 320px); }
+      .picword-meter { order: 3; width: 100%; max-width: none; }
       .quiz-tabs { grid-template-columns: 1fr; }
       .game-topline { flex-wrap: wrap; }
       .game-meter { order: 3; width: 100%; max-width: none; }
@@ -848,6 +981,7 @@
           <button class="quiz-tab active" data-quiz-type="wordJudge" type="button">🕵️ 英語偵探題</button>
           <button class="quiz-tab" data-quiz-type="sentenceQA" type="button">💬 日常短句問答</button>
           <button class="quiz-tab" data-quiz-type="rescueGame" type="button">✨ 超人拯救小熊</button>
+          <button class="quiz-tab" data-quiz-type="engPicWord" type="button">🖼️ Eng-PicWord 圖片選單詞</button>
         </div>
         <div class="practice-header">
           <span id="progress-label">今日第 1 / 10 題</span>
@@ -929,6 +1063,53 @@
         </div>
       </div>
 
+      <div id="picword-state" class="game-state" hidden>
+        <div class="picword-topbar">
+          <button id="picword-back-button" class="back-button" type="button">← 返回練習</button>
+          <button id="picword-review-button" class="reset-button" type="button" hidden>🩹 錯題重做</button>
+        </div>
+
+        <div id="picword-play" hidden>
+          <div class="picword-topline">
+            <span>今日進度</span>
+            <strong id="picword-day-count">第 1 / 6 天</strong>
+            <div class="picword-meter" aria-hidden="true"><div id="picword-meter-value" class="picword-meter-value"></div></div>
+            <span id="picword-round-count">第 1 / 5 題</span>
+          </div>
+          <p class="picword-hint">👀 看看圖片，點一點下面的單詞，聽完讀音再決定！</p>
+          <div class="picword-stage">
+            <img id="picword-image" class="picword-image" src="asset/picword/apple.svg" alt="題目圖片">
+            <div id="picword-fallback" class="picword-fallback" hidden aria-hidden="true">🖼️</div>
+          </div>
+          <div id="picword-words" class="picword-words" role="group" aria-label="選擇對應的英文單詞"></div>
+          <p id="picword-feedback" class="picword-feedback" role="status"></p>
+        </div>
+
+        <div id="picword-lock" class="picword-lock" hidden>
+          <div>
+            <img src="asset/ultraman/sticker.svg" alt="奧特曼獎勵貼紙">
+            <h1 id="picword-lock-title">今天的 5 題完成啦！</h1>
+            <p id="picword-lock-message">明天再來，會解鎖新的 5 張圖片單詞。</p>
+            <div id="picword-days" class="picword-days" aria-label="打卡進度"></div>
+            <p id="picword-lock-note" class="picword-lock-note"></p>
+          </div>
+        </div>
+
+        <div id="picword-win" class="picword-win" hidden>
+          <div>
+            <img src="asset/ultraman/hero.svg" alt="奧特曼">
+            <h1 id="picword-win-title">全部圖片單詞都學完啦！</h1>
+            <p id="picword-win-message">30 張圖片你都認識了，你是最棒的光之小偵探！</p>
+            <div class="picword-win-stats">
+              <div class="stat"><strong id="picword-stat-total">30</strong><span id="picword-stat-total-label">總題數</span></div>
+              <div class="stat"><strong id="picword-stat-days">6</strong><span id="picword-stat-days-label">打卡天數</span></div>
+              <div class="stat"><strong id="picword-stat-wrong">0</strong><span id="picword-stat-wrong-label">待重做錯題</span></div>
+            </div>
+            <button id="picword-replay-button" class="game-cta" type="button">🔄 再玩一次</button>
+          </div>
+        </div>
+      </div>
+
       <div id="summary-state" class="summary" hidden>
         <div>
           <div class="summary-icon" aria-hidden="true">🌟</div>
@@ -983,6 +1164,12 @@
     <span id="rescue-popup-message">光之碎片 +1</span>
   </div>
 
+  <div id="picword-popup" class="result-popup success picword-popup" role="status" aria-live="assertive" aria-hidden="true">
+    <img id="picword-popup-image" class="result-popup-icon" src="asset/ultraman/hero.svg" alt="奧特曼">
+    <strong id="picword-popup-title">太棒啦，相信光，衝啊</strong>
+    <span id="picword-popup-message">圖片單詞 +1</span>
+  </div>
+
   <script>
     (() => {
       "use strict";
@@ -998,6 +1185,9 @@
       const GAME_PROGRESS_KEY = "ultramanRescueProgress";
       const GAME_DAILY_LIMIT = 5;
       const GAME_FRAGMENT_TARGET = 10;
+      const PICWORD_PROGRESS_KEY = "picwordProgress";
+      const PICWORD_DAILY_LIMIT = 5;
+      const PICWORD_TOTAL_DAYS = 6;
       const storyBookPages = [
         { img: "asset/storybook/page1.png", text: "今天小可爱要去森林里发现有趣的事情。" },
         { img: "asset/storybook/page2.png", text: "它看见一只绿色的青蛙，轻轻地跳上荷叶。" },
@@ -1062,6 +1252,7 @@
       const summaryState = $("summary-state");
       const storybookState = $("storybook-state");
       const rescueGameState = $("rescue-game-state");
+      const picwordState = $("picword-state");
       const image = $("quiz-image");
       const fallback = $("image-fallback");
       const word = $("word");
@@ -1072,6 +1263,7 @@
       let resultPopupTimer;
       let successPopupTimer;
       let rescuePopupTimer;
+      let picwordPopupTimer;
       const RESCUE_TOTAL = Math.max(1, Math.round(rescueQuestions.length / GAME_FRAGMENT_TARGET));
       const rescue = { progress: null, current: null, selected: null, locked: false, timer: null };
 
@@ -1120,7 +1312,7 @@
       };
 
       const showScreen = (screen) => {
-        [loadingState, errorState, quizState, summaryState, storybookState, rescueGameState].forEach((element) => {
+        [loadingState, errorState, quizState, summaryState, storybookState, rescueGameState, picwordState].forEach((element) => {
           element.hidden = element !== screen;
         });
       };
@@ -1436,8 +1628,16 @@
         localStorage.removeItem(WRONG_KEY);
         localStorage.removeItem(STORYBOOK_KEY);
         localStorage.removeItem(GAME_PROGRESS_KEY);
+        localStorage.removeItem(PICWORD_PROGRESS_KEY);
         window.speechSynthesis?.cancel();
         window.clearTimeout(rescue.timer);
+        window.clearTimeout(picword.timer);
+        window.clearTimeout(picwordPopupTimer);
+        $("picword-popup").classList.remove("is-visible");
+        $("picword-popup").setAttribute("aria-hidden", "true");
+        picword.isReview = false;
+        picword.reviewQueue = [];
+        picword.reviewIndex = 0;
         updateHeaderStats();
         if (state.questionPools.wordJudge.length > 0) {
           updateHeaderStats();
@@ -1668,6 +1868,294 @@
         speak("oh sad, try again.", "en-US", () => {});
       };
 
+      /* ---------- Eng-PicWord 圖片選單詞 ---------- */
+      const picword = { pool: [], progress: null, current: null, locked: false, timer: null, isReview: false, reviewQueue: [], reviewIndex: 0 };
+
+      const chineseMaleVoice = () => {
+        const voices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
+        return voices.find((v) => /^zh/i.test(v.lang) && /male|男|yun|kang|liang|云|刚|鵬/i.test(v.name))
+          || voices.find((v) => /^zh[-_](CN|TW|HK)/i.test(v.lang))
+          || voices.find((v) => /^zh/i.test(v.lang))
+          || null;
+      };
+
+      const speakWithEnd = (text, lang, onEnd, voice = null) => {
+        const finishOnce = (() => {
+          let fired = false;
+          return (ok) => { if (!fired) { fired = true; if (onEnd) onEnd(ok); } };
+        })();
+        if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) { finishOnce(false); return; }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        if (!voice && lang === "en-US") {
+          const voices = window.speechSynthesis.getVoices();
+          utterance.voice = voices.find((item) => /^en[-_]us$/i.test(item.lang) && /male|david|mark|daniel|guy/i.test(item.name))
+            || voices.find((item) => /^en[-_]us$/i.test(item.lang))
+            || null;
+        }
+        if (voice) utterance.voice = voice;
+        utterance.rate = lang === "zh-CN" ? 0.95 : 0.82;
+        utterance.pitch = lang === "zh-CN" ? 0.9 : 1.08;
+        utterance.onend = () => finishOnce(true);
+        utterance.onerror = () => finishOnce(true);
+        window.speechSynthesis.speak(utterance);
+        window.setTimeout(() => finishOnce(true), 5000);
+      };
+
+      const getPicwordProgress = () => {
+        const base = { date: todayKey(), completedDays: 0, completedQuestionIds: [], todayAnswered: 0 };
+        const stored = readJson(PICWORD_PROGRESS_KEY, null);
+        if (!stored) return base;
+        const value = { ...base, ...stored };
+        if (value.date !== todayKey()) { value.date = todayKey(); value.todayAnswered = 0; }
+        value.completedDays = Number(value.completedDays) || 0;
+        value.completedQuestionIds = Array.isArray(value.completedQuestionIds) ? value.completedQuestionIds : [];
+        value.todayAnswered = Number(value.todayAnswered) || 0;
+        return value;
+      };
+
+      const nextPicwordQuestion = () => {
+        const start = picword.progress.completedDays * PICWORD_DAILY_LIMIT;
+        return picword.pool.slice(start).find((q) => !picword.progress.completedQuestionIds.includes(q.id)) || null;
+      };
+
+      const picwordWrongList = () => getWrongQuestions().filter((item) => item.type === "engPicWord");
+
+      const addPicwordWrong = (question) => {
+        const key = `engPicWord:${question.id}`;
+        const list = getWrongQuestions();
+        if (!list.some((item) => item.key === key)) {
+          list.push({ key, type: "engPicWord", question });
+          saveJson(WRONG_KEY, list);
+          state.wrongQuestions = list;
+        }
+      };
+
+      const removePicwordWrong = (question) => {
+        const key = `engPicWord:${question.id}`;
+        const list = getWrongQuestions().filter((item) => item.key !== key);
+        saveJson(WRONG_KEY, list);
+        state.wrongQuestions = list;
+      };
+
+      const showPicwordView = (view) => {
+        $("picword-play").hidden = view !== "play";
+        $("picword-lock").hidden = view !== "lock";
+        $("picword-win").hidden = view !== "win";
+      };
+
+      const updatePicwordReviewButton = () => {
+        $("picword-review-button").hidden = picwordWrongList().length === 0;
+      };
+
+      const updatePicwordHud = () => {
+        if (picword.isReview) {
+          $("picword-day-count").textContent = "錯題重做";
+          const total = picword.reviewQueue.length || 1;
+          $("picword-round-count").textContent = `第 ${Math.min(picword.reviewIndex + 1, total)} / ${total} 題`;
+          $("picword-meter-value").style.transform = `scaleX(${picword.reviewIndex / total})`;
+          return;
+        }
+        const p = picword.progress;
+        $("picword-day-count").textContent = `第 ${Math.min(p.completedDays + 1, PICWORD_TOTAL_DAYS)} / ${PICWORD_TOTAL_DAYS} 天`;
+        $("picword-round-count").textContent = `第 ${Math.min(p.todayAnswered + 1, PICWORD_DAILY_LIMIT)} / ${PICWORD_DAILY_LIMIT} 題`;
+        $("picword-meter-value").style.transform = `scaleX(${p.todayAnswered / PICWORD_DAILY_LIMIT})`;
+      };
+
+      const renderPicwordDays = () => {
+        const wrap = $("picword-days");
+        wrap.replaceChildren();
+        for (let i = 1; i <= PICWORD_TOTAL_DAYS; i += 1) {
+          const chip = document.createElement("span");
+          chip.className = i <= picword.progress.completedDays ? "picword-day-chip on" : "picword-day-chip";
+          chip.textContent = i <= picword.progress.completedDays ? `✅ 第 ${i} 天` : `🔒 第 ${i} 天`;
+          wrap.appendChild(chip);
+        }
+      };
+
+      const showPicwordPopup = (isWrong) => {
+        window.clearTimeout(picwordPopupTimer);
+        const popup = $("picword-popup");
+        $("picword-popup-image").src = isWrong ? "asset/ultraman/bub.svg" : "asset/ultraman/hero.svg";
+        $("picword-popup-title").textContent = isWrong ? "加油，奧特曼相信你" : "太棒啦，相信光，衝啊";
+        $("picword-popup-message").textContent = isWrong ? "再聽一次讀音，選對的單詞！" : "圖片單詞 +1";
+        popup.classList.toggle("success", !isWrong);
+        popup.classList.toggle("is-wrong", isWrong);
+        popup.classList.remove("is-visible");
+        void popup.offsetWidth;
+        popup.classList.add("is-visible");
+        popup.setAttribute("aria-hidden", "false");
+        picwordPopupTimer = window.setTimeout(() => {
+          popup.classList.remove("is-visible");
+          popup.setAttribute("aria-hidden", "true");
+        }, isWrong ? 1500 : 1800);
+      };
+
+      const renderPicwordQuestion = () => {
+        const question = picword.current;
+        picword.locked = false;
+        const img = $("picword-image");
+        const fb = $("picword-fallback");
+        fb.textContent = question.fallback || "🖼️";
+        fb.hidden = true;
+        fb.style.display = "none";
+        img.hidden = false;
+        img.style.display = "block";
+        img.src = question.imgPath;
+        img.alt = "題目圖片";
+        $("picword-feedback").textContent = "";
+        $("picword-feedback").className = "picword-feedback";
+        const grid = $("picword-words");
+        grid.replaceChildren();
+        shuffle(question.choices).forEach((choice) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "picword-word";
+          button.innerHTML = `<span>${choice.text}</span><span class="picword-word-speaker" aria-hidden="true">🔊</span>`;
+          button.addEventListener("click", () => {
+            if (picword.locked) return;
+            picword.locked = true;
+            grid.querySelectorAll(".picword-word").forEach((item) => { item.disabled = true; });
+            button.classList.add("is-speaking");
+            speakWithEnd(choice.text, "en-US", () => {
+              button.classList.remove("is-speaking");
+              if (choice.isCorrect) onPicwordCorrect(button, question);
+              else onPicwordWrong(button, question);
+            });
+          });
+          grid.appendChild(button);
+        });
+        updatePicwordHud();
+        showPicwordView("play");
+      };
+
+      const advancePicword = () => {
+        if (picword.isReview) {
+          picword.reviewIndex += 1;
+          if (picword.reviewIndex >= picword.reviewQueue.length) {
+            picword.isReview = false;
+            updatePicwordReviewButton();
+            enterPicword();
+            return;
+          }
+          picword.current = picword.reviewQueue[picword.reviewIndex];
+          renderPicwordQuestion();
+          return;
+        }
+        const p = picword.progress;
+        if (p.completedDays >= PICWORD_TOTAL_DAYS) { showPicwordWin(); return; }
+        if (p.todayAnswered >= PICWORD_DAILY_LIMIT) { showPicwordLock(); return; }
+        const next = nextPicwordQuestion();
+        if (next) { picword.current = next; renderPicwordQuestion(); }
+        else showPicwordLock();
+      };
+
+      const onPicwordCorrect = (button, question) => {
+        picword.locked = true;
+        button.classList.add("is-right");
+        $("picword-words").querySelectorAll(".picword-word").forEach((item) => { item.disabled = true; });
+        removePicwordWrong(question);
+        if (!picword.isReview) {
+          const p = picword.progress;
+          p.todayAnswered += 1;
+          if (!p.completedQuestionIds.includes(question.id)) p.completedQuestionIds.push(question.id);
+          const gs = p.completedDays * PICWORD_DAILY_LIMIT;
+          const group = picword.pool.slice(gs, gs + PICWORD_DAILY_LIMIT);
+          if (group.length && group.every((item) => p.completedQuestionIds.includes(item.id))) p.completedDays += 1;
+          saveJson(PICWORD_PROGRESS_KEY, p);
+        }
+        updatePicwordHud();
+        celebrate();
+        showPicwordPopup(false);
+        speak("bingo, Ultraman!", "en-US", () => {});
+        $("picword-feedback").textContent = picword.isReview ? "答對了！這題已從錯題移除。" : "答對了！光之力 +1";
+        $("picword-feedback").className = "picword-feedback";
+        updatePicwordReviewButton();
+        picword.timer = window.setTimeout(() => {
+          if (state.activeView !== "picword") return;
+          advancePicword();
+        }, 1900);
+      };
+
+      const onPicwordWrong = (button, question) => {
+        button.classList.add("is-wrong");
+        addPicwordWrong(question);
+        showPicwordPopup(true);
+        speakWithEnd("太可惜了，再來一次吧。", "zh-CN", null, chineseMaleVoice());
+        $("picword-feedback").textContent = "加油，奧特曼相信你！再試一次。";
+        $("picword-feedback").className = "picword-feedback retry";
+        updatePicwordReviewButton();
+        picword.timer = window.setTimeout(() => {
+          button.classList.remove("is-wrong");
+          $("picword-words").querySelectorAll(".picword-word").forEach((item) => { item.disabled = false; item.classList.remove("is-speaking"); });
+          picword.locked = false;
+        }, 1600);
+      };
+
+      const showPicwordLock = () => {
+        picword.locked = true;
+        showPicwordView("lock");
+        const p = picword.progress;
+        const allDone = p.completedDays >= PICWORD_TOTAL_DAYS;
+        $("picword-lock-title").textContent = allDone ? "全部完成啦！" : "今天的 5 題完成啦！";
+        $("picword-lock-message").textContent = allDone
+          ? "30 張圖片單詞你都學完了，太厲害了！"
+          : "明天再來，會解鎖新的 5 張圖片單詞。";
+        renderPicwordDays();
+        $("picword-lock-note").textContent = `已打卡 ${p.completedDays} / ${PICWORD_TOTAL_DAYS} 天`;
+        updatePicwordReviewButton();
+      };
+
+      const showPicwordWin = () => {
+        picword.locked = true;
+        showPicwordView("win");
+        $("picword-stat-total").textContent = String(picword.pool.length || 30);
+        $("picword-stat-days").textContent = String(PICWORD_TOTAL_DAYS);
+        $("picword-stat-wrong").textContent = String(picwordWrongList().length);
+        updatePicwordReviewButton();
+      };
+
+      const enterPicword = () => {
+        window.clearTimeout(picword.timer);
+        window.speechSynthesis?.cancel();
+        state.activeView = "picword";
+        picword.progress = getPicwordProgress();
+        picword.locked = false;
+        picword.isReview = false;
+        showScreen(picwordState);
+        updatePicwordReviewButton();
+        if (picword.progress.completedDays >= PICWORD_TOTAL_DAYS) { showPicwordWin(); return; }
+        const next = picword.progress.todayAnswered >= PICWORD_DAILY_LIMIT ? null : nextPicwordQuestion();
+        if (!next) { showPicwordLock(); return; }
+        picword.current = next;
+        renderPicwordQuestion();
+      };
+
+      const startPicwordReview = () => {
+        const list = picwordWrongList().map((item) => item.question);
+        if (!list.length) { window.alert("目前沒有 Eng-PicWord 的錯題。"); return; }
+        window.clearTimeout(picword.timer);
+        window.speechSynthesis?.cancel();
+        state.activeView = "picword";
+        showScreen(picwordState);
+        picword.progress = getPicwordProgress();
+        picword.isReview = true;
+        picword.reviewQueue = shuffle(list);
+        picword.reviewIndex = 0;
+        picword.current = picword.reviewQueue[0];
+        renderPicwordQuestion();
+      };
+
+      const exitPicword = () => {
+        window.clearTimeout(picword.timer);
+        window.speechSynthesis?.cancel();
+        picword.locked = false;
+        state.activeView = "quiz";
+        state.returnView = "quiz";
+        showQuiz();
+      };
+
       const renderStoryPage = () => {
         const page = storyBookPages[state.storyPage];
         const pageNumber = state.storyPage + 1;
@@ -1736,6 +2224,18 @@
               isCorrect: Boolean(choice.isCorrect)
             })) : []
           }));
+          if (Array.isArray(data["Eng-PicWord"])) {
+            picword.pool = data["Eng-PicWord"].map((question) => ({
+              id: String(question.id),
+              imgPath: String(question.imgPath),
+              fallback: String(question.fallback || "🖼️"),
+              answer: String(question.answer || ""),
+              choices: Array.isArray(question.choices) ? question.choices.map((choice) => ({
+                text: String(choice.text),
+                isCorrect: Boolean(choice.isCorrect)
+              })) : []
+            })).filter((question) => question.choices.length >= 2 && question.choices.some((choice) => choice.isCorrect));
+          }
           updateHeaderStats();
           startRound("wordJudge");
         } catch (error) {
@@ -1756,6 +2256,12 @@
         $("storybook-image").hidden = true;
         $("storybook-image-fallback").hidden = false;
       });
+      $("picword-image").addEventListener("error", () => {
+        $("picword-image").hidden = true;
+        $("picword-image").style.display = "none";
+        $("picword-fallback").hidden = false;
+        $("picword-fallback").style.display = "grid";
+      });
       $("speak-button").addEventListener("click", speakWord);
       $("sentence-speak-button").addEventListener("click", () => {
         const question = state.questions[state.index];
@@ -1770,6 +2276,10 @@
           const quizType = button.dataset.quizType;
           if (quizType === "rescueGame") {
             enterRescueGame();
+            return;
+          }
+          if (quizType === "engPicWord") {
+            enterPicword();
             return;
           }
           const wrongCount = state.wrongQuestions.filter((item) => item.type === quizType).length;
@@ -1806,6 +2316,21 @@
         else onRescueWrong();
       });
       $("rescue-back-button").addEventListener("click", exitRescueGame);
+      $("picword-back-button").addEventListener("click", exitPicword);
+      $("picword-review-button").addEventListener("click", startPicwordReview);
+      $("picword-replay-button").addEventListener("click", () => {
+        if (!window.confirm("要重置 Eng-PicWord 進度，從第 1 天重新開始嗎？")) return;
+        window.clearTimeout(picword.timer);
+        window.clearTimeout(picwordPopupTimer);
+        window.speechSynthesis?.cancel();
+        $("picword-popup").classList.remove("is-visible");
+        $("picword-popup").setAttribute("aria-hidden", "true");
+        localStorage.removeItem(PICWORD_PROGRESS_KEY);
+        picword.isReview = false;
+        picword.reviewQueue = [];
+        picword.reviewIndex = 0;
+        enterPicword();
+      });
       $("rescue-continue-button").addEventListener("click", () => {
         if ($("rescue-continue-button").dataset.final === "1") {
           localStorage.removeItem(GAME_PROGRESS_KEY);

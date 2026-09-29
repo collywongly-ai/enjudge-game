@@ -393,5 +393,42 @@
         { "text": "I play a ball.", "isCorrect": false }
       ]
     }
+  ],
+  "Eng-PicWord": [
+    { "id": "picword-01", "imgPath": "asset/picword/apple.svg", "fallback": "🍎", "answer": "apple", "choices": [{ "text": "apple", "isCorrect": true }, { "text": "banana", "isCorrect": false }, { "text": "cherry", "isCorrect": false }] },
+    { "id": "picword-02", "imgPath": "asset/picword/banana.svg", "fallback": "🍌", "answer": "banana", "choices": [{ "text": "grape", "isCorrect": false }, { "text": "banana", "isCorrect": true }, { "text": "lemon", "isCorrect": false }] },
+    { "id": "picword-03", "imgPath": "asset/picword/orange.svg", "fallback": "🍊", "answer": "orange", "choices": [{ "text": "orange", "isCorrect": true }, { "text": "apple", "isCorrect": false }, { "text": "pear", "isCorrect": false }] },
+    { "id": "picword-04", "imgPath": "asset/picword/strawberry.svg", "fallback": "🍓", "answer": "strawberry", "choices": [{ "text": "pineapple", "isCorrect": false }, { "text": "cherry", "isCorrect": false }, { "text": "strawberry", "isCorrect": true }] },
+    { "id": "picword-05", "imgPath": "asset/picword/pear.svg", "fallback": "🍐", "answer": "pear", "choices": [{ "text": "pear", "isCorrect": true }, { "text": "peach", "isCorrect": false }, { "text": "apple", "isCorrect": false }] },
+
+    { "id": "picword-06", "imgPath": "asset/picword/cat.svg", "fallback": "🐱", "answer": "cat", "choices": [{ "text": "dog", "isCorrect": false }, { "text": "cat", "isCorrect": true }, { "text": "rabbit", "isCorrect": false }] },
+    { "id": "picword-07", "imgPath": "asset/picword/dog.svg", "fallback": "🐶", "answer": "dog", "choices": [{ "text": "dog", "isCorrect": true }, { "text": "cat", "isCorrect": false }, { "text": "bird", "isCorrect": false }] },
+    { "id": "picword-08", "imgPath": "asset/picword/rabbit.svg", "fallback": "🐰", "answer": "rabbit", "choices": [{ "text": "frog", "isCorrect": false }, { "text": "cat", "isCorrect": false }, { "text": "rabbit", "isCorrect": true }] },
+    { "id": "picword-09", "imgPath": "asset/picword/bird.svg", "fallback": "🐦", "answer": "bird", "choices": [{ "text": "bird", "isCorrect": true }, { "text": "fish", "isCorrect": false }, { "text": "duck", "isCorrect": false }] },
+    { "id": "picword-10", "imgPath": "asset/picword/frog.svg", "fallback": "🐸", "answer": "frog", "choices": [{ "text": "turtle", "isCorrect": false }, { "text": "frog", "isCorrect": true }, { "text": "rabbit", "isCorrect": false }] },
+
+    { "id": "picword-11", "imgPath": "asset/picword/book.svg", "fallback": "📘", "answer": "book", "choices": [{ "text": "book", "isCorrect": true }, { "text": "pencil", "isCorrect": false }, { "text": "ruler", "isCorrect": false }] },
+    { "id": "picword-12", "imgPath": "asset/picword/pencil.svg", "fallback": "✏️", "answer": "pencil", "choices": [{ "text": "crayon", "isCorrect": false }, { "text": "pencil", "isCorrect": true }, { "text": "eraser", "isCorrect": false }] },
+    { "id": "picword-13", "imgPath": "asset/picword/eraser.svg", "fallback": "🧽", "answer": "eraser", "choices": [{ "text": "eraser", "isCorrect": true }, { "text": "glue", "isCorrect": false }, { "text": "marker", "isCorrect": false }] },
+    { "id": "picword-14", "imgPath": "asset/picword/scissors.svg", "fallback": "✂️", "answer": "scissors", "choices": [{ "text": "ruler", "isCorrect": false }, { "text": "glue", "isCorrect": false }, { "text": "scissors", "isCorrect": true }] },
+    { "id": "picword-15", "imgPath": "asset/picword/schoolbag.svg", "fallback": "🎒", "answer": "schoolbag", "choices": [{ "text": "schoolbag", "isCorrect": true }, { "text": "book", "isCorrect": false }, { "text": "pencil", "isCorrect": false }] },
+
+    { "id": "picword-16", "imgPath": "asset/picword/pineapple.svg", "fallback": "🍍", "answer": "pineapple", "choices": [{ "text": "mango", "isCorrect": false }, { "text": "pineapple", "isCorrect": true }, { "text": "pear", "isCorrect": false }] },
+    { "id": "picword-17", "imgPath": "asset/picword/cherry.svg", "fallback": "🍒", "answer": "cherry", "choices": [{ "text": "cherry", "isCorrect": true }, { "text": "strawberry", "isCorrect": false }, { "text": "grape", "isCorrect": false }] },
+    { "id": "picword-18", "imgPath": "asset/picword/mooncake.svg", "fallback": "🥮", "answer": "mooncake", "choices": [{ "text": "bread", "isCorrect": false }, { "text": "cookie", "isCorrect": false }, { "text": "mooncake", "isCorrect": true }] },
+    { "id": "picword-19", "imgPath": "asset/picword/milk.svg", "fallback": "🥛", "answer": "milk", "choices": [{ "text": "milk", "isCorrect": true }, { "text": "juice", "isCorrect": false }, { "text": "water", "isCorrect": false }] },
+    { "id": "picword-20", "imgPath": "asset/picword/egg.svg", "fallback": "🥚", "answer": "egg", "choices": [{ "text": "bread", "isCorrect": false }, { "text": "egg", "isCorrect": true }, { "text": "milk", "isCorrect": false }] },
+
+    { "id": "picword-21", "imgPath": "asset/picword/sun.svg", "fallback": "☀️", "answer": "sun", "choices": [{ "text": "sun", "isCorrect": true }, { "text": "moon", "isCorrect": false }, { "text": "star", "isCorrect": false }] },
+    { "id": "picword-22", "imgPath": "asset/picword/moon.svg", "fallback": "🌙", "answer": "moon", "choices": [{ "text": "cloud", "isCorrect": false }, { "text": "moon", "isCorrect": true }, { "text": "sun", "isCorrect": false }] },
+    { "id": "picword-23", "imgPath": "asset/picword/star.svg", "fallback": "⭐", "answer": "star", "choices": [{ "text": "star", "isCorrect": true }, { "text": "heart", "isCorrect": false }, { "text": "moon", "isCorrect": false }] },
+    { "id": "picword-24", "imgPath": "asset/picword/flower.svg", "fallback": "🌸", "answer": "flower", "choices": [{ "text": "leaf", "isCorrect": false }, { "text": "tree", "isCorrect": false }, { "text": "flower", "isCorrect": true }] },
+    { "id": "picword-25", "imgPath": "asset/picword/tree.svg", "fallback": "🌳", "answer": "tree", "choices": [{ "text": "tree", "isCorrect": true }, { "text": "flower", "isCorrect": false }, { "text": "grass", "isCorrect": false }] },
+
+    { "id": "picword-26", "imgPath": "asset/picword/hat.svg", "fallback": "🧢", "answer": "hat", "choices": [{ "text": "bag", "isCorrect": false }, { "text": "hat", "isCorrect": true }, { "text": "shoe", "isCorrect": false }] },
+    { "id": "picword-27", "imgPath": "asset/picword/ball.svg", "fallback": "⚽", "answer": "ball", "choices": [{ "text": "ball", "isCorrect": true }, { "text": "box", "isCorrect": false }, { "text": "bell", "isCorrect": false }] },
+    { "id": "picword-28", "imgPath": "asset/picword/car.svg", "fallback": "🚗", "answer": "car", "choices": [{ "text": "bus", "isCorrect": false }, { "text": "train", "isCorrect": false }, { "text": "car", "isCorrect": true }] },
+    { "id": "picword-29", "imgPath": "asset/picword/bus.svg", "fallback": "🚌", "answer": "bus", "choices": [{ "text": "bus", "isCorrect": true }, { "text": "car", "isCorrect": false }, { "text": "truck", "isCorrect": false }] },
+    { "id": "picword-30", "imgPath": "asset/picword/house.svg", "fallback": "🏠", "answer": "house", "choices": [{ "text": "school", "isCorrect": false }, { "text": "house", "isCorrect": true }, { "text": "shop", "isCorrect": false }] }
   ]
 }
