@@ -5,6 +5,12 @@ import vm from "node:vm";
 const html = fs.readFileSync(new URL("./index.html", import.meta.url), "utf-8");
 const scriptSrc = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const quizData = JSON.parse(fs.readFileSync(new URL("./quiz-data-enjudge.json", import.meta.url), "utf-8"));
+const rescueQuestionsSource = scriptSrc.match(/const rescueQuestions = (\[[\s\S]*?\]);/)[1];
+const rescueQuestions = vm.runInNewContext(rescueQuestionsSource);
+const imageChoices = rescueQuestions.flatMap((question) => question.kind === "image" ? question.choices : []);
+const imageChoiceLabelsMatch = imageChoices.every((choice) =>
+  choice.illustration === choice.text.toLowerCase() && !("img" in choice)
+);
 
 /* ---------- minimal DOM stubs ---------- */
 const els = new Map();
@@ -81,6 +87,7 @@ vm.createContext(sandbox);
 
 const sleep = (ms) => new Promise((r) => realSetTimeout(r, ms));
 let failures = 0;
+let renderedImageChoiceCount = 0;
 const check = (name, cond, extra = "") => {
   if (cond) console.log(`  ✅ ${name}`);
   else { failures += 1; console.log(`  ❌ ${name} ${extra}`); }
@@ -97,6 +104,11 @@ const answerCurrent = async () => {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const grid = $("game-choice-grid");
     for (const child of [...grid.children]) {
+      if (String(child.innerHTML).includes("<svg")) {
+        const svg = child.innerHTML.match(/<svg\b[^>]*aria-hidden="true"/);
+        const label = child.innerHTML.match(/game-choice-image-tag">([^<]+)</);
+        if (svg && label && !String(child.innerHTML).includes("<img")) renderedImageChoiceCount += 1;
+      }
       child.click();
       $("game-next-button").click();
       if ($("game-feedback").textContent.startsWith("答對了")) { await sleep(60); return true; }
@@ -108,6 +120,7 @@ const answerCurrent = async () => {
 const enterRescue = async () => { tabOf("rescueGame").click(); await sleep(30); };
 
 console.log("— boot —");
+check("all image-choice labels match their SVG objects", imageChoiceLabelsMatch && imageChoices.length === 45);
 vm.runInContext(scriptSrc, sandbox, { filename: "index.html-inline.js" });
 await sleep(80);
 check("quiz screen shown after load", $("quiz-state").hidden === false);
@@ -174,6 +187,7 @@ check("win view", view() === "win");
 $("rescue-continue-button").click();
 await sleep(30);
 check("continue resumes play (dayChallenges=1 < 5)", view() === "play", `view=${view()}`);
+check("rendered image choices use inline SVG instead of asset images", renderedImageChoiceCount > 0, `count=${renderedImageChoiceCount}`);
 
 console.log("— entry normalisation: fragments>=target awards sticker (bug #4) —");
 $("rescue-back-button").click(); await sleep(10);
