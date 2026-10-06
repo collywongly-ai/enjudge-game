@@ -93,6 +93,10 @@
       gap: 10px;
     }
 
+    .storybook-actions { display: flex; align-items: flex-start; gap: 8px; }
+    .storybook-entry { display: grid; justify-items: center; gap: 4px; }
+    .storybook-entry-note { max-width: 150px; color: var(--muted); font-size: .7rem; font-weight: 850; text-align: center; }
+
     .score-strip {
       display: flex;
       align-items: center;
@@ -144,6 +148,8 @@
       background: #e1e3e8;
       box-shadow: 0 5px 0 #b9bec9;
     }
+
+    .storybook-button:disabled { cursor: not-allowed; }
 
     .reset-button {
       color: #7d302b;
@@ -497,6 +503,31 @@
       object-fit: contain;
       border-radius: 17px;
     }
+
+    .storybook-image.is-audio-trigger { cursor: pointer; }
+    .storybook-image.is-audio-trigger:focus-visible { outline: 4px solid var(--purple); outline-offset: 4px; }
+
+    #storybook-state.is-book2 {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      overflow-y: auto;
+      padding: 16px;
+      background: rgba(23, 52, 95, .58);
+    }
+    #storybook-state.is-book2 .storybook-card {
+      width: min(100%, 760px);
+      max-height: calc(100dvh - 32px);
+      overflow-y: auto;
+      padding: clamp(16px, 4vw, 28px);
+      border-radius: 26px;
+      background: #fffaf0;
+      box-shadow: 0 18px 50px rgba(23, 52, 95, .28);
+    }
+    .storybook-narration { max-width: 36rem; margin: 12px 0 0; color: var(--ink); font-size: clamp(1rem, 3.5vw, 1.2rem); font-weight: 850; line-height: 1.55; }
+    .storybook-audio-status { min-height: 1.4em; margin: 8px 0 0; color: var(--muted); font-size: .88rem; font-weight: 800; }
 
     .storybook-image-fallback {
       display: grid;
@@ -961,8 +992,26 @@
 
     @media (max-width: 760px) {
       .topbar { align-items: flex-start; flex-wrap: wrap; }
-      .top-actions { width: 100%; justify-content: space-between; }
-      .storybook-button { flex: 1; }
+      .top-actions { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+      .storybook-actions { order: 3; width: 100%; }
+      .storybook-actions > .storybook-button,
+      .storybook-entry { flex: 1; }
+      .storybook-button { width: 100%; min-width: 0; padding-inline: 8px; }
+      .storybook-entry-note { max-width: none; }
+      #storybook-state.is-book2 { align-items: stretch; padding: 8px; }
+      #storybook-state.is-book2 .storybook-card {
+        width: 100%;
+        max-height: calc(100dvh - 16px);
+        padding: 14px 12px;
+        border-radius: 20px;
+      }
+      #storybook-state.is-book2 .storybook-topbar { margin-bottom: 10px; }
+      #storybook-state.is-book2 .storybook-title { margin-top: 4px; font-size: clamp(1.65rem, 7vw, 2.2rem); }
+      #storybook-state.is-book2 .storybook-subtitle { margin-bottom: 12px; }
+      #storybook-state.is-book2 .storybook-image-frame { width: 100%; min-height: 0; height: min(48dvh, 420px); padding: 8px; }
+      #storybook-state.is-book2 .storybook-image { max-height: 100%; }
+      #storybook-state.is-book2 .storybook-page-label { margin: 9px 0; }
+      #storybook-state.is-book2 .story-nav { margin-top: 12px; }
     }
 
     @media (max-width: 420px) {
@@ -992,7 +1041,13 @@
           <span class="score-divider">｜</span>
           <span>歷史 ✅</span><strong id="right-count">0</strong>
         </div>
-        <button id="storybook-button" class="storybook-button is-locked" type="button">🔒 繪本故事</button>
+        <div class="storybook-actions">
+          <button id="storybook-button" class="storybook-button is-locked" type="button">🔒 粵語繪本 1</button>
+          <div class="storybook-entry">
+            <button id="storybook-book2-button" class="storybook-button is-locked" type="button" disabled>🔒 粵語繪本 2</button>
+            <span id="storybook-book2-note" class="storybook-entry-note">答对 10 题解锁这本绘本</span>
+          </div>
+        </div>
         <button id="reset-button" class="reset-button" type="button">↺ 重置題庫</button>
       </div>
     </header>
@@ -1165,12 +1220,14 @@
             <button id="back-button" class="back-button" type="button">← 返回練習</button>
             <span id="storybook-progress" class="storybook-page-label">第 1 / 5 頁</span>
           </div>
-          <h1 class="storybook-title">小小繪本時間</h1>
-          <p class="storybook-subtitle">聽一聽粵語故事，慢慢翻頁看圖畫。</p>
+          <h1 id="storybook-title" class="storybook-title">小小繪本時間</h1>
+          <p id="storybook-subtitle" class="storybook-subtitle">聽一聽粵語故事，慢慢翻頁看圖畫。</p>
           <div class="storybook-image-frame">
             <img id="storybook-image" class="storybook-image" src="asset/storybook/page1.png" alt="繪本插圖">
-            <div id="storybook-image-fallback" class="storybook-image-fallback" hidden>繪本圖片準備中，請稍後放入 page1.png 至 page5.png。</div>
+            <div id="storybook-image-fallback" class="storybook-image-fallback" hidden>繪本圖片準備中，請稍後再試。</div>
           </div>
+          <p id="storybook-narration" class="storybook-narration" hidden></p>
+          <p id="storybook-audio-status" class="storybook-audio-status" role="status" aria-live="polite"></p>
           <p id="storybook-page-label" class="storybook-page-label">第 1 / 5 頁</p>
           <button id="storybook-speak-button" class="speak-button story-speak-button" type="button">🔊 播放粵語故事</button>
           <div class="story-nav">
@@ -1216,6 +1273,7 @@
       const WRONG_KEY = "enJudgeWrongQuestions";
       const DAILY_LIMIT = 10;
       const STORYBOOK_KEY = "storybookUnlocked";
+      const STORYBOOK_BOOK2_KEY = "storybookBook2Unlocked";
       const RESET_PASSWORD = "1234";
       const GAME_PROGRESS_KEY = "ultramanRescueProgress";
       const GAME_DAILY_LIMIT = 5;
@@ -1229,6 +1287,13 @@
         { img: "asset/storybook/page3.png", text: "小兔子来了，它们分享甜甜的草莓。" },
         { img: "asset/storybook/page4.png", text: "小可爱拿出铅笔，把看到的东西画下来。" },
         { img: "asset/storybook/page5.png", text: "把发现画进本子，小可爱快乐地回家了。" }
+      ];
+      const storyBook2Pages = [
+        { img: "asset/storybook/book2-page1.jpeg", text: "小熊在公园里，遇见了一只迷路的小狗。" },
+        { img: "asset/storybook/book2-page2.png", text: "小熊轻轻地照顾它，给它水和好吃的。" },
+        { img: "asset/storybook/book2-page3.png", text: "小熊牵着小狗，一起寻找它的主人。" },
+        { img: "asset/storybook/book2-page4.svg", text: "主人终于来了，小狗高兴地摇尾巴。" },
+        { img: "asset/storybook/book2-page4.png", text: "从那天起，小熊和小狗成了最好的朋友。" }
       ];
       const rescueQuestions = [
         { id: "rescue-01", kind: "sentence", prompt: "What colour is the banana?", promptZh: "小熊：香蕉是什麼顏色？", choices: [{ text: "It is yellow.", correct: true }, { text: "It is blue.", correct: false }, { text: "It is green.", correct: false }] },
@@ -1277,7 +1342,8 @@
         locked: false,
         nextTimer: null,
         activeView: "quiz",
-        returnView: "quiz"
+        returnView: "quiz",
+        storyBookId: "book1"
       };
 
       const $ = (id) => document.getElementById(id);
@@ -1299,6 +1365,8 @@
       let successPopupTimer;
       let rescuePopupTimer;
       let picwordPopupTimer;
+      let storyVoiceLoadTimer = null;
+      let waitingForStoryVoice = false;
       const RESCUE_TOTAL = Math.max(1, Math.round(rescueQuestions.length / GAME_FRAGMENT_TARGET));
       const rescue = { progress: null, current: null, selected: null, locked: false, timer: null };
 
@@ -1309,6 +1377,8 @@
 
       const setStoredNumber = (key, value) => localStorage.setItem(key, String(value));
       const isStorybookUnlocked = () => localStorage.getItem(STORYBOOK_KEY) === "true";
+      const isSecondStorybookUnlocked = () => localStorage.getItem(STORYBOOK_BOOK2_KEY) === "true";
+      const getActiveStoryPages = () => state.storyBookId === "book2" ? storyBook2Pages : storyBookPages;
       const todayKey = () => {
         const now = new Date();
         const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -1359,10 +1429,17 @@
         state.wrongQuestions = getWrongQuestions();
         $("round-right-count").textContent = String(state.roundRight);
         $("right-count").textContent = String(history);
+        if (history >= 10) localStorage.setItem(STORYBOOK_BOOK2_KEY, "true");
         const unlocked = isStorybookUnlocked();
         const button = $("storybook-button");
         button.classList.toggle("is-locked", !unlocked);
-        button.textContent = unlocked ? "📖 繪本故事" : "🔒 繪本故事";
+        button.textContent = unlocked ? "📖 粵語繪本 1" : "🔒 粵語繪本 1";
+        const secondBookUnlocked = isSecondStorybookUnlocked();
+        const secondBookButton = $("storybook-book2-button");
+        secondBookButton.disabled = !secondBookUnlocked;
+        secondBookButton.classList.toggle("is-locked", !secondBookUnlocked);
+        secondBookButton.textContent = secondBookUnlocked ? "📖 粵語繪本 2" : "🔒 粵語繪本 2";
+        $("storybook-book2-note").textContent = secondBookUnlocked ? "已解鎖，點擊開始閱讀" : "答对 10 题解锁这本绘本";
         $("unlock-note").textContent = unlocked
           ? `📚 今日進度：${state.dailyProgress.completedTypes.length} / 2 種題型完成，待重做錯題：${state.wrongQuestions.length} 題`
           : `今日完成 ${state.dailyProgress.completedTypes.length} / 2 種題型；累計答對 ${Math.min(history, 10)} / 10 可解鎖繪本`;
@@ -1400,21 +1477,45 @@
         });
       };
 
-      const speakStory = () => {
+      const getCantoneseVoice = () => {
         const voices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
-        const cantoneseVoice = voices.find((voice) => /^yue[-_]hk$/i.test(voice.lang))
+        return voices.find((voice) => /^yue[-_]hk$/i.test(voice.lang))
           || voices.find((voice) => /^zh[-_]hk$/i.test(voice.lang))
           || voices.find((voice) => /cantonese|廣東話|粵語|香港/i.test(`${voice.name} ${voice.lang}`));
+      };
+
+      const speakStory = () => {
+        const cantoneseVoice = getCantoneseVoice();
         if (!cantoneseVoice) {
-          window.alert("找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。");
+          const message = "找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。";
+          if (state.storyBookId === "book2" && "speechSynthesis" in window) {
+            waitingForStoryVoice = true;
+            $("storybook-audio-status").textContent = "正在準備粵語語音…";
+            window.clearTimeout(storyVoiceLoadTimer);
+            storyVoiceLoadTimer = window.setTimeout(() => {
+              if (!waitingForStoryVoice) return;
+              waitingForStoryVoice = false;
+              $("storybook-audio-status").textContent = message;
+            }, 3000);
+          } else if (state.storyBookId === "book2") {
+            $("storybook-audio-status").textContent = "此瀏覽器不支援語音播放，請改用支援粵語語音的瀏覽器。";
+          } else {
+            window.alert(message);
+          }
           return;
         }
-        if (window.speechSynthesis.speaking) {
+        waitingForStoryVoice = false;
+        window.clearTimeout(storyVoiceLoadTimer);
+        if (window.speechSynthesis.speaking && state.storyBookId !== "book2") {
           window.speechSynthesis.cancel();
           return;
         }
-        speak(storyBookPages[state.storyPage].text, "yue-HK", () => {
-          window.alert("找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。");
+        $("storybook-audio-status").textContent = "";
+        const pages = getActiveStoryPages();
+        speak(pages[state.storyPage].text, "yue-HK", () => {
+          const message = "此瀏覽器不支援語音播放，請改用支援粵語語音的瀏覽器。";
+          if (state.storyBookId === "book2") $("storybook-audio-status").textContent = message;
+          else window.alert(message);
         }, cantoneseVoice);
       };
 
@@ -1572,6 +1673,7 @@
         removeWrongQuestion(question);
         const unlockedNow = historyBefore < 10 && historyAfter >= 10;
         if (unlockedNow) localStorage.setItem(STORYBOOK_KEY, "true");
+        if (historyAfter >= 10) localStorage.setItem(STORYBOOK_BOOK2_KEY, "true");
         updateHeaderStats();
         showFeedback(unlockedNow ? "太棒了！繪本已經解鎖！" : "答對了！你的小耳朵真厲害！", "success");
         celebrate();
@@ -1609,6 +1711,7 @@
         const historyAfter = historyBefore + 1;
         setStoredNumber(RIGHT_COUNT_KEY, historyAfter);
         setStoredNumber(ROUND_RIGHT_KEY, state.roundRight);
+        if (historyAfter >= 10) localStorage.setItem(STORYBOOK_BOOK2_KEY, "true");
         removeWrongQuestion(question);
         sentenceFeedback.textContent = "bingo，Ultraman";
         sentenceFeedback.className = "feedback success";
@@ -1662,6 +1765,7 @@
         localStorage.removeItem(PROGRESS_KEY);
         localStorage.removeItem(WRONG_KEY);
         localStorage.removeItem(STORYBOOK_KEY);
+        localStorage.removeItem(STORYBOOK_BOOK2_KEY);
         localStorage.removeItem(GAME_PROGRESS_KEY);
         localStorage.removeItem(PICWORD_PROGRESS_KEY);
         window.speechSynthesis?.cancel();
@@ -2240,31 +2344,79 @@
       };
 
       const renderStoryPage = () => {
-        const page = storyBookPages[state.storyPage];
+        const pages = getActiveStoryPages();
+        const page = pages[state.storyPage];
         const pageNumber = state.storyPage + 1;
-        $("storybook-progress").textContent = `第 ${pageNumber} / ${storyBookPages.length} 頁`;
-        $("storybook-page-label").textContent = `第 ${pageNumber} / ${storyBookPages.length} 頁`;
+        $("storybook-progress").textContent = `第 ${pageNumber} / ${pages.length} 頁`;
+        $("storybook-page-label").textContent = `第 ${pageNumber} / ${pages.length} 頁`;
         const storyImage = $("storybook-image");
         const storyFallback = $("storybook-image-fallback");
         storyImage.src = page.img;
+        storyImage.alt = state.storyBookId === "book2"
+          ? `第 ${pageNumber} 頁插圖，點擊重新播放粵語朗讀`
+          : "繪本插圖";
+        storyImage.classList.toggle("is-audio-trigger", state.storyBookId === "book2");
+        storyImage.tabIndex = state.storyBookId === "book2" ? 0 : -1;
+        if (state.storyBookId === "book2") storyImage.setAttribute("role", "button");
+        else storyImage.removeAttribute("role");
         storyImage.hidden = false;
         storyFallback.hidden = true;
         $("previous-page-button").disabled = state.storyPage === 0;
-        $("next-page-button").disabled = state.storyPage === storyBookPages.length - 1;
+        const nextButton = $("next-page-button");
+        const isLastPage = state.storyPage === pages.length - 1;
+        nextButton.disabled = isLastPage && state.storyBookId !== "book2";
+        nextButton.textContent = isLastPage && state.storyBookId === "book2" ? "讀完了，關閉繪本" : "下一頁 ▶";
+        const narration = $("storybook-narration");
+        narration.hidden = state.storyBookId !== "book2";
+        narration.textContent = state.storyBookId === "book2" ? page.text : "";
+        if (state.storyBookId === "book2") speakStory();
       };
 
-      const showStorybook = () => {
-        if (!isStorybookUnlocked()) {
+      const showStorybook = (bookId = "book1") => {
+        const isSecondBook = bookId === "book2";
+        if (isSecondBook ? !isSecondStorybookUnlocked() : !isStorybookUnlocked()) {
+          if (isSecondBook) {
+            window.alert("答对 10 题解锁这本绘本");
+            return;
+          }
           window.alert("🔒 累計答對 10 題即可解鎖繪本故事");
           return;
         }
         window.speechSynthesis?.cancel();
         window.clearTimeout(rescue.timer);
+        state.storyBookId = bookId;
         state.returnView = state.activeView;
         state.activeView = "storybook";
         state.storyPage = 0;
+        $("storybook-title").textContent = isSecondBook ? "小熊和迷路的小狗" : "小小繪本時間";
+        $("storybook-subtitle").textContent = isSecondBook
+          ? "點一點畫面，聽小熊用粵語講故事。"
+          : "聽一聽粵語故事，慢慢翻頁看圖畫。";
+        $("storybook-audio-status").textContent = "";
+        storybookState.classList.toggle("is-book2", isSecondBook);
+        storybookState.setAttribute("aria-hidden", "false");
+        if (isSecondBook) {
+          storybookState.setAttribute("role", "dialog");
+          storybookState.setAttribute("aria-modal", "true");
+        } else {
+          storybookState.removeAttribute("role");
+          storybookState.removeAttribute("aria-modal");
+        }
         renderStoryPage();
         showScreen(storybookState);
+        $("back-button").focus();
+      };
+
+      const closeStorybook = () => {
+        const trigger = state.storyBookId === "book2" ? $("storybook-book2-button") : $("storybook-button");
+        window.speechSynthesis?.cancel();
+        waitingForStoryVoice = false;
+        window.clearTimeout(storyVoiceLoadTimer);
+        storybookState.classList.remove("is-book2");
+        storybookState.setAttribute("aria-hidden", "true");
+        storybookState.removeAttribute("aria-modal");
+        showQuiz();
+        trigger.focus();
       };
 
       const showQuiz = () => {
@@ -2373,9 +2525,19 @@
         });
       });
       $("storybook-speak-button").addEventListener("click", speakStory);
-      $("storybook-button").addEventListener("click", showStorybook);
+      $("storybook-button").addEventListener("click", () => showStorybook("book1"));
+      $("storybook-book2-button").addEventListener("click", () => showStorybook("book2"));
       $("reset-button").addEventListener("click", resetQuizData);
-      $("back-button").addEventListener("click", showQuiz);
+      $("back-button").addEventListener("click", closeStorybook);
+      $("storybook-image").addEventListener("click", () => {
+        if (state.storyBookId === "book2") speakStory();
+      });
+      $("storybook-image").addEventListener("keydown", (event) => {
+        if (state.storyBookId === "book2" && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          speakStory();
+        }
+      });
       $("previous-page-button").addEventListener("click", () => {
         if (state.storyPage > 0) {
           window.speechSynthesis?.cancel();
@@ -2384,7 +2546,10 @@
         }
       });
       $("next-page-button").addEventListener("click", () => {
-        if (state.storyPage < storyBookPages.length - 1) {
+        const pages = getActiveStoryPages();
+        if (state.storyBookId === "book2" && state.storyPage === pages.length - 1) {
+          closeStorybook();
+        } else if (state.storyPage < pages.length - 1) {
           window.speechSynthesis?.cancel();
           state.storyPage += 1;
           renderStoryPage();
@@ -2439,7 +2604,20 @@
         const wrongCount = state.wrongQuestions.filter((item) => item.type === state.quizType).length;
         startRound(state.quizType, wrongCount > 0);
       });
-      if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = updateHeaderStats;
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          updateHeaderStats();
+          if (!waitingForStoryVoice || state.activeView !== "storybook" || state.storyBookId !== "book2") return;
+          waitingForStoryVoice = false;
+          window.clearTimeout(storyVoiceLoadTimer);
+          if (getCantoneseVoice()) {
+            $("storybook-audio-status").textContent = "";
+            speakStory();
+          } else {
+            $("storybook-audio-status").textContent = "找不到香港粵語語音，請在瀏覽器或系統中安裝／啟用香港粵語語音後再試。";
+          }
+        };
+      }
       loadQuiz();
     })();
   </script>

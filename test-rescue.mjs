@@ -5,6 +5,7 @@ import vm from "node:vm";
 const html = fs.readFileSync(new URL("./index.html", import.meta.url), "utf-8");
 const scriptSrc = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const quizData = JSON.parse(fs.readFileSync(new URL("./quiz-data-enjudge.json", import.meta.url), "utf-8"));
+quizData.wordJudge.forEach((question) => { question.isMatch = true; });
 const rescueQuestionsSource = scriptSrc.match(/const rescueQuestions = (\[[\s\S]*?\]);/)[1];
 const rescueQuestions = vm.runInNewContext(rescueQuestionsSource);
 const imageChoices = rescueQuestions.flatMap((question) => question.kind === "image" ? question.choices : []);
@@ -17,7 +18,7 @@ const els = new Map();
 const makeEl = (id = "") => {
   const el = {
     id, hidden: false, disabled: false, textContent: "", className: "", innerHTML: "",
-    src: "", alt: "", value: "", dataset: {}, attrs: {}, children: [], offsetWidth: 100,
+      src: "", alt: "", value: "", tabIndex: -1, dataset: {}, attrs: {}, children: [], offsetWidth: 100,
     style: { transform: "", display: "", setProperty() {} },
     listeners: {},
     classList: {
@@ -29,6 +30,7 @@ const makeEl = (id = "") => {
     },
     addEventListener(t, fn) { (this.listeners[t] ||= []).push(fn); },
     removeEventListener() {},
+    focus() { this.focused = true; },
     appendChild(c) { this.children.push(c); return c; },
     append(...c) { this.children.push(...c); },
     replaceChildren(...c) { this.children = [...c]; },
@@ -37,6 +39,7 @@ const makeEl = (id = "") => {
       return this.children.filter((ch) => String(ch.className).split(/\s+/).includes(cls));
     },
     setAttribute(k, v) { this.attrs[k] = v; },
+    removeAttribute(k) { delete this.attrs[k]; },
     getAttribute(k) { return this.attrs[k]; },
     click() { (this.listeners.click || []).forEach((fn) => fn({})); },
     remove() {}
@@ -48,6 +51,9 @@ const $ = (id) => { if (!els.has(id)) els.set(id, makeEl(id)); return els.get(id
 const tabs = ["wordJudge", "sentenceQA", "rescueGame"].map((t) => {
   const el = makeEl(); el.className = "quiz-tab"; el.dataset.quizType = t; return el;
 });
+const answerButtons = ["true", "false"].map((answer) => {
+  const el = makeEl(); el.dataset.answer = answer; return el;
+});
 const tabOf = (t) => tabs.find((x) => x.dataset.quizType === t);
 
 const document_ = {
@@ -55,6 +61,7 @@ const document_ = {
   createElement: () => makeEl(),
   querySelectorAll(sel) {
     if (sel === ".quiz-tab") return tabs;
+    if (sel === "[data-answer]") return answerButtons;
     return [];
   }
 };
@@ -67,9 +74,14 @@ const localStorage_ = {
 };
 
 const realSetTimeout = setTimeout;
+const spokenTexts = [];
+const cantoneseVoice = { name: "Cantonese Test Voice", lang: "yue-HK" };
 const sandbox = {
   console,
   Date, Math, JSON, Number, String, Array, Boolean, Object, Promise, Error, isNaN, parseInt, parseFloat,
+  SpeechSynthesisUtterance: class {
+    constructor(text) { this.text = text; }
+  },
   document: document_,
   localStorage: localStorage_,
   fetch: async () => ({ ok: true, status: 200, json: async () => quizData })
@@ -78,10 +90,18 @@ sandbox.window = {
   // clamp game delays so the test runs fast
   setTimeout: (fn, ms) => realSetTimeout(fn, Math.min(ms || 0, 5)),
   clearTimeout: (t) => clearTimeout(t),
+  SpeechSynthesisUtterance: null,
+  speechSynthesis: {
+    speaking: false,
+    getVoices: () => [cantoneseVoice],
+    cancel() { this.speaking = false; },
+    speak(utterance) { spokenTexts.push(utterance.text); this.speaking = false; }
+  },
   alert: () => {}, prompt: () => null,
   location: { reload: () => {} }
   // no speechSynthesis / SpeechSynthesisUtterance → speak() takes the unsupported path
 };
+sandbox.window.SpeechSynthesisUtterance = sandbox.SpeechSynthesisUtterance;
 sandbox.globalThis = sandbox;
 vm.createContext(sandbox);
 
@@ -125,6 +145,47 @@ vm.runInContext(scriptSrc, sandbox, { filename: "index.html-inline.js" });
 await sleep(80);
 check("quiz screen shown after load", $("quiz-state").hidden === false);
 check("rescue screen hidden initially", $("rescue-game-state").hidden === true);
+check("second storybook starts locked with the requested hint",
+  $("storybook-book2-button").disabled === true
+    && $("storybook-book2-note").textContent === "答对 10 题解锁这本绘本");
+
+console.log("— unlock and read storybook 2 —");
+store.set("enJudgeRightCount", "9");
+answerButtons.find((button) => button.dataset.answer === "true").click();
+await sleep(20);
+check("second storybook unlocks after the tenth correct answer",
+  store.get("storybookBook2Unlocked") === "true" && $("storybook-book2-button").disabled === false);
+$("storybook-book2-button").click();
+check("second book opens as a dialog on page 1",
+  $("storybook-state").hidden === false
+    && $("storybook-state").attrs.role === "dialog"
+    && $("storybook-progress").textContent === "第 1 / 5 頁");
+check("page 1 image and Cantonese narration are loaded",
+  $("storybook-image").src === "asset/storybook/book2-page1.jpeg"
+    && $("storybook-narration").textContent === "小熊在公园里，遇见了一只迷路的小狗。"
+    && spokenTexts.at(-1) === $("storybook-narration").textContent
+    && $("previous-page-button").disabled);
+const speechCountBeforeReplay = spokenTexts.length;
+$("storybook-image").click();
+check("tapping the page illustration replays its narration", spokenTexts.length === speechCountBeforeReplay + 1);
+const expectedStoryPages = [
+  ["asset/storybook/book2-page2.png", "小熊轻轻地照顾它，给它水和好吃的。"],
+  ["asset/storybook/book2-page3.png", "小熊牵着小狗，一起寻找它的主人。"],
+  ["asset/storybook/book2-page4.svg", "主人终于来了，小狗高兴地摇尾巴。"],
+  ["asset/storybook/book2-page4.png", "从那天起，小熊和小狗成了最好的朋友。"]
+];
+for (const [imagePath, narration] of expectedStoryPages) {
+  $("next-page-button").click();
+  check(`story page ${$("storybook-progress").textContent} loads its image and voice`,
+    $("storybook-image").src === imagePath
+      && $("storybook-narration").textContent === narration
+      && spokenTexts.at(-1) === narration);
+}
+check("page 5 offers an enabled close action",
+  $("next-page-button").disabled === false && $("next-page-button").textContent.includes("關閉"));
+$("next-page-button").click();
+check("closing from page 5 returns to the previous screen",
+  $("storybook-state").hidden === true && $("quiz-state").hidden === false);
 
 console.log("— enter rescue game —");
 await enterRescue();
