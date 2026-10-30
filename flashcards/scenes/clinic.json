@@ -4,52 +4,118 @@
     {
       "id": "clinic-01",
       "sentence": "I have a sore throat.",
-      "translation": "我喉嚨痛。",
-      "keywords": [
-        { "word": "sore", "ipa": "/sɔːr/", "meaning": "疼痛的" },
-        { "word": "throat", "ipa": "/θroʊt/", "meaning": "喉嚨" }
-      ],
-      "extension": "I have a headache. 是「我頭痛」。"
+      "extension": "I have a headache. 是「我頭痛」。",
+      "sentenceCn": "我喉嚨痛。",
+      "words": [
+        {
+          "word": "sore",
+          "phonetic": "/sɔːr/",
+          "cn": "疼痛的"
+        },
+        {
+          "word": "throat",
+          "phonetic": "/θroʊt/",
+          "cn": "喉嚨"
+        },
+        {
+          "word": "have a sore throat",
+          "phonetic": "",
+          "cn": "喉嚨痛"
+        }
+      ]
     },
     {
       "id": "clinic-02",
       "sentence": "My stomach hurts.",
-      "translation": "我的肚子痛。",
-      "keywords": [
-        { "word": "stomach", "ipa": "/ˈstʌm.ək/", "meaning": "胃；肚子" },
-        { "word": "hurts", "ipa": "/hɝːts/", "meaning": "疼痛" }
-      ],
-      "extension": "My tooth hurts. 是「我的牙齒痛」。"
+      "extension": "My tooth hurts. 是「我的牙齒痛」。",
+      "sentenceCn": "我的肚子痛。",
+      "words": [
+        {
+          "word": "stomach",
+          "phonetic": "/ˈstʌm.ək/",
+          "cn": "胃；肚子"
+        },
+        {
+          "word": "hurts",
+          "phonetic": "/hɝːts/",
+          "cn": "疼痛"
+        },
+        {
+          "word": "stomach hurts",
+          "phonetic": "",
+          "cn": "肚子痛"
+        }
+      ]
     },
     {
       "id": "clinic-03",
       "sentence": "I have a cough and a fever.",
-      "translation": "我咳嗽又發燒。",
-      "keywords": [
-        { "word": "cough", "ipa": "/kɔːf/", "meaning": "咳嗽" },
-        { "word": "fever", "ipa": "/ˈfiː.vɚ/", "meaning": "發燒" }
-      ],
-      "extension": "I have a fever. 可以告訴醫生自己正在發燒。"
+      "extension": "I have a fever. 可以告訴醫生自己正在發燒。",
+      "sentenceCn": "我咳嗽又發燒。",
+      "words": [
+        {
+          "word": "cough",
+          "phonetic": "/kɔːf/",
+          "cn": "咳嗽"
+        },
+        {
+          "word": "fever",
+          "phonetic": "/ˈfiː.vɚ/",
+          "cn": "發燒"
+        },
+        {
+          "word": "a cough and a fever",
+          "phonetic": "",
+          "cn": "咳嗽又發燒"
+        }
+      ]
     },
     {
       "id": "clinic-04",
       "sentence": "Where does it hurt?",
-      "translation": "哪裡會痛呢？",
-      "keywords": [
-        { "word": "where", "ipa": "/wer/", "meaning": "在哪裡" },
-        { "word": "hurt", "ipa": "/hɝːt/", "meaning": "疼痛" }
-      ],
-      "extension": "醫生可能會用這句話詢問你不舒服的地方。"
+      "extension": "醫生可能會用這句話詢問你不舒服的地方。",
+      "sentenceCn": "哪裡會痛呢？",
+      "words": [
+        {
+          "word": "where",
+          "phonetic": "/wer/",
+          "cn": "在哪裡"
+        },
+        {
+          "word": "hurt",
+          "phonetic": "/hɝːt/",
+          "cn": "疼痛"
+        },
+        {
+          "word": "Where does it hurt?",
+          "phonetic": "",
+          "cn": "哪裡會痛？"
+        }
+      ]
     },
     {
       "id": "clinic-05",
       "sentence": "Please take this medicine after lunch.",
-      "translation": "請在午餐後服用這個藥。",
-      "keywords": [
-        { "word": "medicine", "ipa": "/ˈmed.ə.sən/", "meaning": "藥" },
-        { "word": "after lunch", "ipa": "/ˈæf.tɚ lʌntʃ/", "meaning": "午餐後" }
-      ],
-      "extension": "服藥時要請醫生或照顧者說明正確的用量和時間。"
+      "extension": "服藥時要請醫生或照顧者說明正確的用量和時間。",
+      "sentenceCn": "請在午餐後服用這個藥。",
+      "words": [
+        {
+          "word": "medicine",
+          "phonetic": "/ˈmed.ə.sən/",
+          "cn": "藥"
+        },
+        {
+          "word": "after lunch",
+          "phonetic": "/ˈæf.tɚ lʌntʃ/",
+          "cn": "午餐後"
+        },
+        {
+          "word": "take this medicine",
+          "phonetic": "",
+          "cn": "服用這個藥"
+        }
+      ]
     }
-  ]
+  ],
+  "scene": "就醫"
 }

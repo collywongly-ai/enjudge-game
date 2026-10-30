@@ -4,52 +4,118 @@
     {
       "id": "campus-01",
       "sentence": "May I borrow your pencil?",
-      "translation": "我可以借你的鉛筆嗎？",
-      "keywords": [
-        { "word": "borrow", "ipa": "/ˈbɑːr.oʊ/", "meaning": "借入" },
-        { "word": "pencil", "ipa": "/ˈpen.səl/", "meaning": "鉛筆" }
-      ],
-      "extension": "May I ...? 是向老師或同學有禮貌請求的說法。"
+      "extension": "May I ...? 是向老師或同學有禮貌請求的說法。",
+      "sentenceCn": "我可以借你的鉛筆嗎？",
+      "words": [
+        {
+          "word": "borrow",
+          "phonetic": "/ˈbɑːr.oʊ/",
+          "cn": "借入"
+        },
+        {
+          "word": "pencil",
+          "phonetic": "/ˈpen.səl/",
+          "cn": "鉛筆"
+        },
+        {
+          "word": "borrow your pencil",
+          "phonetic": "",
+          "cn": "借你的鉛筆"
+        }
+      ]
     },
     {
       "id": "campus-02",
       "sentence": "The library is next to the classroom.",
-      "translation": "圖書館在教室旁邊。",
-      "keywords": [
-        { "word": "library", "ipa": "/ˈlaɪ.brer.i/", "meaning": "圖書館" },
-        { "word": "next to", "ipa": "/ˈnekst tuː/", "meaning": "在……旁邊" }
-      ],
-      "extension": "next to 描述兩個地方就在隔壁。"
+      "extension": "next to 描述兩個地方就在隔壁。",
+      "sentenceCn": "圖書館在教室旁邊。",
+      "words": [
+        {
+          "word": "library",
+          "phonetic": "/ˈlaɪ.brer.i/",
+          "cn": "圖書館"
+        },
+        {
+          "word": "next to",
+          "phonetic": "/ˈnekst tuː/",
+          "cn": "在……旁邊"
+        },
+        {
+          "word": "next to the classroom",
+          "phonetic": "",
+          "cn": "在教室旁邊"
+        }
+      ]
     },
     {
       "id": "campus-03",
       "sentence": "Can you help me with this homework?",
-      "translation": "你可以幫我做這份作業嗎？",
-      "keywords": [
-        { "word": "help", "ipa": "/help/", "meaning": "幫助" },
-        { "word": "homework", "ipa": "/ˈhoʊm.wɝːk/", "meaning": "家庭作業" }
-      ],
-      "extension": "help me with ... 是「幫我處理／完成……」。"
+      "extension": "help me with ... 是「幫我處理／完成……」。",
+      "sentenceCn": "你可以幫我做這份作業嗎？",
+      "words": [
+        {
+          "word": "help",
+          "phonetic": "/help/",
+          "cn": "幫助"
+        },
+        {
+          "word": "homework",
+          "phonetic": "/ˈhoʊm.wɝːk/",
+          "cn": "家庭作業"
+        },
+        {
+          "word": "help me with ...",
+          "phonetic": "",
+          "cn": "幫我處理…"
+        }
+      ]
     },
     {
       "id": "campus-04",
       "sentence": "Let's play soccer after class.",
-      "translation": "我們下課後去踢足球吧。",
-      "keywords": [
-        { "word": "let's", "ipa": "/lets/", "meaning": "我們一起……吧" },
-        { "word": "after class", "ipa": "/ˈæf.tɚ klæs/", "meaning": "下課後" }
-      ],
-      "extension": "Let's ... 是邀請朋友一起做某件事。"
+      "extension": "Let's ... 是邀請朋友一起做某件事。",
+      "sentenceCn": "我們下課後去踢足球吧。",
+      "words": [
+        {
+          "word": "let's",
+          "phonetic": "/lets/",
+          "cn": "我們一起……吧"
+        },
+        {
+          "word": "after class",
+          "phonetic": "/ˈæf.tɚ klæs/",
+          "cn": "下課後"
+        },
+        {
+          "word": "play soccer after class",
+          "phonetic": "",
+          "cn": "下課後踢足球"
+        }
+      ]
     },
     {
       "id": "campus-05",
       "sentence": "I have art class today.",
-      "translation": "我今天有美術課。",
-      "keywords": [
-        { "word": "art", "ipa": "/ɑːrt/", "meaning": "美術；藝術" },
-        { "word": "today", "ipa": "/təˈdeɪ/", "meaning": "今天" }
-      ],
-      "extension": "把 art 換成 music，就能說 I have music class today."
+      "extension": "把 art 換成 music，就能說 I have music class today.",
+      "sentenceCn": "我今天有美術課。",
+      "words": [
+        {
+          "word": "art",
+          "phonetic": "/ɑːrt/",
+          "cn": "美術；藝術"
+        },
+        {
+          "word": "today",
+          "phonetic": "/təˈdeɪ/",
+          "cn": "今天"
+        },
+        {
+          "word": "have art class",
+          "phonetic": "",
+          "cn": "上美術課"
+        }
+      ]
     }
-  ]
+  ],
+  "scene": "校園"
 }

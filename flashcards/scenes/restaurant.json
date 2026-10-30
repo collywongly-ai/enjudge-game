@@ -4,51 +4,113 @@
     {
       "id": "restaurant-01",
       "sentence": "A table for two, please.",
-      "translation": "請給我們兩個人的座位。",
-      "keywords": [
-        { "word": "table", "ipa": "/ˈteɪ.bəl/", "meaning": "桌子；座位" },
-        { "word": "please", "ipa": "/pliːz/", "meaning": "請" }
-      ],
-      "extension": "也可以說：A table for four, please.（請給我們四個人的座位。）"
+      "extension": "也可以說：A table for four, please.（請給我們四個人的座位。）",
+      "sentenceCn": "請給我們兩個人的座位。",
+      "words": [
+        {
+          "word": "table",
+          "phonetic": "/ˈteɪ.bəl/",
+          "cn": "桌子；座位"
+        },
+        {
+          "word": "please",
+          "phonetic": "/pliːz/",
+          "cn": "請"
+        },
+        {
+          "word": "a table for two",
+          "phonetic": "",
+          "cn": "兩位用餐的座位"
+        }
+      ]
     },
     {
       "id": "restaurant-02",
       "sentence": "Can I see the menu?",
-      "translation": "我可以看一下菜單嗎？",
-      "keywords": [
-        { "word": "menu", "ipa": "/ˈmen.juː/", "meaning": "菜單" }
-      ],
-      "extension": "Can I ...? 是很有禮貌的「我可以……嗎？」"
+      "extension": "Can I ...? 是很有禮貌的「我可以……嗎？」",
+      "sentenceCn": "我可以看一下菜單嗎？",
+      "words": [
+        {
+          "word": "menu",
+          "phonetic": "/ˈmen.juː/",
+          "cn": "菜單"
+        },
+        {
+          "word": "see the menu",
+          "phonetic": "",
+          "cn": "看菜單"
+        }
+      ]
     },
     {
       "id": "restaurant-03",
       "sentence": "I'd like some orange juice.",
-      "translation": "我想要一些柳橙汁。",
-      "keywords": [
-        { "word": "I'd like", "ipa": "/aɪd laɪk/", "meaning": "我想要" },
-        { "word": "juice", "ipa": "/dʒuːs/", "meaning": "果汁" }
-      ],
-      "extension": "把 orange 換成 apple，就變成 apple juice（蘋果汁）。"
+      "extension": "把 orange 換成 apple，就變成 apple juice（蘋果汁）。",
+      "sentenceCn": "我想要一些柳橙汁。",
+      "words": [
+        {
+          "word": "I'd like",
+          "phonetic": "/aɪd laɪk/",
+          "cn": "我想要"
+        },
+        {
+          "word": "juice",
+          "phonetic": "/dʒuːs/",
+          "cn": "果汁"
+        },
+        {
+          "word": "some orange juice",
+          "phonetic": "",
+          "cn": "一些橘子汁"
+        }
+      ]
     },
     {
       "id": "restaurant-04",
       "sentence": "This soup is delicious!",
-      "translation": "這碗湯好好喝！",
-      "keywords": [
-        { "word": "soup", "ipa": "/suːp/", "meaning": "湯" },
-        { "word": "delicious", "ipa": "/dɪˈlɪʃ.əs/", "meaning": "美味的" }
-      ],
-      "extension": "delicious 可以用來稱讚好吃的食物。"
+      "extension": "delicious 可以用來稱讚好吃的食物。",
+      "sentenceCn": "這碗湯好好喝！",
+      "words": [
+        {
+          "word": "soup",
+          "phonetic": "/suːp/",
+          "cn": "湯"
+        },
+        {
+          "word": "delicious",
+          "phonetic": "/dɪˈlɪʃ.əs/",
+          "cn": "美味的"
+        },
+        {
+          "word": "is delicious",
+          "phonetic": "",
+          "cn": "很美味"
+        }
+      ]
     },
     {
       "id": "restaurant-05",
       "sentence": "Could we have the bill, please?",
-      "translation": "可以麻煩您拿帳單給我們嗎？",
-      "keywords": [
-        { "word": "bill", "ipa": "/bɪl/", "meaning": "帳單" },
-        { "word": "could", "ipa": "/kʊd/", "meaning": "可以（禮貌用法）" }
-      ],
-      "extension": "bill 也可以說 check，兩種說法都能用來詢問帳單。"
+      "extension": "bill 也可以說 check，兩種說法都能用來詢問帳單。",
+      "sentenceCn": "可以麻煩您拿帳單給我們嗎？",
+      "words": [
+        {
+          "word": "bill",
+          "phonetic": "/bɪl/",
+          "cn": "帳單"
+        },
+        {
+          "word": "could",
+          "phonetic": "/kʊd/",
+          "cn": "可以（禮貌用法）"
+        },
+        {
+          "word": "have the bill",
+          "phonetic": "",
+          "cn": "拿帳單；結帳"
+        }
+      ]
     }
-  ]
+  ],
+  "scene": "餐廳"
 }

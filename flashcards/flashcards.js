@@ -16,6 +16,7 @@ const elements = {
   cardScene: document.querySelector("#card-scene-label"),
   cardPosition: document.querySelector("#card-position"),
   cardSentence: document.querySelector("#card-sentence"),
+  cardBackSentence: document.querySelector("#card-back-sentence"),
   cardTranslation: document.querySelector("#card-translation"),
   cardKeywords: document.querySelector("#card-keywords"),
   cardExtension: document.querySelector("#card-extension"),
@@ -118,6 +119,17 @@ async function loadScene(sceneId) {
     if (data.id !== scene.id || !Array.isArray(data.cards) || data.cards.length === 0) {
       throw new Error("場景詞庫格式不正確或沒有閃卡。");
     }
+    if (data.cards.some((card) =>
+      typeof card.sentence !== "string"
+      || typeof (card.sentenceCn ?? card.translation) !== "string"
+      || !Array.isArray(card.words ?? card.keywords)
+      || (card.words ?? card.keywords).some((word) =>
+        typeof word.word !== "string"
+        || typeof (word.phonetic ?? word.ipa) !== "string"
+        || typeof (word.cn ?? word.meaning) !== "string")
+    )) {
+      throw new Error("場景詞庫的句子或重點詞彙／詞塊格式不正確。");
+    }
 
     state.sceneId = scene.id;
     state.scene = { ...scene, ...data };
@@ -160,9 +172,10 @@ function renderCard() {
   elements.cardScene.textContent = state.scene.name;
   elements.cardPosition.textContent = `${state.index + 1} / ${state.deck.length}`;
   elements.cardSentence.textContent = card.sentence;
-  elements.cardTranslation.textContent = card.translation;
+  elements.cardBackSentence.textContent = card.sentence;
+  elements.cardTranslation.textContent = card.sentenceCn ?? card.translation;
   elements.cardExtension.textContent = card.extension;
-  elements.cardKeywords.replaceChildren(...card.keywords.map((keyword) => {
+  elements.cardKeywords.replaceChildren(...(card.words ?? card.keywords).map((keyword) => {
     const chip = document.createElement("span");
     chip.className = "keyword-chip";
     const word = document.createElement("span");
@@ -170,8 +183,13 @@ function renderCard() {
     word.textContent = keyword.word;
     const details = document.createElement("span");
     details.className = "keyword-details";
-    details.textContent = `${keyword.ipa} · ${keyword.meaning}`;
-    chip.append(word, details);
+    const phonetic = document.createElement("span");
+    phonetic.className = "keyword-details";
+    phonetic.textContent = keyword.phonetic ?? keyword.ipa;
+    const meaning = document.createElement("span");
+    meaning.className = "keyword-details";
+    meaning.textContent = keyword.cn ?? keyword.meaning;
+    chip.append(word, phonetic, meaning);
     return chip;
   }));
 

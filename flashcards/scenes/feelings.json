@@ -4,57 +4,116 @@
     {
       "id": "feelings-01",
       "sentence": "I am sad.",
-      "translation": "我很難過。",
-      "keywords": [
-        { "word": "sad", "ipa": "/sæd/", "meaning": "難過的" }
-      ],
-      "extension": "sad 描述難過的心情。相反詞是 happy（開心的）。"
+      "extension": "sad 描述難過的心情。相反詞是 happy（開心的）。",
+      "sentenceCn": "我很難過。",
+      "words": [
+        {
+          "word": "sad",
+          "phonetic": "/sæd/",
+          "cn": "難過的"
+        },
+        {
+          "word": "I am sad",
+          "phonetic": "",
+          "cn": "我很難過"
+        }
+      ]
     },
     {
       "id": "feelings-02",
       "sentence": "I am happy.",
-      "translation": "我很開心。",
-      "keywords": [
-        { "word": "happy", "ipa": "/ˈhæp.i/", "meaning": "開心的" }
-      ],
-      "extension": "happy 描述開心的心情。相反詞是 sad（難過的）。"
+      "extension": "happy 描述開心的心情。相反詞是 sad（難過的）。",
+      "sentenceCn": "我很開心。",
+      "words": [
+        {
+          "word": "happy",
+          "phonetic": "/ˈhæp.i/",
+          "cn": "開心的"
+        },
+        {
+          "word": "I am happy",
+          "phonetic": "",
+          "cn": "我很開心"
+        }
+      ]
     },
     {
       "id": "feelings-03",
       "sentence": "I feel hungry.",
-      "translation": "我覺得肚子餓。",
-      "keywords": [
-        { "word": "hungry", "ipa": "/ˈhʌŋ.ɡri/", "meaning": "肚子餓的" }
-      ],
-      "extension": "hungry 常和 feel 一起使用：I feel hungry.（我覺得肚子餓。）"
+      "extension": "hungry 常和 feel 一起使用：I feel hungry.（我覺得肚子餓。）",
+      "sentenceCn": "我覺得肚子餓。",
+      "words": [
+        {
+          "word": "hungry",
+          "phonetic": "/ˈhʌŋ.ɡri/",
+          "cn": "肚子餓的"
+        },
+        {
+          "word": "feel hungry",
+          "phonetic": "",
+          "cn": "覺得肚子餓"
+        }
+      ]
     },
     {
       "id": "feelings-04",
       "sentence": "I feel tired.",
-      "translation": "我覺得很累。",
-      "keywords": [
-        { "word": "tired", "ipa": "/ˈtaɪɚd/", "meaning": "疲倦的" }
-      ],
-      "extension": "feel tired 表示覺得累了。"
+      "extension": "feel tired 表示覺得累了。",
+      "sentenceCn": "我覺得很累。",
+      "words": [
+        {
+          "word": "tired",
+          "phonetic": "/ˈtaɪɚd/",
+          "cn": "疲倦的"
+        },
+        {
+          "word": "feel tired",
+          "phonetic": "",
+          "cn": "覺得很累"
+        }
+      ]
     },
     {
       "id": "feelings-05",
       "sentence": "I feel thirsty.",
-      "translation": "我覺得口渴。",
-      "keywords": [
-        { "word": "thirsty", "ipa": "/ˈθɝː.sti/", "meaning": "口渴的" }
-      ],
-      "extension": "thirsty 表示想喝水；hungry 表示肚子餓。"
+      "extension": "thirsty 表示想喝水；hungry 表示肚子餓。",
+      "sentenceCn": "我覺得口渴。",
+      "words": [
+        {
+          "word": "thirsty",
+          "phonetic": "/ˈθɝː.sti/",
+          "cn": "口渴的"
+        },
+        {
+          "word": "feel thirsty",
+          "phonetic": "",
+          "cn": "覺得口渴"
+        }
+      ]
     },
     {
       "id": "feelings-06",
       "sentence": "She is tall.",
-      "translation": "她個子很高。",
-      "keywords": [
-        { "word": "tall", "ipa": "/tɔːl/", "meaning": "高的" },
-        { "word": "short", "ipa": "/ʃɔːrt/", "meaning": "矮的；短的" }
-      ],
-      "extension": "tall 和 short 可以形容身高：She is tall.（她個子高。）He is short.（他個子矮。）"
+      "extension": "tall 和 short 可以形容身高：She is tall.（她個子高。）He is short.（他個子矮。）",
+      "sentenceCn": "她個子很高。",
+      "words": [
+        {
+          "word": "tall",
+          "phonetic": "/tɔːl/",
+          "cn": "高的"
+        },
+        {
+          "word": "short",
+          "phonetic": "/ʃɔːrt/",
+          "cn": "矮的；短的"
+        },
+        {
+          "word": "is tall",
+          "phonetic": "",
+          "cn": "個子很高"
+        }
+      ]
     }
-  ]
+  ],
+  "scene": "心情與感受"
 }
