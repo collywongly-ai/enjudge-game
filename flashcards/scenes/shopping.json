@@ -1,0 +1,55 @@
+{
+  "id": "shopping",
+  "cards": [
+    {
+      "id": "shopping-01",
+      "sentence": "How much is this T-shirt?",
+      "translation": "這件 T 恤多少錢？",
+      "keywords": [
+        { "word": "how much", "ipa": "/ˌhaʊ ˈmʌtʃ/", "meaning": "多少錢" },
+        { "word": "T-shirt", "ipa": "/ˈtiː.ʃɝːt/", "meaning": "T 恤" }
+      ],
+      "extension": "How much is this ...? 用來詢問一樣東西的價錢。"
+    },
+    {
+      "id": "shopping-02",
+      "sentence": "Can I try on these shoes?",
+      "translation": "我可以試穿這雙鞋嗎？",
+      "keywords": [
+        { "word": "try on", "ipa": "/ˈtraɪ ɑːn/", "meaning": "試穿" },
+        { "word": "shoes", "ipa": "/ʃuːz/", "meaning": "鞋子" }
+      ],
+      "extension": "try on a hat 是試戴帽子；try on a coat 是試穿外套。"
+    },
+    {
+      "id": "shopping-03",
+      "sentence": "Do you have this in blue?",
+      "translation": "這件有藍色的嗎？",
+      "keywords": [
+        { "word": "blue", "ipa": "/bluː/", "meaning": "藍色" },
+        { "word": "have", "ipa": "/hæv/", "meaning": "有；擁有" }
+      ],
+      "extension": "把 blue 換成 red，就可以詢問有沒有紅色的。"
+    },
+    {
+      "id": "shopping-04",
+      "sentence": "This one is too big for me.",
+      "translation": "這件對我來說太大了。",
+      "keywords": [
+        { "word": "too big", "ipa": "/ˌtuː ˈbɪɡ/", "meaning": "太大" },
+        { "word": "for me", "ipa": "/fɔːr miː/", "meaning": "對我來說" }
+      ],
+      "extension": "也可以說 This one is too small for me.（這件對我來說太小了。）"
+    },
+    {
+      "id": "shopping-05",
+      "sentence": "I'll take this one, please.",
+      "translation": "我想買這一個，謝謝。",
+      "keywords": [
+        { "word": "I'll take", "ipa": "/aɪl teɪk/", "meaning": "我買下；我要" },
+        { "word": "one", "ipa": "/wʌn/", "meaning": "一個；這個" }
+      ],
+      "extension": "決定好要買時，可以用 I'll take ... 表達。"
+    }
+  ]
+}

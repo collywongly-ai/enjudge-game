@@ -1,0 +1,54 @@
+{
+  "id": "airport",
+  "cards": [
+    {
+      "id": "airport-01",
+      "sentence": "Here is my passport.",
+      "translation": "這是我的護照。",
+      "keywords": [
+        { "word": "passport", "ipa": "/ˈpæs.pɔːrt/", "meaning": "護照" }
+      ],
+      "extension": "Here is ... 可以用來把東西交給別人看。"
+    },
+    {
+      "id": "airport-02",
+      "sentence": "Where is the check-in desk?",
+      "translation": "報到櫃檯在哪裡？",
+      "keywords": [
+        { "word": "where", "ipa": "/wer/", "meaning": "在哪裡" },
+        { "word": "check-in desk", "ipa": "/ˈtʃek.ɪn desk/", "meaning": "報到櫃檯" }
+      ],
+      "extension": "Where is the gate?（登機門在哪裡？）也很實用。"
+    },
+    {
+      "id": "airport-03",
+      "sentence": "I have one small suitcase.",
+      "translation": "我有一個小行李箱。",
+      "keywords": [
+        { "word": "suitcase", "ipa": "/ˈsuːt.keɪs/", "meaning": "行李箱" },
+        { "word": "small", "ipa": "/smɔːl/", "meaning": "小的" }
+      ],
+      "extension": "one suitcase 是一個行李箱；two suitcases 是兩個行李箱。"
+    },
+    {
+      "id": "airport-04",
+      "sentence": "What time does the plane leave?",
+      "translation": "飛機幾點起飛？",
+      "keywords": [
+        { "word": "plane", "ipa": "/pleɪn/", "meaning": "飛機" },
+        { "word": "leave", "ipa": "/liːv/", "meaning": "離開；出發" }
+      ],
+      "extension": "What time ...? 用來詢問事情發生的時間。"
+    },
+    {
+      "id": "airport-05",
+      "sentence": "Is this my boarding gate?",
+      "translation": "這是我的登機門嗎？",
+      "keywords": [
+        { "word": "boarding", "ipa": "/ˈbɔːr.dɪŋ/", "meaning": "登機" },
+        { "word": "gate", "ipa": "/ɡeɪt/", "meaning": "門；登機門" }
+      ],
+      "extension": "Is this ...? 可以用來確認眼前看到的東西。"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8ea">
+  <meta name="description" content="在餐廳、機場、校園等生活場景中練習實用英文短句。">
+  <title>英語場景閃卡｜英語聽辨小偵探</title>
+  <link rel="stylesheet" href="./flashcards.css">
+  <script type="module" src="./flashcards.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="返回英語聽辨小偵探首頁">
+        <span class="brand-mark" aria-hidden="true">🍎</span>
+        <span>英語場景閃卡</span>
+      </a>
+      <a class="back-link" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m15 18-6-6 6-6M9 12h11"></path>
+        </svg>
+        返回練習
+      </a>
+    </header>
+
+    <section class="page-intro" aria-labelledby="page-title">
+      <div>
+        <h1 id="page-title">英語場景閃卡</h1>
+        <p>走進生活小場景，練習開口就能用的英文。</p>
+      </div>
+      <div class="mode-switch" role="group" aria-label="選擇學習模式">
+        <button class="mode-button is-active" data-mode="browse" type="button" aria-pressed="true">順序瀏覽</button>
+        <button class="mode-button" data-mode="quiz" type="button" aria-pressed="false">先猜再翻</button>
+      </div>
+    </section>
+
+    <section class="scene-panel" aria-label="選擇學習場景">
+      <label for="scene-select">今天想去哪裡學英文？</label>
+      <div class="scene-select-wrap">
+        <select id="scene-select" aria-describedby="scene-description"></select>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </div>
+      <p id="scene-description" class="scene-description"></p>
+      <div class="scene-progress">
+        <div class="progress-copy">
+          <span id="scene-progress-label">本場景進度</span>
+          <strong id="scene-progress-count">0 / 0 張已掌握</strong>
+        </div>
+        <div class="progress-track" role="progressbar" aria-labelledby="scene-progress-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-value"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="study-layout" aria-label="閃卡練習">
+      <div class="study-heading">
+        <div>
+          <p class="scene-eyebrow">現在練習</p>
+          <h2 id="scene-title"></h2>
+        </div>
+        <div class="study-stats" aria-live="polite">
+          <span class="stat-chip"><span class="stat-dot is-mastered" aria-hidden="true"></span><strong id="mastered-count">0</strong> 已掌握</span>
+          <span class="stat-chip"><span class="stat-dot is-pending" aria-hidden="true"></span><strong id="remaining-count">0</strong> 待練習</span>
+        </div>
+      </div>
+
+      <div class="study-toolbar">
+        <label class="unmastered-toggle">
+          <input id="unmastered-only" type="checkbox">
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span>只看未掌握</span>
+        </label>
+        <button id="shuffle-button" class="utility-button" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m16 3 4 4-4 4M4 17h2.5a5 5 0 0 0 4-2l3-4a5 5 0 0 1 4-2H20M16 17l4 4-4-4M4 7h2.5a5 5 0 0 1 2.4.6M14 16.4l1 1.3a5 5 0 0 0 4 2.3h1"></path>
+          </svg>
+          隨機打亂
+        </button>
+      </div>
+
+      <article id="flashcard" class="flashcard" tabindex="0" role="button" aria-label="閃卡，按 Enter 或空白鍵翻面">
+        <div class="card-scene-decoration" aria-hidden="true">
+          <span class="decoration-sun"></span>
+          <span class="decoration-cloud decoration-cloud-one"></span>
+          <span class="decoration-cloud decoration-cloud-two"></span>
+          <span class="decoration-hill decoration-hill-one"></span>
+          <span class="decoration-hill decoration-hill-two"></span>
+        </div>
+        <div class="card-content">
+          <div class="card-topline">
+            <span id="card-scene-label" class="card-scene-label"></span>
+            <span id="card-position" class="card-position"></span>
+          </div>
+          <div class="card-front">
+            <span class="card-prompt">Say it in English</span>
+            <p id="card-sentence" class="card-sentence"></p>
+            <span class="tap-hint">點一下卡片翻面</span>
+          </div>
+          <div class="card-back" hidden>
+            <span class="card-prompt">中文意思</span>
+            <p id="card-translation" class="card-translation"></p>
+            <div class="keyword-list" id="card-keywords" aria-label="關鍵詞與音標"></div>
+            <p id="card-extension" class="card-extension"></p>
+          </div>
+        </div>
+      </article>
+
+      <div class="card-actions">
+        <button id="speak-button" class="speak-button" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4V5ZM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path>
+          </svg>
+          朗讀英文
+        </button>
+        <button id="mastery-button" class="mastery-button" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m5 12 4 4L19 6"></path>
+          </svg>
+          <span>我已掌握</span>
+        </button>
+      </div>
+
+      <div id="self-test-prompt" class="self-test-prompt" hidden>
+        先讀英文，想想它的意思，再翻開卡片看看答案。
+      </div>
+
+      <nav class="card-navigation" aria-label="閃卡導覽">
+        <button id="previous-button" class="navigation-button" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+          上一張
+        </button>
+        <button id="next-button" class="navigation-button is-primary" type="button">
+          下一張
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+      </nav>
+      <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      <div id="empty-state" class="empty-state" hidden>
+        <span class="empty-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12 4 4L19 6"></path>
+          </svg>
+        </span>
+        <h2>這個場景都學會了！</h2>
+        <p>太棒了，可以關掉篩選，再複習一次所有句子。</p>
+      </div>
+      <p id="error-message" class="error-message" role="alert" hidden></p>
+    </section>
+
+    <footer class="page-footer">
+      <span class="footer-star" aria-hidden="true">✦</span>
+      <span>慢慢讀、勇敢說，每一句都在進步。</span>
+    </footer>
+  </main>
+</body>
+</html>

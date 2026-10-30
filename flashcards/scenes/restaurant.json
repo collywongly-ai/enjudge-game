@@ -1,0 +1,54 @@
+{
+  "id": "restaurant",
+  "cards": [
+    {
+      "id": "restaurant-01",
+      "sentence": "A table for two, please.",
+      "translation": "請給我們兩個人的座位。",
+      "keywords": [
+        { "word": "table", "ipa": "/ˈteɪ.bəl/", "meaning": "桌子；座位" },
+        { "word": "please", "ipa": "/pliːz/", "meaning": "請" }
+      ],
+      "extension": "也可以說：A table for four, please.（請給我們四個人的座位。）"
+    },
+    {
+      "id": "restaurant-02",
+      "sentence": "Can I see the menu?",
+      "translation": "我可以看一下菜單嗎？",
+      "keywords": [
+        { "word": "menu", "ipa": "/ˈmen.juː/", "meaning": "菜單" }
+      ],
+      "extension": "Can I ...? 是很有禮貌的「我可以……嗎？」"
+    },
+    {
+      "id": "restaurant-03",
+      "sentence": "I'd like some orange juice.",
+      "translation": "我想要一些柳橙汁。",
+      "keywords": [
+        { "word": "I'd like", "ipa": "/aɪd laɪk/", "meaning": "我想要" },
+        { "word": "juice", "ipa": "/dʒuːs/", "meaning": "果汁" }
+      ],
+      "extension": "把 orange 換成 apple，就變成 apple juice（蘋果汁）。"
+    },
+    {
+      "id": "restaurant-04",
+      "sentence": "This soup is delicious!",
+      "translation": "這碗湯好好喝！",
+      "keywords": [
+        { "word": "soup", "ipa": "/suːp/", "meaning": "湯" },
+        { "word": "delicious", "ipa": "/dɪˈlɪʃ.əs/", "meaning": "美味的" }
+      ],
+      "extension": "delicious 可以用來稱讚好吃的食物。"
+    },
+    {
+      "id": "restaurant-05",
+      "sentence": "Could we have the bill, please?",
+      "translation": "可以麻煩您拿帳單給我們嗎？",
+      "keywords": [
+        { "word": "bill", "ipa": "/bɪl/", "meaning": "帳單" },
+        { "word": "could", "ipa": "/kʊd/", "meaning": "可以（禮貌用法）" }
+      ],
+      "extension": "bill 也可以說 check，兩種說法都能用來詢問帳單。"
+    }
+  ]
+}

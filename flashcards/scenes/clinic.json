@@ -1,0 +1,55 @@
+{
+  "id": "clinic",
+  "cards": [
+    {
+      "id": "clinic-01",
+      "sentence": "I have a sore throat.",
+      "translation": "我喉嚨痛。",
+      "keywords": [
+        { "word": "sore", "ipa": "/sɔːr/", "meaning": "疼痛的" },
+        { "word": "throat", "ipa": "/θroʊt/", "meaning": "喉嚨" }
+      ],
+      "extension": "I have a headache. 是「我頭痛」。"
+    },
+    {
+      "id": "clinic-02",
+      "sentence": "My stomach hurts.",
+      "translation": "我的肚子痛。",
+      "keywords": [
+        { "word": "stomach", "ipa": "/ˈstʌm.ək/", "meaning": "胃；肚子" },
+        { "word": "hurts", "ipa": "/hɝːts/", "meaning": "疼痛" }
+      ],
+      "extension": "My tooth hurts. 是「我的牙齒痛」。"
+    },
+    {
+      "id": "clinic-03",
+      "sentence": "I have a cough and a fever.",
+      "translation": "我咳嗽又發燒。",
+      "keywords": [
+        { "word": "cough", "ipa": "/kɔːf/", "meaning": "咳嗽" },
+        { "word": "fever", "ipa": "/ˈfiː.vɚ/", "meaning": "發燒" }
+      ],
+      "extension": "I have a fever. 可以告訴醫生自己正在發燒。"
+    },
+    {
+      "id": "clinic-04",
+      "sentence": "Where does it hurt?",
+      "translation": "哪裡會痛呢？",
+      "keywords": [
+        { "word": "where", "ipa": "/wer/", "meaning": "在哪裡" },
+        { "word": "hurt", "ipa": "/hɝːt/", "meaning": "疼痛" }
+      ],
+      "extension": "醫生可能會用這句話詢問你不舒服的地方。"
+    },
+    {
+      "id": "clinic-05",
+      "sentence": "Please take this medicine after lunch.",
+      "translation": "請在午餐後服用這個藥。",
+      "keywords": [
+        { "word": "medicine", "ipa": "/ˈmed.ə.sən/", "meaning": "藥" },
+        { "word": "after lunch", "ipa": "/ˈæf.tɚ lʌntʃ/", "meaning": "午餐後" }
+      ],
+      "extension": "服藥時要請醫生或照顧者說明正確的用量和時間。"
+    }
+  ]
+}
